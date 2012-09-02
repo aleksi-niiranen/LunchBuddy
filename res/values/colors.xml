@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <color name="bottom">#a9dcee</color>
+    <color name="middle">#01b5dd</color>
+    <color name="top">#00519e</color>
+    <color name="menubackground">#e5f4fa</color>
+    <color name="actionbar_title_color">#224894</color>
+    
+</resources>

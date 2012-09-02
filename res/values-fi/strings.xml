@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LunchBuddy</string>
+    <string name="no_courses">Ei ruokaa tarjolla tänään.</string>
+    <string name="footer_legend">G Gluteeniton, L Laktoositon, M Maidoton, VL Vähälaktoosinen</string>
+    <string name="salo">Salo</string>
+    <string name="ict">ICT-talo</string>
+    <string name="lemppari">Lemminkäisenkatu</string>
+
+    <string name="menu_refresh">Refresh</string>
+</resources>
