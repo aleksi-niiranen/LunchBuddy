@@ -90,8 +90,6 @@ public class LunchBuddyActivity extends SherlockListActivity {
     	cal.set(Calendar.MINUTE, 0);
     	cal.set(Calendar.SECOND, 0);
     	cal.set(Calendar.MILLISECOND, 0);
-    	cal.set(Calendar.DAY_OF_MONTH, 31);
-    	cal.set(Calendar.MONTH, Calendar.AUGUST);
     	String where = LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + "=" + (cal.getTimeInMillis() / 1000)
     			+ " and " + LunchBuddy.Courses.COLUMN_NAME_REF_TITLE + "= ?";
     	String[] args = new String[] { mSelection };
@@ -114,9 +112,6 @@ public class LunchBuddyActivity extends SherlockListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
-    	case android.R.id.home:
-    		Toast.makeText(this, "Tapped home", Toast.LENGTH_SHORT).show();
-    		break;
     	case R.id.menu_refresh:
     		Toast.makeText(this, "Fake refreshing", Toast.LENGTH_SHORT).show();
 //    		setRefreshActionItemState(true);

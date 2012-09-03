@@ -185,16 +185,15 @@ public class LunchBuddyProvider extends ContentProvider {
 	        int month = calendar.get(Calendar.MONTH);
 	        int day = calendar.get(Calendar.DATE);
 			String url;
-			// TODO: fix literal values
 			if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_SALO)) {
 				url = LunchBuddy.Courses.BASE_URI_SALO.toString() 
-						+ year + "/" + (month + 0) + "/" + 31 + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
+						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
 			} else if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_ICT)) {
 				url = LunchBuddy.Courses.BASE_URI_ICT.toString() 
-						+ year + "/" + (month + 0) + "/" + 31 + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
+						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
 			} else {
 				url = LunchBuddy.Courses.BASE_URI_LEMPPARI.toString() 
-						+ year + "/" + (month + 0) + "/" + 31 + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
+						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
 			}
 			asyncQueryRequest(selectionArgs[0], url);
 		}
