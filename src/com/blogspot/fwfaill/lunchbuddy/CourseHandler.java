@@ -18,7 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.ContentValues;
-import android.util.Log;
 
 public class CourseHandler implements ResponseHandler {
 	
@@ -55,8 +54,6 @@ public class CourseHandler implements ResponseHandler {
 				JSONObject jsonRoot = new JSONObject(mResponseString);
 				JSONArray jsonCourses = jsonRoot.getJSONArray(COURSES);
 				
-				Log.d(TAG, "timestamp: " + jsonRoot.getJSONObject("meta").getLong(TIMESTAMP));
-				
 				for (int i = 0; i < jsonCourses.length(); i++) {
 					ContentValues values = new ContentValues();
 					JSONObject jsonObject = jsonCourses.getJSONObject(i);
@@ -87,7 +84,6 @@ public class CourseHandler implements ResponseHandler {
 					writer.write(buffer, 0, n);
 				}
 			} catch (UnsupportedEncodingException e) {
-				Log.e(TAG, e.getMessage());
 			} finally {
 				is.close();
 			}

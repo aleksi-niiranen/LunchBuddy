@@ -14,12 +14,10 @@ import android.widget.SpinnerAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 
 public class LunchBuddyActivity extends SherlockListActivity {
 	
-	public static final String TAG = "RuokalistaActivity";
+	private static final String TAG = "RuokalistaActivity";
 	
 	private static final String[] PROJECTION = new String[] {
 		LunchBuddy.Courses._ID,
@@ -37,6 +35,7 @@ public class LunchBuddyActivity extends SherlockListActivity {
 	
 	private LayoutInflater mInflater;
 	private String mSelection = "Turun AMK, Aurinkolaiva";
+	//private View mSettingsView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +46,7 @@ public class LunchBuddyActivity extends SherlockListActivity {
         		this, R.array.restaurants, R.layout.sherlock_spinner_dropdown_item);
         
         ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(adapter, new ActionBar.OnNavigationListener() {
 			
@@ -70,6 +70,8 @@ public class LunchBuddyActivity extends SherlockListActivity {
         
         mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         getListView().addFooterView(mInflater.inflate(R.layout.footer_legend, null), null, false);
+        
+        //mSettingsView = mInflater.inflate(R.layout.settings, null);
 
         query();
     }
@@ -99,18 +101,19 @@ public class LunchBuddyActivity extends SherlockListActivity {
     	setListAdapter(adapter);
 	}
 
-	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-    	getSupportMenuInflater().inflate(R.menu.main, menu);
-    	return super.onCreateOptionsMenu(menu);
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	switch (item.getItemId()) {
-    	case R.id.menu_settings:
-    		break;
-    	}
-    	return super.onOptionsItemSelected(item);
-    }
+//	@Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//    	getSupportMenuInflater().inflate(R.menu.main, menu);
+//    	return super.onCreateOptionsMenu(menu);
+//    }
+//    
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//    	switch (item.getItemId()) {
+//    	case R.id.menu_settings:
+//    		// TODO: show settings
+//    		break;
+//    	}
+//    	return super.onOptionsItemSelected(item);
+//    }
 }

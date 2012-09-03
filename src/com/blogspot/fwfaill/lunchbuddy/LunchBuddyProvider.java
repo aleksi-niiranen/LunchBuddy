@@ -18,7 +18,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 public class LunchBuddyProvider extends ContentProvider {
 	
@@ -170,14 +169,9 @@ public class LunchBuddyProvider extends ContentProvider {
 		
 		SQLiteDatabase db = mOpenHelper.getReadableDatabase();
 		
-		Log.d(TAG, "where " + selection + selectionArgs[0]);
-		
 		Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, orderBy);
 		c.setNotificationUri(getContext().getContentResolver(), uri);
 		
-		
-		
-		Log.d(TAG, c.moveToFirst() ? "cursor is not empty" : "cursor is empty");
 		if (!c.moveToFirst()) {
 			Calendar calendar = Calendar.getInstance();
 	    	int year = calendar.get(Calendar.YEAR);

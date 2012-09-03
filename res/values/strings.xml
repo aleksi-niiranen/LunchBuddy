@@ -7,7 +7,7 @@
     <string name="salo">Salo</string>
     <string name="ict">ICT-talo</string>
     <string name="lemppari">Lemminkäisenkatu</string>
-
+    <string name="set_as_default">Set as default</string>
     <string name="menu_settings">Settings</string>
     
     <string-array name="restaurants">

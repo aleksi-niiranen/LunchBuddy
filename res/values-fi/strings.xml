@@ -7,6 +7,6 @@
     <string name="salo">Salo</string>
     <string name="ict">ICT-talo</string>
     <string name="lemppari">Lemminkäisenkatu</string>
-
+    <string name="set_as_default">Aseta oletukseksi</string>
     <string name="menu_settings">Asetukset</string>
 </resources>
