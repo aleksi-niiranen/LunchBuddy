@@ -3,7 +3,6 @@ package com.blogspot.fwfaill.lunchbuddy;
 import java.util.Calendar;
 import java.util.HashMap;
 
-import org.apache.http.HttpRequest;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 
@@ -214,11 +213,8 @@ public class LunchBuddyProvider extends ContentProvider {
 
 	protected static class DatabaseHelper extends SQLiteOpenHelper {
 
-		private Context mContext;
-		
 		DatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
-			mContext = context;
 		}
 		
 		@Override
@@ -238,7 +234,6 @@ public class LunchBuddyProvider extends ContentProvider {
 			db.execSQL("drop table if exists " + LunchBuddy.Courses.TABLE_NAME);
 			onCreate(db);
 		}
-		
 	}
 
 	public void requestComplete(String requestTag) {
@@ -247,15 +242,15 @@ public class LunchBuddyProvider extends ContentProvider {
 		}
 	}
 	
-	protected ResponseHandler newResponseHandler(String requestTag) {
-		return new CourseHandler(this, requestTag);
+	protected ResponseHandler newResponseHandler() {
+		return new CourseHandler(this);
 	}
 	
 	UriRequestTask newQueryTask(String requestTag, String url) {
 		UriRequestTask requestTask;
 		
 		final HttpGet get = new HttpGet(url);
-		ResponseHandler handler = newResponseHandler(requestTag);
+		ResponseHandler handler = newResponseHandler();
 		requestTask = new UriRequestTask(requestTag, this, get, handler, getContext());
 		
 		mRequestsInProgress.put(requestTag, requestTask);

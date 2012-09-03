@@ -9,16 +9,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.SpinnerAdapter;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class LunchBuddyActivity extends SherlockListActivity {
@@ -41,10 +37,6 @@ public class LunchBuddyActivity extends SherlockListActivity {
 	
 	private LayoutInflater mInflater;
 	private String mSelection = "Turun AMK, Aurinkolaiva";
-
-	private Menu mOptionsMenu;
-
-	private View mRefreshIndeterminateProgressView = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,11 +69,14 @@ public class LunchBuddyActivity extends SherlockListActivity {
 		});
         
         mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        
-        ListView lv = getListView();
-        lv.addFooterView(mInflater.inflate(R.layout.footer_legend, null), null, false);
+        getListView().addFooterView(mInflater.inflate(R.layout.footer_legend, null), null, false);
 
         query();
+    }
+    
+    private void removeOld(long timestamp) {
+    	String where = LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + " < " + timestamp;
+    	getContentResolver().delete(LunchBuddy.Courses.CONTENT_URI, where, null);
     }
     
     private void query() {
@@ -90,51 +85,32 @@ public class LunchBuddyActivity extends SherlockListActivity {
     	cal.set(Calendar.MINUTE, 0);
     	cal.set(Calendar.SECOND, 0);
     	cal.set(Calendar.MILLISECOND, 0);
-    	String where = LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + "=" + (cal.getTimeInMillis() / 1000)
+    	
+    	long timestamp = cal.getTimeInMillis() / 1000;
+    	if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)
+    		removeOld(timestamp);
+    	
+    	String where = LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + "=" + timestamp
     			+ " and " + LunchBuddy.Courses.COLUMN_NAME_REF_TITLE + "= ?";
     	String[] args = new String[] { mSelection };
     	Cursor cursor = managedQuery(LunchBuddy.Courses.CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
     	CourseCursorAdapter adapter = new CourseCursorAdapter(R.layout.course, this, cursor);
-    	
     	setListAdapter(adapter);
 	}
 
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	mOptionsMenu = menu;
-    	MenuInflater inflater = getSupportMenuInflater();
-    	inflater.inflate(R.menu.main, menu);
-    	
+    	getSupportMenuInflater().inflate(R.menu.main, menu);
     	return super.onCreateOptionsMenu(menu);
     }
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
-    	case R.id.menu_refresh:
-    		Toast.makeText(this, "Fake refreshing", Toast.LENGTH_SHORT).show();
-//    		setRefreshActionItemState(true);
-//    		getWindow().getDecorView().postDelayed(new Runnable() {
-//    			@Override
-//    			public void run() {
-//    				setRefreshActionItemState(false);
-//    			}
-//    		}, 1000);
+    	case R.id.menu_settings:
     		break;
     	}
     	return super.onOptionsItemSelected(item);
     }
-
-	private void setRefreshActionItemState(boolean refreshing) {
-		final MenuItem refreshItem = mOptionsMenu.findItem(R.id.menu_refresh);
-		if (refreshing) {
-			if (mRefreshIndeterminateProgressView  == null) {
-				mRefreshIndeterminateProgressView = mInflater.inflate(R.layout.actionbar_indeterminate_progress, null);
-			}
-			refreshItem.setActionView(mRefreshIndeterminateProgressView);
-		} else {
-			refreshItem.setActionView(null);
-		}
-	}
 }

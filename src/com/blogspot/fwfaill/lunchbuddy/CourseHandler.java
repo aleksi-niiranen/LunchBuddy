@@ -8,7 +8,6 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,7 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 public class CourseHandler implements ResponseHandler {
@@ -36,13 +34,10 @@ public class CourseHandler implements ResponseHandler {
 	
 	private LunchBuddyProvider mProvider;
 	
-	private String mQuery;
-	
 	private String mResponseString;
 	
-	public CourseHandler(LunchBuddyProvider provider, String query) {
+	public CourseHandler(LunchBuddyProvider provider) {
 		mProvider = provider;
-		mQuery = query;
 	}
 	
 	@Override

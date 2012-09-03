@@ -8,7 +8,7 @@
     <string name="ict">ICT-talo</string>
     <string name="lemppari">Lemminkäisenkatu</string>
 
-    <string name="menu_refresh">Refresh</string>
+    <string name="menu_settings">Settings</string>
     
     <string-array name="restaurants">
         <item>Salo</item>
