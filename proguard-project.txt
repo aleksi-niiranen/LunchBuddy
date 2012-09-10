@@ -24,3 +24,5 @@
 -keep interface com.actionbarsherlock.** { *; }
 
 -keepattributes *Annotation*
+
+-keep public class org.jsoup.** { public *; }

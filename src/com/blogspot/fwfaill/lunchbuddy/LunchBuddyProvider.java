@@ -1,7 +1,25 @@
+/*
+ * Copyright 2012 Aleksi Niiranen 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.blogspot.fwfaill.lunchbuddy;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
@@ -173,22 +191,26 @@ public class LunchBuddyProvider extends ContentProvider {
 		c.setNotificationUri(getContext().getContentResolver(), uri);
 		
 		if (!c.moveToFirst()) {
-			Calendar calendar = Calendar.getInstance();
-	    	int year = calendar.get(Calendar.YEAR);
-	        int month = calendar.get(Calendar.MONTH);
-	        int day = calendar.get(Calendar.DATE);
-			String url;
-			if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_SALO)) {
-				url = LunchBuddy.Courses.BASE_URI_SALO.toString() 
-						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
-			} else if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_ICT)) {
-				url = LunchBuddy.Courses.BASE_URI_ICT.toString() 
-						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
+			if(!selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_NUTRITIO)) {
+				Calendar calendar = GregorianCalendar.getInstance(TimeZone.getTimeZone("Europe/Helsinki"), new Locale("Finnish", "Finland"));
+		    	int year = calendar.get(Calendar.YEAR);
+		        int month = calendar.get(Calendar.MONTH);
+		        int day = calendar.get(Calendar.DATE);
+				String url;
+				if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_SALO)) {
+					url = LunchBuddy.Courses.BASE_URI_SALO.toString() 
+							+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
+				} else if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_ICT)) {
+					url = LunchBuddy.Courses.BASE_URI_ICT.toString() 
+							+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
+				} else {
+					url = LunchBuddy.Courses.BASE_URI_LEMPPARI.toString() 
+							+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
+				}
+				asyncQueryRequest(selectionArgs[0], url);
 			} else {
-				url = LunchBuddy.Courses.BASE_URI_LEMPPARI.toString() 
-						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
+				new AsyncScrapeTask(this).execute();
 			}
-			asyncQueryRequest(selectionArgs[0], url);
 		}
 		
 		return c;
@@ -201,35 +223,6 @@ public class LunchBuddyProvider extends ContentProvider {
 		return 0;
 	}
 	
-	DatabaseHelper getOpenHelperForTest() {
-		return mOpenHelper;
-	}
-
-	protected static class DatabaseHelper extends SQLiteOpenHelper {
-
-		DatabaseHelper(Context context) {
-			super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		}
-		
-		@Override
-		public void onCreate(SQLiteDatabase db) {
-			db.execSQL("create table " + LunchBuddy.Courses.TABLE_NAME + " ("
-					+ LunchBuddy.Courses._ID + " integer primary key,"
-					+ LunchBuddy.Courses.COLUMN_NAME_TITLE_FI + " text,"
-					+ LunchBuddy.Courses.COLUMN_NAME_TITLE_EN + " text,"
-					+ LunchBuddy.Courses.COLUMN_NAME_PRICE + " text,"
-					+ LunchBuddy.Courses.COLUMN_NAME_PROPERTIES + " text,"
-					+ LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + " integer,"
-					+ LunchBuddy.Courses.COLUMN_NAME_REF_TITLE + " text);");
-		}
-
-		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			db.execSQL("drop table if exists " + LunchBuddy.Courses.TABLE_NAME);
-			onCreate(db);
-		}
-	}
-
 	public void requestComplete(String requestTag) {
 		synchronized (mRequestsInProgress) {
 			mRequestsInProgress.remove(requestTag);
@@ -259,6 +252,35 @@ public class LunchBuddyProvider extends ContentProvider {
 				Thread t = new Thread(requestTask);
 				t.start();
 			}
+		}
+	}
+	
+	DatabaseHelper getOpenHelperForTest() {
+		return mOpenHelper;
+	}
+
+	protected static class DatabaseHelper extends SQLiteOpenHelper {
+
+		DatabaseHelper(Context context) {
+			super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		}
+		
+		@Override
+		public void onCreate(SQLiteDatabase db) {
+			db.execSQL("create table " + LunchBuddy.Courses.TABLE_NAME + " ("
+					+ LunchBuddy.Courses._ID + " integer primary key,"
+					+ LunchBuddy.Courses.COLUMN_NAME_TITLE_FI + " text,"
+					+ LunchBuddy.Courses.COLUMN_NAME_TITLE_EN + " text,"
+					+ LunchBuddy.Courses.COLUMN_NAME_PRICE + " text,"
+					+ LunchBuddy.Courses.COLUMN_NAME_PROPERTIES + " text,"
+					+ LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + " integer,"
+					+ LunchBuddy.Courses.COLUMN_NAME_REF_TITLE + " text);");
+		}
+
+		@Override
+		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			db.execSQL("drop table if exists " + LunchBuddy.Courses.TABLE_NAME);
+			onCreate(db);
 		}
 	}
 }
