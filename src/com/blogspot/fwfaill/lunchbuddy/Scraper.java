@@ -17,76 +17,60 @@ package com.blogspot.fwfaill.lunchbuddy;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import android.util.Log;
-
 public class Scraper {
 
-	public static final String[] WEEKDAYS = new String[] {
-		"Monday",
-		"Tuesday",
-		"Wednesday",
-		"Thursday",
-		"Friday"
-	};
+	private static final int NUTRITIO_INDEX = 8;
 	
-	public static Map scrape() throws IOException {
-		Document docFi = Jsoup.connect("http://www.unica.fi/fi/ravintolat/nutritio/").get();
-		Document docEn = Jsoup.connect("http://www.unica.fi/en/restaurants/nutritio/").get();
+	public static List<Course> scrape() throws IOException {
+		Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("Europe/Helsinki"), new Locale("Finnish", "Finland"));
+    	cal.set(Calendar.HOUR_OF_DAY, 0);
+    	cal.set(Calendar.MINUTE, 0);
+    	cal.set(Calendar.SECOND, 0);
+    	cal.set(Calendar.MILLISECOND, 0);
+    	long timestamp = cal.getTimeInMillis() / 1000;
+    	
+		Document docFi = Jsoup.connect("http://www.unica.fi/fi/").get();
+		Document docEn = Jsoup.connect("http://www.unica.fi/en/").get();
 		
-		String weekday = null;
-		Map<String, List<String>> menuListEn = new HashMap<String, List<String>>();
-		Elements resultEn = docEn.select(".menu-list div");
-		for(Element e : resultEn) {
-			List<String> courses = new ArrayList<String>();
-			weekday = WEEKDAYS[Integer.parseInt(e.child(0).attr("data-dayofweek"))];
-			Elements tableRows = e.select("table tr");
-			for(Element row : tableRows) {
-				courses.add(row.child(0).html());
-			}
-			menuListEn.put(weekday, courses);
+		List<String> menuListEn = new ArrayList<String>();
+		Element result = docEn.select("#menu-wrap ul").get(NUTRITIO_INDEX);
+		Elements courses = result.select("li");
+		for (Element e : courses) {
+			String title = e.child(0).html();
+			menuListEn.add(title);
 		}
 		
-		Map menuListFi = new HashMap();
-		String restaurant = docFi.select(".head h1").html();
-		menuListFi.put("restaurant", restaurant);
-		Elements resultFi = docFi.select(".menu-list div");
-		for(Element e : resultFi) {
-			List<HashMap<String, String>> courses = new ArrayList<HashMap<String, String>>();
-			weekday = WEEKDAYS[Integer.parseInt(e.child(0).attr("data-dayofweek"))];
-			Elements tableRows = e.select("table tr");
-			tableRows.remove(0);
-			for(Element row : tableRows) {
-				HashMap<String, String> course = new HashMap<String, String>();
-				course.put("titleFi", row.child(0).html());
-				StringBuilder properties = new StringBuilder();
-				for(Element p : row.child(1).select("span")) {
-					properties
-						.append(p.html())
-						.append(" ");
-				}
-				course.put("properties", properties.toString());
-				course.put("price", row.child(2).html().substring(7));
-				courses.add(course);
+		List<Course> menuList = new ArrayList<Course>();
+		result = docFi.select("#menu-wrap ul").get(NUTRITIO_INDEX);
+		String refTitle = result.child(0).html();
+		courses = result.select("li");
+		for (Element e : courses) {
+			String title = e.child(0).html();
+			Elements limitations = e.child(1).select(".G, .L, .M, .VL, .VEG");
+			StringBuilder properties = new StringBuilder();
+			for (Element l : limitations) {
+				properties.append(l.html()).append(" ");
 			}
-			menuListFi.put(weekday, courses);
+			String price = e.child(3).html().substring(7);
+			Course c = new Course(timestamp, refTitle, title, price, properties.toString());
+			menuList.add(c);
 		}
 		
-		for(int i = 0; i < 5; i++) {
-			String day = WEEKDAYS[i];
-			for(int j = 0; j < ((List) menuListFi.get(day)).size(); j++) {
-				((Map)((List) menuListFi.get(day)).get(j)).put("titleEn", menuListEn.get(day).get(j));
-			}
+		for (int i = 0; i < menuList.size(); i++) {
+			menuList.get(i).setTitleEn(menuListEn.get(i));
 		}
 		
-		return menuListFi;
+		return menuList;
 	}
 }

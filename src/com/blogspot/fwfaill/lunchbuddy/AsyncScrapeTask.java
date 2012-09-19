@@ -16,13 +16,7 @@
 package com.blogspot.fwfaill.lunchbuddy;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
 
 import android.content.ContentValues;
 import android.os.AsyncTask;
@@ -38,37 +32,23 @@ public class AsyncScrapeTask extends AsyncTask<Void, Void, Void> {
 	@Override
 	protected Void doInBackground(Void... params) {
 		try {
-			Map menu = Scraper.scrape();
-			
-			String restaurant = (String) menu.get("restaurant");
-			
-			Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("Europe/Helsinki"), new Locale("Finnish", "Finland"));
-	    	cal.set(Calendar.HOUR_OF_DAY, 0);
-	    	cal.set(Calendar.MINUTE, 0);
-	    	cal.set(Calendar.SECOND, 0);
-	    	cal.set(Calendar.MILLISECOND, 0);
-	    	
-	    	for(int i = 0; i < 5; i++) {
-	    		List<HashMap<String, String>> courses = (List<HashMap<String, String>>) menu.get(Scraper.WEEKDAYS[i]);
-	    		for(Map<String, String> m : courses) {
-	    			ContentValues values = new ContentValues();
-		    		values.put(LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP, cal.getTimeInMillis() / 1000);
-		    		values.put(LunchBuddy.Courses.COLUMN_NAME_REF_TITLE, restaurant);
-		    		values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_FI, m.get("titleFi"));
-					values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_EN, m.get("titleEn"));
-					values.put(LunchBuddy.Courses.COLUMN_NAME_PRICE, m.get("price"));
-					values.put(LunchBuddy.Courses.COLUMN_NAME_PROPERTIES, m.get("properties"));
-					
-					mProvider.insert(LunchBuddy.Courses.CONTENT_URI, values);
-	    		}
-	    		
-	    		cal.add(Calendar.DAY_OF_MONTH, 1);
-	    	}
+			List<Course> menu = Scraper.scrape();
+
+			for(Course c : menu) {
+				ContentValues values = new ContentValues();
+				values.put(LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP, c.getTimestamp());
+				values.put(LunchBuddy.Courses.COLUMN_NAME_REF_TITLE, c.getRefTitle());
+				values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_FI, c.getTitleFi());
+				values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_EN, c.getTitleEn());
+				values.put(LunchBuddy.Courses.COLUMN_NAME_PRICE, c.getPrice());
+				values.put(LunchBuddy.Courses.COLUMN_NAME_PROPERTIES, c.getProperties());
+
+				mProvider.insert(LunchBuddy.Courses.CONTENT_URI, values);
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
-
 }
