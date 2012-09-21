@@ -55,8 +55,7 @@ public class CourseHandler implements ResponseHandler {
 	}
 	
 	@Override
-	public Object handleResponse(HttpResponse response)
-			throws ClientProtocolException, IOException {
+	public Object handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
 		HttpEntity entity = response.getEntity();
 		if (entity != null) {
 			InputStream is = entity.getContent();
@@ -103,8 +102,7 @@ public class CourseHandler implements ResponseHandler {
 				is.close();
 			}
 			return writer.toString();
-		} else {
-			return "";
 		}
+		return null;
 	}
 }

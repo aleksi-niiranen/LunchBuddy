@@ -191,28 +191,25 @@ public class LunchBuddyProvider extends ContentProvider {
 		c.setNotificationUri(getContext().getContentResolver(), uri);
 		
 		if (!c.moveToFirst()) {
-			if(!selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_NUTRITIO)) {
-				Calendar calendar = GregorianCalendar.getInstance(TimeZone.getTimeZone("Europe/Helsinki"), new Locale("Finnish", "Finland"));
-		    	int year = calendar.get(Calendar.YEAR);
-		        int month = calendar.get(Calendar.MONTH);
-		        int day = calendar.get(Calendar.DATE);
-				String url;
-				if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_SALO)) {
-					url = LunchBuddy.Courses.BASE_URI_SALO.toString() 
-							+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
-				} else if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_ICT)) {
-					url = LunchBuddy.Courses.BASE_URI_ICT.toString() 
-							+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
-				} else {
-					url = LunchBuddy.Courses.BASE_URI_LEMPPARI.toString() 
-							+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
-				}
-				asyncQueryRequest(selectionArgs[0], url);
+			Calendar calendar = GregorianCalendar.getInstance(TimeZone.getTimeZone("Europe/Helsinki"), new Locale("Finnish", "Finland"));
+			int year = calendar.get(Calendar.YEAR);
+			int month = calendar.get(Calendar.MONTH);
+			int day = calendar.get(Calendar.DATE);
+			String url;
+			if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_SALO)) {
+				url = LunchBuddy.Courses.BASE_URI_SALO.toString() 
+						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
+			} else if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_ICT)) {
+				url = LunchBuddy.Courses.BASE_URI_ICT.toString() 
+						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
+			} else if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_LEMPPARI)) {
+				url = LunchBuddy.Courses.BASE_URI_LEMPPARI.toString() 
+						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
 			} else {
-				new AsyncScrapeTask(this).execute();
+				url = "http://www.unica.fi/fi/";
 			}
+			asyncQueryRequest(selectionArgs[0], url);
 		}
-		
 		return c;
 	}
 
@@ -237,7 +234,11 @@ public class LunchBuddyProvider extends ContentProvider {
 		UriRequestTask requestTask;
 		
 		final HttpGet get = new HttpGet(url);
-		ResponseHandler handler = newResponseHandler();
+		ResponseHandler handler;
+		if (requestTag.equals(LunchBuddy.Courses.REF_TITLE_NUTRITIO))
+			handler = new UnicaHandler(this);
+		else
+			handler = newResponseHandler();
 		requestTask = new UriRequestTask(requestTag, this, get, handler, getContext());
 		
 		mRequestsInProgress.put(requestTag, requestTask);

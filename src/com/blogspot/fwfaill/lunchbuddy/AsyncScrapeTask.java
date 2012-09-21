@@ -31,24 +31,24 @@ public class AsyncScrapeTask extends AsyncTask<Void, Void, Void> {
 
 	@Override
 	protected Void doInBackground(Void... params) {
-		try {
-			List<Course> menu = Scraper.scrape();
-
-			for(Course c : menu) {
-				ContentValues values = new ContentValues();
-				values.put(LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP, c.getTimestamp());
-				values.put(LunchBuddy.Courses.COLUMN_NAME_REF_TITLE, c.getRefTitle());
-				values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_FI, c.getTitleFi());
-				values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_EN, c.getTitleEn());
-				values.put(LunchBuddy.Courses.COLUMN_NAME_PRICE, c.getPrice());
-				values.put(LunchBuddy.Courses.COLUMN_NAME_PROPERTIES, c.getProperties());
-
-				mProvider.insert(LunchBuddy.Courses.CONTENT_URI, values);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			List<Course> menu = Scraper.scrape();
+//
+//			for(Course c : menu) {
+//				ContentValues values = new ContentValues();
+//				values.put(LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP, c.getTimestamp());
+//				values.put(LunchBuddy.Courses.COLUMN_NAME_REF_TITLE, c.getRefTitle());
+//				values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_FI, c.getTitleFi());
+//				values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_EN, c.getTitleEn());
+//				values.put(LunchBuddy.Courses.COLUMN_NAME_PRICE, c.getPrice());
+//				values.put(LunchBuddy.Courses.COLUMN_NAME_PROPERTIES, c.getProperties());
+//
+//				mProvider.insert(LunchBuddy.Courses.CONTENT_URI, values);
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		return null;
 	}
 }

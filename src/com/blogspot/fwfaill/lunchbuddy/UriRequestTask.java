@@ -54,6 +54,8 @@ public class UriRequestTask implements Runnable {
 		
 		try {
 			response = execute(mRequest);
+			if (mHandler.getClass() == UnicaHandler.class)
+				((UnicaHandler) mHandler).requestEnTitles();
 			mHandler.handleResponse(response);
 		} catch (IOException e) {
 			Log.w("UriRequestTask", "exception processing asynch request", e);
