@@ -28,6 +28,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SyncResult;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -81,16 +82,16 @@ public class CoursesSyncAdapterService extends Service {
     	String where = LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + "=" + timestamp
     			+ " and " + LunchBuddy.Courses.COLUMN_NAME_REF_TITLE + "= ?";
     	String[] args = new String[] { LunchBuddy.Courses.REF_TITLE_ICT };
-    	mContentResolver.query(LunchBuddy.Courses.CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
+    	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
     	args = new String[] { LunchBuddy.Courses.REF_TITLE_LEMPPARI };
-    	mContentResolver.query(LunchBuddy.Courses.CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
+    	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
     	args = new String[] { LunchBuddy.Courses.REF_TITLE_SALO };
-    	mContentResolver.query(LunchBuddy.Courses.CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
+    	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
     	args = new String[] { LunchBuddy.Courses.REF_TITLE_NUTRITIO };
-    	mContentResolver.query(LunchBuddy.Courses.CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
+    	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
 	}
 
 	private static class SyncAdapterImpl extends AbstractThreadedSyncAdapter {

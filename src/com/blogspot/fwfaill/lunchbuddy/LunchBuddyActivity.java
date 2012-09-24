@@ -20,6 +20,9 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -33,6 +36,8 @@ import com.actionbarsherlock.app.SherlockListActivity;
 public class LunchBuddyActivity extends SherlockListActivity {
 	
 	private static final String TAG = "RuokalistaActivity";
+	
+	private static final long SYNC_FREQUENCY = 43200; // 12 hours in seconds
 	
 	private static final String[] PROJECTION = new String[] {
 		LunchBuddy.Courses._ID,
@@ -56,6 +61,19 @@ public class LunchBuddyActivity extends SherlockListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        AccountManager am = AccountManager.get(this);
+        Account[] accounts = am.getAccountsByType("com.blogspot.fwfaill.lunchbuddy.account");
+        if (accounts.length < 1) {
+        	Account account = new Account("LunchBuddy", "com.blogspot.fwfaill.lunchbuddy.account");
+			am.addAccountExplicitly(account, null, null);
+			ContentResolver.setIsSyncable(account, "com.blogspot.fwfaill.provider.LunchBuddy", 1);
+			ContentResolver.setSyncAutomatically(account, "com.blogspot.fwfaill.provider.LunchBuddy", true);
+			ContentResolver.addPeriodicSync(account, "com.blogspot.fwfaill.provider.LunchBuddy", new Bundle(), SYNC_FREQUENCY);
+        }
+        am = null;
+        accounts = null;
+        
         setContentView(R.layout.main);
         
         SpinnerAdapter adapter = ArrayAdapter.createFromResource(

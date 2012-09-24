@@ -147,7 +147,7 @@ public class LunchBuddyProvider extends ContentProvider {
 		if (rowId > 0) {
 			Uri courseUri = ContentUris.withAppendedId(LunchBuddy.Courses.CONTENT_ID_URI_BASE, rowId);
 			
-			getContext().getContentResolver().notifyChange(courseUri, null);
+			getContext().getContentResolver().notifyChange(courseUri, null, !callerIsSyncAdapter(uri));
 			return courseUri;
 		}
 		
@@ -218,6 +218,11 @@ public class LunchBuddyProvider extends ContentProvider {
 			String[] selectionArgs) {
 		// Records are never updated
 		return 0;
+	}
+	
+	private boolean callerIsSyncAdapter(Uri uri) {
+		final String isSyncAdapter = uri.getQueryParameter("syncadapter");
+		return isSyncAdapter != null && isSyncAdapter.equals("true");
 	}
 	
 	public void requestComplete(String requestTag) {
