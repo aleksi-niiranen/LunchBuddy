@@ -359,7 +359,16 @@ android.support.v4.widget.SearchViewCompatHoneycomb$OnQueryTextListenerCompatBri
 android.support.v4.widget.SimpleCursorAdapter
 android.support.v4.widget.SimpleCursorAdapter$CursorToStringConverter
 android.support.v4.widget.SimpleCursorAdapter$ViewBinder
+com.blogspot.fwfaill.lunchbuddy.AccountAuthenticatorService:
+    private static final java.lang.String TAG
 com.blogspot.fwfaill.lunchbuddy.BuildConfig
+com.blogspot.fwfaill.lunchbuddy.Course:
+    22:30:public Course(long,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
+    37:38:public void setTimestamp(long)
+    45:46:public void setRefTitle(java.lang.String)
+    53:54:public void setTitleFi(java.lang.String)
+    69:70:public void setPrice(java.lang.String)
+    77:78:public void setProperties(java.lang.String)
 com.blogspot.fwfaill.lunchbuddy.CourseCursorAdapter:
     private static final java.lang.String TAG
 com.blogspot.fwfaill.lunchbuddy.CourseHandler:
@@ -371,9 +380,11 @@ com.blogspot.fwfaill.lunchbuddy.CourseHandler:
     public static final java.lang.String TITLE_EN
     public static final java.lang.String PRICE
     public static final java.lang.String PROPERTIES
+com.blogspot.fwfaill.lunchbuddy.CoursesSyncAdapterService:
+    private static final java.lang.String TAG
 com.blogspot.fwfaill.lunchbuddy.LunchBuddy:
     public static final java.lang.String AUTHORITY
-    6:6:public LunchBuddy()
+    21:21:public LunchBuddy()
 com.blogspot.fwfaill.lunchbuddy.LunchBuddy$Courses:
     public static final java.lang.String TABLE_NAME
     private static final java.lang.String SCHEME
@@ -393,19 +404,22 @@ com.blogspot.fwfaill.lunchbuddy.LunchBuddy$Courses:
     public static final java.lang.String REF_TITLE_SALO
     public static final java.lang.String REF_TITLE_ICT
     public static final java.lang.String REF_TITLE_LEMPPARI
-    12:12:private LunchBuddy$Courses()
+    public static final java.lang.String REF_TITLE_NUTRITIO
+    27:27:private LunchBuddy$Courses()
 com.blogspot.fwfaill.lunchbuddy.LunchBuddyActivity:
     private static final java.lang.String TAG
+    private static final long SYNC_FREQUENCY
     private static final int SALO
     private static final int ICT_TALO
     private static final int LEMPPARI
+    private static final int NUTRITIO
 com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider:
     private static final java.lang.String TAG
     private static final java.lang.String DATABASE_NAME
     private static final int DATABASE_VERSION
     private static final int COURSES
     private static final int COURSE_ID
-    205:205:com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider$DatabaseHelper getOpenHelperForTest()
+    265:265:com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider$DatabaseHelper getOpenHelperForTest()
 com.blogspot.fwfaill.lunchbuddy.R
 com.blogspot.fwfaill.lunchbuddy.R$array
 com.blogspot.fwfaill.lunchbuddy.R$attr
@@ -420,5 +434,50 @@ com.blogspot.fwfaill.lunchbuddy.R$menu
 com.blogspot.fwfaill.lunchbuddy.R$string
 com.blogspot.fwfaill.lunchbuddy.R$style
 com.blogspot.fwfaill.lunchbuddy.R$styleable
+com.blogspot.fwfaill.lunchbuddy.R$xml
+com.blogspot.fwfaill.lunchbuddy.Scraper:
+    private static final int NUTRITIO_INDEX
+    26:26:public Scraper()
 com.blogspot.fwfaill.lunchbuddy.UriRequestTask:
-    25:26:public UriRequestTask(org.apache.http.client.methods.HttpUriRequest,org.apache.http.client.ResponseHandler,android.content.Context)
+    40:41:public UriRequestTask(org.apache.http.client.methods.HttpUriRequest,org.apache.http.client.ResponseHandler,android.content.Context)
+org.jsoup.examples.HtmlToPlainText$FormattingVisitor:
+    private static final int maxWidth
+org.jsoup.helper.DataUtil:
+    static final java.lang.String defaultCharset
+    private static final int bufferSize
+org.jsoup.helper.HttpConnection$Response:
+    private static final int MAX_REDIRECTS
+org.jsoup.nodes.Attributes:
+    protected static final java.lang.String dataPrefix
+org.jsoup.nodes.Comment:
+    private static final java.lang.String COMMENT_KEY
+org.jsoup.nodes.DataNode:
+    private static final java.lang.String DATA_KEY
+org.jsoup.nodes.TextNode:
+    private static final java.lang.String TEXT_KEY
+org.jsoup.nodes.XmlDeclaration:
+    private static final java.lang.String DECL_KEY
+org.jsoup.parser.CharacterReader:
+    static final char EOF
+    59:59:java.lang.String consumeAsString()
+org.jsoup.parser.HtmlTreeBuilder:
+    496:497:void setPendingTableCharacters(java.util.List)
+org.jsoup.parser.ParseErrorList:
+    private static final int INITIAL_CAPACITY
+    24:24:int getMaxSize()
+org.jsoup.parser.Parser:
+    private static final int DEFAULT_MAX_ERRORS
+org.jsoup.parser.TokenQueue:
+    private static final char ESC
+org.jsoup.parser.Tokeniser:
+    static final char replacementChar
+    84:84:org.jsoup.parser.TokeniserState getState()
+    226:226:boolean currentNodeInHtmlNS()
+org.jsoup.parser.TokeniserState:
+    private static final char nullChar
+    private static final char replacementChar
+    private static final char eof
+org.jsoup.parser.TreeBuilder:
+    36:36:org.jsoup.nodes.Document parse(java.lang.String,java.lang.String)
+org.jsoup.select.CombiningEvaluator$Or:
+    65:70:CombiningEvaluator$Or(java.util.Collection)
