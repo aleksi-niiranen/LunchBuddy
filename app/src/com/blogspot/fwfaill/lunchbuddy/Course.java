@@ -1,5 +1,7 @@
 package com.blogspot.fwfaill.lunchbuddy;
 
+import android.content.ContentValues;
+
 public class Course {
 
 	private long timestamp;
@@ -109,5 +111,16 @@ public class Course {
 		if (timestamp != other.timestamp)
 			return false;
 		return true;
+	}
+	
+	public ContentValues getContentValues() {
+		ContentValues values = new ContentValues();
+		values.put(LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP, timestamp);
+		values.put(LunchBuddy.Courses.COLUMN_NAME_REF_TITLE, refTitle);
+		values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_FI, titleFi);
+		values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_EN, titleEn);
+		values.put(LunchBuddy.Courses.COLUMN_NAME_PRICE, price);
+		values.put(LunchBuddy.Courses.COLUMN_NAME_PROPERTIES, properties);
+		return values;
 	}
 }

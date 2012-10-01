@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">LunchBuddy</string>
+    <string name="app_name">Lunch Buddy</string>
     <string name="no_courses">No courses for this day</string>
     <string name="footer_legend">G Gluten-free, L Lactose-free, M Milk free, VL Low-lactose</string>
     <string name="salo">Salo</string>

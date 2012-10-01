@@ -47,16 +47,6 @@ public class LunchBuddyProvider extends ContentProvider {
 	
 	private static HashMap<String, String> sCoursesProjectionMap;
 	
-	private static final String[] READ_COURSE_PROJECTION = new String[] {
-		LunchBuddy.Courses._ID,
-		LunchBuddy.Courses.COLUMN_NAME_TITLE_FI,
-		LunchBuddy.Courses.COLUMN_NAME_TITLE_EN,
-		LunchBuddy.Courses.COLUMN_NAME_PRICE,
-		LunchBuddy.Courses.COLUMN_NAME_PROPERTIES,
-		LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP,
-		LunchBuddy.Courses.COLUMN_NAME_REF_TITLE
-	};
-	
 	private static final int COURSES = 1;
 	private static final int COURSE_ID = 2;
 	
@@ -195,7 +185,7 @@ public class LunchBuddyProvider extends ContentProvider {
 			int year = calendar.get(Calendar.YEAR);
 			int month = calendar.get(Calendar.MONTH);
 			int day = calendar.get(Calendar.DATE);
-			String url;
+			String url = null;
 			if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_SALO)) {
 				url = LunchBuddy.Courses.BASE_URI_SALO.toString() 
 						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
@@ -205,10 +195,10 @@ public class LunchBuddyProvider extends ContentProvider {
 			} else if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_LEMPPARI)) {
 				url = LunchBuddy.Courses.BASE_URI_LEMPPARI.toString() 
 						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
-			} else {
+			} else if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_NUTRITIO)) {
 				url = "http://www.unica.fi/fi/";
 			}
-			asyncQueryRequest(selectionArgs[0], url);
+			if (url != null) asyncQueryRequest(selectionArgs[0], url);
 		}
 		return c;
 	}
@@ -231,11 +221,11 @@ public class LunchBuddyProvider extends ContentProvider {
 		}
 	}
 	
-	protected ResponseHandler newResponseHandler() {
+	private ResponseHandler newResponseHandler() {
 		return new CourseHandler(this);
 	}
 	
-	UriRequestTask newQueryTask(String requestTag, String url) {
+	private UriRequestTask newQueryTask(String requestTag, String url) {
 		UriRequestTask requestTask;
 		
 		final HttpGet get = new HttpGet(url);
@@ -261,11 +251,11 @@ public class LunchBuddyProvider extends ContentProvider {
 		}
 	}
 	
-	DatabaseHelper getOpenHelperForTest() {
+	public DatabaseHelper getOpenHelperForTest() {
 		return mOpenHelper;
 	}
 
-	protected static class DatabaseHelper extends SQLiteOpenHelper {
+	public static class DatabaseHelper extends SQLiteOpenHelper {
 
 		DatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);

@@ -38,8 +38,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.jsoup.Jsoup;
 
-import android.content.ContentValues;
-
 public class UnicaHandler implements ResponseHandler {
 	
 	private LunchBuddyProvider mProvider;
@@ -72,15 +70,7 @@ public class UnicaHandler implements ResponseHandler {
 	    			timestamp, Scraper.scrapeEn(Jsoup.parse(mResponseStringEn)));
 	    	
 	    	for (Course c : courses) {
-	    		ContentValues values = new ContentValues();
-				values.put(LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP, c.getTimestamp());
-				values.put(LunchBuddy.Courses.COLUMN_NAME_REF_TITLE, c.getRefTitle());
-				values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_FI, c.getTitleFi());
-				values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_EN, c.getTitleEn());
-				values.put(LunchBuddy.Courses.COLUMN_NAME_PRICE, c.getPrice());
-				values.put(LunchBuddy.Courses.COLUMN_NAME_PROPERTIES, c.getProperties());
-
-				mProvider.insert(LunchBuddy.Courses.CONTENT_URI, values);
+				mProvider.insert(LunchBuddy.Courses.CONTENT_URI, c.getContentValues());
 	    	}
 		}
 		return null;

@@ -69,16 +69,16 @@ public class CourseHandler implements ResponseHandler {
 				JSONArray jsonCourses = jsonRoot.getJSONArray(COURSES);
 				
 				for (int i = 0; i < jsonCourses.length(); i++) {
-					ContentValues values = new ContentValues();
 					JSONObject jsonObject = jsonCourses.getJSONObject(i);
-					values.put(LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP, jsonRoot.getJSONObject("meta").getLong(TIMESTAMP));
-					values.put(LunchBuddy.Courses.COLUMN_NAME_REF_TITLE, jsonRoot.getJSONObject("meta").getString(REF_TITLE));
-					values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_FI, jsonObject.getString(TITLE_FI));
-					values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_EN, jsonObject.getString(TITLE_EN));
-					values.put(LunchBuddy.Courses.COLUMN_NAME_PRICE, jsonObject.optString(PRICE) + " €");
-					values.put(LunchBuddy.Courses.COLUMN_NAME_PROPERTIES, jsonObject.optString(PROPERTIES));
+					Course course = new Course(
+							jsonRoot.getJSONObject("meta").getLong(TIMESTAMP), 
+							jsonRoot.getJSONObject("meta").getString(REF_TITLE),
+							jsonObject.getString(TITLE_FI),
+							jsonObject.getString(TITLE_EN),
+							jsonObject.optString(PRICE) + " €",
+							jsonObject.optString(PROPERTIES));
 					
-					mProvider.insert(LunchBuddy.Courses.CONTENT_URI, values);
+					mProvider.insert(LunchBuddy.Courses.CONTENT_URI, course.getContentValues());
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();

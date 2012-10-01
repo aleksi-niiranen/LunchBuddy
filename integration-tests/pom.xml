@@ -31,7 +31,7 @@
       <artifactId>android-test</artifactId>
     </dependency>
     <dependency>
-      <groupId>LunchBuddy</groupId>
+      <groupId>com.blogspot.fwfaill</groupId>
       <artifactId>LunchBuddy</artifactId>
       <type>apk</type>
       <version>1.0</version>
@@ -39,7 +39,7 @@
         <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>LunchBuddy</groupId>
+      <groupId>com.blogspot.fwfaill</groupId>
       <artifactId>LunchBuddy</artifactId>
       <type>jar</type>
       <version>1.0</version>
@@ -52,6 +52,8 @@
   </dependencies>
 
   <build>
+      <sourceDirectory>src</sourceDirectory>
+      <testSourceDirectory>test</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>com.jayway.maven.plugins.android.generation2</groupId>

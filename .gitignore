@@ -19,6 +19,8 @@ local.properties
 # Eclipse project files
 .classpath
 .project
+.settings
+.checkstyle
 
 # Maven
 target/
@@ -28,3 +30,6 @@ target/
 *.ipr
 *.iws
 .idea/
+
+# libs
+libs/

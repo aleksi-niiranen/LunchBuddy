@@ -67,9 +67,9 @@ public class LunchBuddyActivity extends SherlockListActivity {
         if (accounts.length < 1) {
         	Account account = new Account("LunchBuddy", "com.blogspot.fwfaill.lunchbuddy.account");
 			am.addAccountExplicitly(account, null, null);
-			ContentResolver.setIsSyncable(account, "com.blogspot.fwfaill.provider.LunchBuddy", 1);
-			ContentResolver.setSyncAutomatically(account, "com.blogspot.fwfaill.provider.LunchBuddy", true);
-			ContentResolver.addPeriodicSync(account, "com.blogspot.fwfaill.provider.LunchBuddy", new Bundle(), SYNC_FREQUENCY);
+			ContentResolver.setIsSyncable(account, LunchBuddy.AUTHORITY, 1);
+			ContentResolver.setSyncAutomatically(account, LunchBuddy.AUTHORITY, true);
+			ContentResolver.addPeriodicSync(account, LunchBuddy.AUTHORITY, new Bundle(), SYNC_FREQUENCY);
         }
         am = null;
         accounts = null;
