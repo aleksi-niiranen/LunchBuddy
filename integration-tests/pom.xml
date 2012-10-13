@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.blogspot.fwfaill</groupId>
     <artifactId>LunchBuddy-parent</artifactId>
-    <version>1.3</version>
+    <version>1.4-SNAPSHOT</version>
   </parent>
 
   <artifactId>LunchBuddy-integration-tests</artifactId>
