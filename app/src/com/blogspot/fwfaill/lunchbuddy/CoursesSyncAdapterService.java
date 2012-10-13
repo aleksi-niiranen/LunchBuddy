@@ -28,7 +28,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SyncResult;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -92,6 +91,9 @@ public class CoursesSyncAdapterService extends Service {
     	
     	args = new String[] { LunchBuddy.Courses.REF_TITLE_NUTRITIO };
     	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
+    	
+    	where = LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + " < " + timestamp;
+    	mContentResolver.delete(LunchBuddy.Courses.SYNC_CONTENT_URI, where, null);
 	}
 
 	private static class SyncAdapterImpl extends AbstractThreadedSyncAdapter {

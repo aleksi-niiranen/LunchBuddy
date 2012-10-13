@@ -36,6 +36,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class LunchBuddyProvider extends ContentProvider {
 	
@@ -99,7 +100,7 @@ public class LunchBuddyProvider extends ContentProvider {
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 		
-		getContext().getContentResolver().notifyChange(uri, null);
+		getContext().getContentResolver().notifyChange(uri, null, !callerIsSyncAdapter(uri));
 		
 		return count;
 	}
@@ -212,6 +213,7 @@ public class LunchBuddyProvider extends ContentProvider {
 	
 	private boolean callerIsSyncAdapter(Uri uri) {
 		final String isSyncAdapter = uri.getQueryParameter("syncadapter");
+		Log.d(TAG, "isSyncAdapter:" + isSyncAdapter);
 		return isSyncAdapter != null && isSyncAdapter.equals("true");
 	}
 	

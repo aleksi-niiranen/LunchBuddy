@@ -36,7 +36,7 @@ public class LunchBuddy {
 		public static final int COURSE_ID_PATH_POSITION = 1;
 		
 		public static final Uri CONTENT_URI = Uri.parse(SCHEME + AUTHORITY + PATH_COURSES);
-		public static final Uri SYNC_CONTENT_URI = Uri.parse(SCHEME + AUTHORITY + PATH_COURSES + "?syncdapter=true");
+		public static final Uri SYNC_CONTENT_URI = Uri.parse(SCHEME + AUTHORITY + PATH_COURSES + "?syncadapter=true");
 		public static final Uri CONTENT_ID_URI_BASE = Uri.parse(SCHEME + AUTHORITY + PATH_COURSE_ID);
 		public static final Uri CONTENT_ID_URI_PATTERN = Uri.parse(SCHEME + AUTHORITY + PATH_COURSE_ID + "/#");
 		
