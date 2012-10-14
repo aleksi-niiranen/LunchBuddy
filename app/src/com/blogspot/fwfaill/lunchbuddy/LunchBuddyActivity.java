@@ -24,6 +24,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,10 +33,13 @@ import android.widget.SpinnerAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 public class LunchBuddyActivity extends SherlockListActivity {
 	
 	private static final String TAG = "LunchBuddyActivity";
+	private static final String FAVORITE_KEY = "Favorite";
 	
 	private static final long SYNC_FREQUENCY = 43200; // 12 hours in seconds
 	
@@ -55,26 +59,27 @@ public class LunchBuddyActivity extends SherlockListActivity {
 	private static final int NUTRITIO = 3;
 	
 	private LayoutInflater mInflater;
-	private String mSelection = "Turun AMK, Aurinkolaiva";
-	//private View mSettingsView;
+	private SharedPreferences mPreferences;
+	private int mNavigationPosition;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         AccountManager am = AccountManager.get(this);
-        Account[] accounts = am.getAccountsByType("com.blogspot.fwfaill.lunchbuddy.account");
+        Account[] accounts = am.getAccountsByType(LunchBuddy.ACCOUNT_TYPE);
         if (accounts.length < 1) {
-        	Account account = new Account("LunchBuddy", "com.blogspot.fwfaill.lunchbuddy.account");
+        	Account account = new Account("LunchBuddy", LunchBuddy.ACCOUNT_TYPE);
 			am.addAccountExplicitly(account, null, null);
 			ContentResolver.setIsSyncable(account, LunchBuddy.AUTHORITY, 1);
 			ContentResolver.setSyncAutomatically(account, LunchBuddy.AUTHORITY, true);
 			ContentResolver.addPeriodicSync(account, LunchBuddy.AUTHORITY, new Bundle(), SYNC_FREQUENCY);
         }
-        am = null;
-        accounts = null;
         
         setContentView(R.layout.main);
+        
+        mPreferences = getPreferences(Context.MODE_PRIVATE);
+        mNavigationPosition = mPreferences.getInt(FAVORITE_KEY, SALO);
         
         SpinnerAdapter adapter = ArrayAdapter.createFromResource(
         		this, R.array.restaurants, R.layout.sherlock_spinner_dropdown_item);
@@ -88,28 +93,27 @@ public class LunchBuddyActivity extends SherlockListActivity {
 			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 				switch (itemPosition) {
 				case SALO:
-					mSelection = LunchBuddy.Courses.REF_TITLE_SALO;
+					mNavigationPosition = SALO;
 					break;
 				case ICT_TALO:
-					mSelection = LunchBuddy.Courses.REF_TITLE_ICT;
+					mNavigationPosition = ICT_TALO;
 					break;
 				case LEMPPARI:
-					mSelection = LunchBuddy.Courses.REF_TITLE_LEMPPARI;
+					mNavigationPosition = LEMPPARI;
 					break;
 				case NUTRITIO:
-					mSelection = LunchBuddy.Courses.REF_TITLE_NUTRITIO;
+					mNavigationPosition = NUTRITIO;
 					break;
 				}
 				query();
 				return true;
 			}
 		});
+        actionBar.setSelectedNavigationItem(mNavigationPosition);
         
         mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         getListView().addFooterView(mInflater.inflate(R.layout.footer_legend, null), null, false);
         
-        //mSettingsView = mInflater.inflate(R.layout.settings, null);
-
         query();
     }
     
@@ -131,26 +135,28 @@ public class LunchBuddyActivity extends SherlockListActivity {
     	
     	String where = LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + "=" + timestamp
     			+ " and " + LunchBuddy.Courses.COLUMN_NAME_REF_TITLE + "= ?";
-    	String[] args = new String[] { mSelection };
+    	String[] args = new String[] { LunchBuddy.Courses.REF_TITLES[mNavigationPosition] };
     	Cursor cursor = managedQuery(LunchBuddy.Courses.CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
     	CourseCursorAdapter adapter = new CourseCursorAdapter(R.layout.course, this, cursor);
     	setListAdapter(adapter);
 	}
 
-//	@Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//    	getSupportMenuInflater().inflate(R.menu.main, menu);
-//    	return super.onCreateOptionsMenu(menu);
-//    }
-//    
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//    	switch (item.getItemId()) {
-//    	case R.id.menu_settings:
-//    		// TODO: show settings
-//    		break;
-//    	}
-//    	return super.onOptionsItemSelected(item);
-//    }
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	getSupportMenuInflater().inflate(R.menu.main, menu);
+    	return super.onCreateOptionsMenu(menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch (item.getItemId()) {
+    	case R.id.menu_setAsDefault:
+    		SharedPreferences.Editor editor = mPreferences.edit();
+    		editor.putInt(FAVORITE_KEY, mNavigationPosition);
+    		editor.commit();
+    		break;
+    	}
+    	return super.onOptionsItemSelected(item);
+    }
 }

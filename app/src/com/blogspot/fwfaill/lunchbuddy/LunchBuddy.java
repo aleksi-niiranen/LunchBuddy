@@ -21,6 +21,7 @@ import android.provider.BaseColumns;
 public class LunchBuddy {
 
 	public static final String AUTHORITY = "com.blogspot.fwfaill.provider.LunchBuddy";
+	public static final String ACCOUNT_TYPE = "com.blogspot.fwfaill.lunchbuddy.account";
 	
 	public static final class Courses implements BaseColumns {
 		
@@ -61,5 +62,12 @@ public class LunchBuddy {
 		public static final String REF_TITLE_ICT = "ICT - talo";
 		public static final String REF_TITLE_LEMPPARI = "Lemmink\u00e4isenkatu";
 		public static final String REF_TITLE_NUTRITIO = "Nutritio";
+		
+		public static final String[] REF_TITLES = {
+			"Turun AMK, Aurinkolaiva",
+			"ICT - talo",
+			"Lemmink\u00e4isenkatu",
+			"Nutritio"
+		};
 	}
 }
