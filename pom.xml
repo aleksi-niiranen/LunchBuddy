@@ -4,7 +4,7 @@
 
     <groupId>com.blogspot.fwfaill</groupId>
     <artifactId>LunchBuddy-parent</artifactId>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.4</version>
     <packaging>pom</packaging>
     <name>LunchBuddy - Parent</name>
 
