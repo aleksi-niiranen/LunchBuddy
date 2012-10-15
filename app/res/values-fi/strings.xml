@@ -4,9 +4,5 @@
     <string name="app_name">Lunch Buddy</string>
     <string name="no_courses">Ei ruokaa tarjolla tänään.</string>
     <string name="footer_legend">G Gluteeniton, L Laktoositon, M Maidoton, VL Vähälaktoosinen</string>
-    <string name="salo">Salo</string>
-    <string name="ict">ICT-talo</string>
-    <string name="lemppari">Lemminkäisenkatu</string>
     <string name="set_as_default">Aseta oletukseksi</string>
-    <string name="menu_settings">Asetukset</string>
 </resources>

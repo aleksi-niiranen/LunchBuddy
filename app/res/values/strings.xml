@@ -4,11 +4,7 @@
     <string name="app_name">Lunch Buddy</string>
     <string name="no_courses">No courses for this day</string>
     <string name="footer_legend">G Gluten-free, L Lactose-free, M Milk free, VL Low-lactose</string>
-    <string name="salo">Salo</string>
-    <string name="ict">ICT-talo</string>
-    <string name="lemppari">Lemminkäisenkatu</string>
     <string name="set_as_default">Set as default</string>
-    <string name="menu_settings">Settings</string>
     
     <string-array name="restaurants">
         <item>Turun AMK, Aurinkolaiva</item>
