@@ -20,6 +20,8 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import com.blogspot.fwfaill.lunchbuddy.LunchBuddy.Restaurants;
+
 import android.accounts.Account;
 import android.app.Service;
 import android.content.AbstractThreadedSyncAdapter;
@@ -80,16 +82,16 @@ public class CoursesSyncAdapterService extends Service {
     	
     	String where = LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + "=" + timestamp
     			+ " and " + LunchBuddy.Courses.COLUMN_NAME_REF_TITLE + "= ?";
-    	String[] args = new String[] { LunchBuddy.Courses.REF_TITLE_ICT };
+    	String[] args = new String[] { Restaurants.REF_TITLES[1] };
     	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
-    	args = new String[] { LunchBuddy.Courses.REF_TITLE_LEMPPARI };
+    	args = new String[] { Restaurants.REF_TITLES[2] };
     	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
-    	args = new String[] { LunchBuddy.Courses.REF_TITLE_SALO };
+    	args = new String[] { Restaurants.REF_TITLES[0] };
     	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
-    	args = new String[] { LunchBuddy.Courses.REF_TITLE_NUTRITIO };
+    	args = new String[] { Restaurants.REF_TITLES[3] };
     	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
     	where = LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + " < " + timestamp;

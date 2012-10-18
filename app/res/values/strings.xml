@@ -4,12 +4,23 @@
     <string name="app_name">Lunch Buddy</string>
     <string name="no_courses">No courses for this day</string>
     <string name="footer_legend">G Gluten-free, L Lactose-free, M Milk free, VL Low-lactose</string>
-    <string name="set_as_default">Set as default</string>
+    <string name="set_as_default">Set as favorite</string>
+    <string name="settings">Settings</string>
+    <string name="search">Search</string>
     
     <string-array name="restaurants">
         <item>Turun AMK, Aurinkolaiva</item>
         <item>ICT-talo</item>
         <item>Lemminkäisenkatu</item>
         <item>Nutritio</item>
+        <item>Assarin ullakko</item>
+        <item>Brygge</item>
+        <item>Delica</item>
+        <item>Deli Pharma</item>
+        <item>Dental</item>
+        <item>Macciavelli</item>
+        <item>Mikro</item>
+        <item>Parkkis</item>
+        <item>Myssy \u0026 Silinteri</item>
     </string-array>
 </resources>

@@ -35,6 +35,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.blogspot.fwfaill.lunchbuddy.LunchBuddy.Restaurants;
 
 public class LunchBuddyActivity extends SherlockListActivity {
 	
@@ -57,6 +58,8 @@ public class LunchBuddyActivity extends SherlockListActivity {
 	private static final int ICT_TALO = 1;
 	private static final int LEMPPARI = 2;
 	private static final int NUTRITIO = 3;
+	private static final int ASSARI = 4;
+	private static final int BRYGGE = 5;
 	
 	private LayoutInflater mInflater;
 	private SharedPreferences mPreferences;
@@ -104,6 +107,12 @@ public class LunchBuddyActivity extends SherlockListActivity {
 				case NUTRITIO:
 					mNavigationPosition = NUTRITIO;
 					break;
+				case ASSARI:
+					mNavigationPosition = ASSARI;
+					break;
+				case BRYGGE:
+					mNavigationPosition = BRYGGE;
+					break;
 				}
 				query();
 				return true;
@@ -135,7 +144,7 @@ public class LunchBuddyActivity extends SherlockListActivity {
     	
     	String where = LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + "=" + timestamp
     			+ " and " + LunchBuddy.Courses.COLUMN_NAME_REF_TITLE + "= ?";
-    	String[] args = new String[] { LunchBuddy.Courses.REF_TITLES[mNavigationPosition] };
+    	String[] args = new String[] { Restaurants.REF_TITLES[mNavigationPosition] };
     	Cursor cursor = managedQuery(LunchBuddy.Courses.CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
     	CourseCursorAdapter adapter = new CourseCursorAdapter(R.layout.course, this, cursor);
@@ -155,6 +164,9 @@ public class LunchBuddyActivity extends SherlockListActivity {
     		SharedPreferences.Editor editor = mPreferences.edit();
     		editor.putInt(FAVORITE_KEY, mNavigationPosition);
     		editor.commit();
+    		break;
+    	case R.id.menu_settings:
+    		// TODO: start settings activity
     		break;
     	}
     	return super.onOptionsItemSelected(item);

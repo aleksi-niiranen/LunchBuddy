@@ -24,6 +24,8 @@ import java.util.TimeZone;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 
+import com.blogspot.fwfaill.lunchbuddy.LunchBuddy.Restaurants;
+
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -187,17 +189,24 @@ public class LunchBuddyProvider extends ContentProvider {
 			int month = calendar.get(Calendar.MONTH);
 			int day = calendar.get(Calendar.DATE);
 			String url = null;
-			if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_SALO)) {
+			if (selectionArgs[0].equals(Restaurants.REF_TITLES[0])) {
 				url = LunchBuddy.Courses.BASE_URI_SALO.toString() 
 						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
-			} else if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_ICT)) {
+			} else if (selectionArgs[0].equals(Restaurants.REF_TITLES[1])) {
 				url = LunchBuddy.Courses.BASE_URI_ICT.toString() 
 						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
-			} else if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_LEMPPARI)) {
+			} else if (selectionArgs[0].equals(Restaurants.REF_TITLES[2])) {
 				url = LunchBuddy.Courses.BASE_URI_LEMPPARI.toString() 
 						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
-			} else if (selectionArgs[0].equals(LunchBuddy.Courses.REF_TITLE_NUTRITIO)) {
-				url = "http://www.unica.fi/fi/";
+			} else if (selectionArgs[0].equals(Restaurants.REF_TITLES[3])) {
+				url = LunchBuddy.Courses.BASE_URI_NUTRITIO.toString()
+						+ year + "/" + (month + 1) + "/" + day;
+			} else if (selectionArgs[0].equals(Restaurants.REF_TITLES[4])) {
+				url = LunchBuddy.Courses.BASE_URI_ASSARI.toString()
+						+ year + "/" + (month + 1) + "/" + day;
+			} else if (selectionArgs[0].equals(Restaurants.REF_TITLES[5])) {
+				url = LunchBuddy.Courses.BASE_URI_BRYGGE.toString()
+						+ year + "/" + (month + 1) + "/" + day;
 			}
 			if (url != null) asyncQueryRequest(selectionArgs[0], url);
 		}
@@ -223,19 +232,12 @@ public class LunchBuddyProvider extends ContentProvider {
 		}
 	}
 	
-	private ResponseHandler newResponseHandler() {
-		return new CourseHandler(this);
-	}
-	
 	private UriRequestTask newQueryTask(String requestTag, String url) {
 		UriRequestTask requestTask;
 		
 		final HttpGet get = new HttpGet(url);
 		ResponseHandler handler;
-		if (requestTag.equals(LunchBuddy.Courses.REF_TITLE_NUTRITIO))
-			handler = new UnicaHandler(this);
-		else
-			handler = newResponseHandler();
+		handler = new CoursesJsonHandler(this);
 		requestTask = new UriRequestTask(requestTag, this, get, handler, getContext());
 		
 		mRequestsInProgress.put(requestTag, requestTask);
@@ -273,11 +275,15 @@ public class LunchBuddyProvider extends ContentProvider {
 					+ LunchBuddy.Courses.COLUMN_NAME_PROPERTIES + " text,"
 					+ LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + " integer,"
 					+ LunchBuddy.Courses.COLUMN_NAME_REF_TITLE + " text);");
+			// TODO: restaurant table column names
+			db.execSQL("create table " + Restaurants.TABLE_NAME + " ("
+					+ Restaurants._ID + " integer primary key);");
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			db.execSQL("drop table if exists " + LunchBuddy.Courses.TABLE_NAME);
+			db.execSQL("drop table if exists " + Restaurants.TABLE_NAME);
 			onCreate(db);
 		}
 	}
