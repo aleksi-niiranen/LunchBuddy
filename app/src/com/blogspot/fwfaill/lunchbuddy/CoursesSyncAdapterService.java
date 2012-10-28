@@ -82,16 +82,41 @@ public class CoursesSyncAdapterService extends Service {
     	
     	String where = LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + "=" + timestamp
     			+ " and " + LunchBuddy.Courses.COLUMN_NAME_REF_TITLE + "= ?";
-    	String[] args = new String[] { Restaurants.REF_TITLES[1] };
+    	
+    	String[] args = new String[] { ""+0 };
     	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
-    	args = new String[] { Restaurants.REF_TITLES[2] };
+    	args = new String[] { ""+1 };
     	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
-    	args = new String[] { Restaurants.REF_TITLES[0] };
+    	args = new String[] { ""+2 };
     	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
-    	args = new String[] { Restaurants.REF_TITLES[3] };
+    	args = new String[] { ""+4 };
+    	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
+    	
+    	args = new String[] { ""+5 };
+    	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
+    	
+    	args = new String[] { ""+6 };
+    	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
+    	
+    	args = new String[] { ""+7 };
+    	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
+    	
+    	args = new String[] { ""+8 };
+    	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
+    	
+    	args = new String[] { ""+9 };
+    	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
+    	
+    	args = new String[] { ""+10 };
+    	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
+    	
+    	args = new String[] { ""+11 };
+    	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
+    	
+    	args = new String[] { ""+12 };
     	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
     	where = LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + " < " + timestamp;

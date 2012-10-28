@@ -2,5 +2,6 @@
 <resources>
     
     <color name="green">#ff86b62b</color>
+    <color name="restaurant_tile_title_bg">#50000000</color>
     
 </resources>

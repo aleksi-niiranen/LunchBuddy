@@ -46,12 +46,15 @@ public class LunchBuddyProvider extends ContentProvider {
 	
 	private static final String DATABASE_NAME = "lunchbuddy";
 	
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 4;
 	
 	private static HashMap<String, String> sCoursesProjectionMap;
+	private static HashMap<String, String> sRestaurantsProjectionMap;
 	
 	private static final int COURSES = 1;
 	private static final int COURSE_ID = 2;
+	private static final int RESTAURANTS = 3;
+	private static final int RESTAURANT_ID = 4;
 	
 	private static final UriMatcher sUriMatcher;
 	
@@ -61,6 +64,8 @@ public class LunchBuddyProvider extends ContentProvider {
 		sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		sUriMatcher.addURI(LunchBuddy.AUTHORITY, "courses", COURSES);
 		sUriMatcher.addURI(LunchBuddy.AUTHORITY, "courses/#", COURSE_ID);
+		sUriMatcher.addURI(LunchBuddy.AUTHORITY, "restaurants", RESTAURANTS);
+		sUriMatcher.addURI(LunchBuddy.AUTHORITY, "restaurants/#", RESTAURANT_ID);
 		
 		sCoursesProjectionMap = new HashMap<String, String>();
 		sCoursesProjectionMap.put(LunchBuddy.Courses._ID, LunchBuddy.Courses._ID);
@@ -70,6 +75,13 @@ public class LunchBuddyProvider extends ContentProvider {
 		sCoursesProjectionMap.put(LunchBuddy.Courses.COLUMN_NAME_PROPERTIES, LunchBuddy.Courses.COLUMN_NAME_PROPERTIES);
 		sCoursesProjectionMap.put(LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP, LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP);
 		sCoursesProjectionMap.put(LunchBuddy.Courses.COLUMN_NAME_REF_TITLE, LunchBuddy.Courses.COLUMN_NAME_REF_TITLE);
+		
+		sRestaurantsProjectionMap = new HashMap<String, String>();
+		sRestaurantsProjectionMap.put(LunchBuddy.Restaurants.COLUMN_NAME_TITLE, LunchBuddy.Restaurants.COLUMN_NAME_TITLE);
+		sRestaurantsProjectionMap.put(LunchBuddy.Restaurants.COLUMN_NAME_ADDRESS, LunchBuddy.Restaurants.COLUMN_NAME_ADDRESS);
+		sRestaurantsProjectionMap.put(LunchBuddy.Restaurants.COLUMN_NAME_LOCATION, LunchBuddy.Restaurants.COLUMN_NAME_LOCATION);
+		sRestaurantsProjectionMap.put(LunchBuddy.Restaurants.COLUMN_NAME_POSITION, LunchBuddy.Restaurants.COLUMN_NAME_POSITION);
+		sRestaurantsProjectionMap.put(LunchBuddy.Restaurants._ID, "rowid as " + LunchBuddy.Restaurants._ID);
 	}
 	
 	private HashMap<String, UriRequestTask> mRequestsInProgress = new HashMap<String, UriRequestTask>();
@@ -98,6 +110,18 @@ public class LunchBuddyProvider extends ContentProvider {
 			
 			count = db.delete(LunchBuddy.Courses.TABLE_NAME, finalWhere, whereArgs);
 			break;
+		case RESTAURANTS:
+			count = db.delete(LunchBuddy.Restaurants.TABLE_NAME, where, whereArgs);
+			break;
+		case RESTAURANT_ID:
+			finalWhere = LunchBuddy.Restaurants._ID + "=" + uri.getPathSegments().get(LunchBuddy.Restaurants.RESTAURANT_ID_PATH_POSITION);
+			
+			if (where != null) {
+				finalWhere = finalWhere + " AND " + where;
+			}
+			
+			count = db.delete(LunchBuddy.Restaurants.TABLE_NAME, finalWhere, whereArgs);
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
@@ -114,6 +138,10 @@ public class LunchBuddyProvider extends ContentProvider {
 			return LunchBuddy.Courses.CONTENT_TYPE;
 		case COURSE_ID:
 			return LunchBuddy.Courses.CONTENT_ITEM_TYPE;
+		case RESTAURANTS:
+			return LunchBuddy.Restaurants.CONTENT_TYPE;
+		case RESTAURANT_ID:
+			return LunchBuddy.Restaurants.CONTENT_ITEM_TYPE;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
@@ -157,15 +185,28 @@ public class LunchBuddyProvider extends ContentProvider {
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-		qb.setTables(LunchBuddy.Courses.TABLE_NAME);
+		
+		boolean courseQuery = false;
+		int position = 0;
 		
 		switch (sUriMatcher.match(uri)) {
 		case COURSES:
+			courseQuery = true;
+			qb.setTables(LunchBuddy.Courses.TABLE_NAME);
 			qb.setProjectionMap(sCoursesProjectionMap);
+			position = Integer.parseInt(selectionArgs[0]);
 			break;
 		case COURSE_ID:
+			qb.setTables(LunchBuddy.Courses.TABLE_NAME);
 			qb.setProjectionMap(sCoursesProjectionMap);
 			qb.appendWhere(LunchBuddy.Courses._ID + "=" + uri.getPathSegments().get(LunchBuddy.Courses.COURSE_ID_PATH_POSITION));
+			break;
+		case RESTAURANTS:
+			return selectionArgs != null ? search(selectionArgs[0]) : getAllRestaurants();
+		case RESTAURANT_ID:
+			qb.setTables(LunchBuddy.Restaurants.TABLE_NAME);
+			qb.setProjectionMap(sRestaurantsProjectionMap);
+			qb.appendWhere(LunchBuddy.Restaurants._ID + "=" + uri.getPathSegments().get(LunchBuddy.Restaurants.RESTAURANT_ID_PATH_POSITION));
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
@@ -180,37 +221,108 @@ public class LunchBuddyProvider extends ContentProvider {
 		
 		SQLiteDatabase db = mOpenHelper.getReadableDatabase();
 		
-		Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, orderBy);
+		Cursor c;
+		if (courseQuery) {
+			String[] args = { LunchBuddy.Restaurants.REF_TITLES[position] };
+			c = qb.query(db, projection, selection, args, null, null, orderBy);
+			if (!c.moveToFirst())
+				requestCourses(selectionArgs[0], position);
+		} else {
+			c = qb.query(db, projection, selection, selectionArgs, null, null, orderBy);
+		}
+		
+		Log.d(TAG, "cursor size: " + c.getCount());
 		c.setNotificationUri(getContext().getContentResolver(), uri);
 		
-		if (!c.moveToFirst()) {
-			Calendar calendar = GregorianCalendar.getInstance(TimeZone.getTimeZone("Europe/Helsinki"), new Locale("Finnish", "Finland"));
-			int year = calendar.get(Calendar.YEAR);
-			int month = calendar.get(Calendar.MONTH);
-			int day = calendar.get(Calendar.DATE);
-			String url = null;
-			if (selectionArgs[0].equals(Restaurants.REF_TITLES[0])) {
-				url = LunchBuddy.Courses.BASE_URI_SALO.toString() 
-						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
-			} else if (selectionArgs[0].equals(Restaurants.REF_TITLES[1])) {
-				url = LunchBuddy.Courses.BASE_URI_ICT.toString() 
-						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
-			} else if (selectionArgs[0].equals(Restaurants.REF_TITLES[2])) {
-				url = LunchBuddy.Courses.BASE_URI_LEMPPARI.toString() 
-						+ year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
-			} else if (selectionArgs[0].equals(Restaurants.REF_TITLES[3])) {
-				url = LunchBuddy.Courses.BASE_URI_NUTRITIO.toString()
-						+ year + "/" + (month + 1) + "/" + day;
-			} else if (selectionArgs[0].equals(Restaurants.REF_TITLES[4])) {
-				url = LunchBuddy.Courses.BASE_URI_ASSARI.toString()
-						+ year + "/" + (month + 1) + "/" + day;
-			} else if (selectionArgs[0].equals(Restaurants.REF_TITLES[5])) {
-				url = LunchBuddy.Courses.BASE_URI_BRYGGE.toString()
-						+ year + "/" + (month + 1) + "/" + day;
-			}
-			if (url != null) asyncQueryRequest(selectionArgs[0], url);
-		}
 		return c;
+	}
+	
+	private Cursor getAllRestaurants() {
+		Log.d(TAG, "getAllRestaurants()");
+		SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+		builder.setTables(LunchBuddy.Restaurants.TABLE_NAME);
+		builder.setProjectionMap(sRestaurantsProjectionMap);
+		
+		Cursor cursor = builder.query(mOpenHelper.getReadableDatabase(), null, null, null, null, null, null);
+		return cursor;
+	}
+
+	private Cursor search(String query) {
+		String[] columns = new String[] {
+				LunchBuddy.Restaurants._ID,
+				LunchBuddy.Restaurants.COLUMN_NAME_TITLE,
+				LunchBuddy.Restaurants.COLUMN_NAME_ADDRESS,
+				LunchBuddy.Restaurants.COLUMN_NAME_POSITION
+		};
+		
+		String selection = LunchBuddy.Restaurants.TABLE_NAME + " match ?";
+		String[] selectionArgs = new String[] {"*"+query+"*"};
+		
+		SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+		builder.setTables(LunchBuddy.Restaurants.TABLE_NAME);
+		builder.setProjectionMap(sRestaurantsProjectionMap);
+		
+		Cursor cursor = builder.query(mOpenHelper.getReadableDatabase(), columns, selection, selectionArgs, null, null, null);
+		
+		if (cursor == null)
+			return null;
+		else if (!cursor.moveToFirst()) {
+			cursor.close();
+			return null;
+		}
+		return cursor;
+	}
+
+	private void requestCourses(String queryTag, int position) {
+		Calendar calendar = GregorianCalendar.getInstance(TimeZone.getTimeZone("Europe/Helsinki"), new Locale("Finnish", "Finland"));
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH);
+		int day = calendar.get(Calendar.DATE);
+		String url = null;
+		Log.d(TAG, "position: " + position);
+		switch (position) {
+		case 0:
+			url = LunchBuddy.Courses.BASE_URI_SALO.toString() + year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
+			break;
+		case 1:
+			url = LunchBuddy.Courses.BASE_URI_ICT.toString() + year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
+			break;
+		case 2:
+			url = LunchBuddy.Courses.BASE_URI_LEMPPARI.toString() + year + "/" + (month + 1) + "/" + day + "/" + LunchBuddy.Courses.LANGUAGE_CODE;
+			break;
+		case 3:
+			url = LunchBuddy.Courses.BASE_URI_NUTRITIO.toString() + year + "/" + (month + 1) + "/" + day;
+			break;
+		case 4:
+			url = LunchBuddy.Courses.BASE_URI_ASSARI.toString() + year + "/" + (month + 1) + "/" + day;
+			break;
+		case 5:
+			url = LunchBuddy.Courses.BASE_URI_BRYGGE.toString() + year + "/" + (month + 1) + "/" + day;
+			break;
+		case 6:
+			url = LunchBuddy.Courses.BASE_URI_DELICA.toString() + year + "/" + (month + 1) + "/" + day;
+			break;
+		case 7:
+			url = LunchBuddy.Courses.BASE_URI_DELI_PHARMA.toString() + year + "/" + (month + 1) + "/" + day;
+			break;
+		case 8:
+			url = LunchBuddy.Courses.BASE_URI_DENTAL.toString() + year + "/" + (month + 1) + "/" + day;
+			break;
+		case 9:
+			url = LunchBuddy.Courses.BASE_URI_MACCIAVELLI.toString() + year + "/" + (month + 1) + "/" + day;
+			break;
+		case 10:
+			url = LunchBuddy.Courses.BASE_URI_MIKRO.toString() + year + "/" + (month + 1) + "/" + day;
+			break;
+		case 11:
+			url = LunchBuddy.Courses.BASE_URI_PARKKIS.toString() + year + "/" + (month + 1) + "/" + day;
+			break;
+		case 12:
+			url = LunchBuddy.Courses.BASE_URI_MYSSY.toString() + year + "/" + (month + 1) + "/" + day;
+			break;
+		}
+		Log.d(TAG, url);
+		if (url != null) asyncQueryRequest(queryTag, url);
 	}
 
 	@Override
@@ -260,13 +372,17 @@ public class LunchBuddyProvider extends ContentProvider {
 	}
 
 	public static class DatabaseHelper extends SQLiteOpenHelper {
+		
+		private String[] mInsertRestaurants;
 
 		DatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
+			mInsertRestaurants = context.getString(R.string.insert_restaurants).split("\n");
 		}
 		
 		@Override
 		public void onCreate(SQLiteDatabase db) {
+			Log.d(TAG, "creating database tables");
 			db.execSQL("create table " + LunchBuddy.Courses.TABLE_NAME + " ("
 					+ LunchBuddy.Courses._ID + " integer primary key,"
 					+ LunchBuddy.Courses.COLUMN_NAME_TITLE_FI + " text,"
@@ -275,16 +391,38 @@ public class LunchBuddyProvider extends ContentProvider {
 					+ LunchBuddy.Courses.COLUMN_NAME_PROPERTIES + " text,"
 					+ LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + " integer,"
 					+ LunchBuddy.Courses.COLUMN_NAME_REF_TITLE + " text);");
-			// TODO: restaurant table column names
-			db.execSQL("create table " + Restaurants.TABLE_NAME + " ("
-					+ Restaurants._ID + " integer primary key);");
+			
+			db.execSQL("create virtual table " + Restaurants.TABLE_NAME + " using fts3 ("
+					+ Restaurants.COLUMN_NAME_TITLE + ", "
+					+ Restaurants.COLUMN_NAME_ADDRESS + ", "
+					+ Restaurants.COLUMN_NAME_LOCATION + ", "
+					+ Restaurants.COLUMN_NAME_POSITION + ");");
+			
+			db.beginTransaction();
+			try {
+				execMultipleSQL(db, mInsertRestaurants);
+				db.setTransactionSuccessful();
+			} catch (SQLException e) {
+				Log.e(TAG, "Error populating tables", e);
+			} finally {
+				db.endTransaction();
+			}
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion
+					+ ", which will destroy all old data.");
 			db.execSQL("drop table if exists " + LunchBuddy.Courses.TABLE_NAME);
 			db.execSQL("drop table if exists " + Restaurants.TABLE_NAME);
 			onCreate(db);
+		}
+		
+		private void execMultipleSQL(SQLiteDatabase db, String[] sql) {
+			for (String s : sql) {
+				if (s.trim().length() > 0)
+					db.execSQL(s);
+			}
 		}
 	}
 }

@@ -60,7 +60,7 @@ public class CourseCursorAdapter extends ResourceCursorAdapter {
 		holder.title.setText(mFi 
 				? c.getString(mColumnIndexTitleFi) 
 				: c.getString(mColumnIndexTitleEn));
-		holder.price.setText(c.getString(mColumnIndexTitlePrice));
+		holder.price.setText(c.getString(mColumnIndexTitlePrice) + " €");
 		holder.properties.setText(c.getString(mColumnIndexTitleProperties));
 	}
 

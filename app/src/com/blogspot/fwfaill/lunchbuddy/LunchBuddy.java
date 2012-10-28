@@ -53,13 +53,19 @@ public class LunchBuddy {
 		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
 		public static final String COLUMN_NAME_REF_TITLE = "ref_title";
 		
-		public static final String BASE_UNICA_URI = "http://shielded-crag-5542.herokuapp.com/daily_json";
 		public static final Uri BASE_URI_SALO = Uri.parse("http://www.sodexo.fi/ruokalistat/output/daily_json/459/");
 		public static final Uri BASE_URI_ICT = Uri.parse("http://www.sodexo.fi/ruokalistat/output/daily_json/427/");
 		public static final Uri BASE_URI_LEMPPARI = Uri.parse("http://www.sodexo.fi/ruokalistat/output/daily_json/442/");
-		public static final Uri BASE_URI_NUTRITIO = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/Nutritio/");
-		public static final Uri BASE_URI_ASSARI = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/Assarin%20ullakko/");
-		public static final Uri BASE_URI_BRYGGE = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/Brygge/");
+		public static final Uri BASE_URI_NUTRITIO = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Nutritio/");
+		public static final Uri BASE_URI_ASSARI = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Assarin%20ullakko/");
+		public static final Uri BASE_URI_BRYGGE = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Brygge/");
+		public static final Uri BASE_URI_DELICA = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Delica/");
+		public static final Uri BASE_URI_DELI_PHARMA = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Deli%20Pharma/");
+		public static final Uri BASE_URI_DENTAL = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Dental/");
+		public static final Uri BASE_URI_MACCIAVELLI = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Macciavelli/");
+		public static final Uri BASE_URI_MIKRO = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Mikro/");
+		public static final Uri BASE_URI_PARKKIS = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Parkkis/");
+		public static final Uri BASE_URI_MYSSY = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Myssy%20%26%20Silinteri/");
 		public static final String LANGUAGE_CODE = "fi";
 	}
 	
@@ -81,11 +87,14 @@ public class LunchBuddy {
 		public static final Uri CONTENT_ID_URI_PATTERN = Uri.parse(SCHEME + AUTHORITY + PATH_RESTAURANT_ID + "/#");
 		
 		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fwfaill.restaurant";
-		public static final String CONTENT_ITEM_TYPe = "vnd.android.cursor.item/vnd.fwfaill.restaurant";
+		public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.fwfaill.restaurant";
 		
 		public static final String DEFAULT_SORT_ORDER = "_id asc";
 		
-		// TODO: column names
+		public static final String COLUMN_NAME_TITLE = "title";
+		public static final String COLUMN_NAME_ADDRESS = "address";
+		public static final String COLUMN_NAME_LOCATION = "location";
+		public static final String COLUMN_NAME_POSITION = "position";
 		
 		public static final String[] REF_TITLES = {
 			"Turun AMK, Aurinkolaiva",

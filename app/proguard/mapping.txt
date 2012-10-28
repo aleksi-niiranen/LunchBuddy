@@ -28,8 +28,11 @@ android.support.v4.app.BackStackRecord -> android.support.v4.app.b:
     java.lang.CharSequence getBreadCrumbShortTitle() -> getBreadCrumbShortTitle
     void addOp(android.support.v4.app.BackStackRecord$Op) -> a
     android.support.v4.app.FragmentTransaction add(android.support.v4.app.Fragment,java.lang.String) -> a
+    android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment,java.lang.String) -> a
     void doAddOp(int,android.support.v4.app.Fragment,java.lang.String,int) -> a
     android.support.v4.app.FragmentTransaction remove(android.support.v4.app.Fragment) -> a
+    android.support.v4.app.FragmentTransaction detach(android.support.v4.app.Fragment) -> b
+    android.support.v4.app.FragmentTransaction attach(android.support.v4.app.Fragment) -> c
     android.support.v4.app.FragmentTransaction disallowAddToBackStack() -> a
     void bumpBackStackNesting(int) -> a
     int commit() -> b
@@ -85,14 +88,12 @@ android.support.v4.app.DialogFragment -> android.support.v4.app.e:
     boolean mShowsDialog -> mShowsDialog
     int mBackStackId -> mBackStackId
     android.app.Dialog mDialog -> mDialog
-    boolean mViewDestroyed -> mViewDestroyed
-    boolean mDismissed -> mDismissed
-    boolean mShownByMe -> mShownByMe
+    boolean mDestroyed -> mDestroyed
+    boolean mRemoved -> mRemoved
     void setStyle(int,int) -> setStyle
     void show(android.support.v4.app.FragmentManager,java.lang.String) -> show
     int show(android.support.v4.app.FragmentTransaction,java.lang.String) -> show
     void dismiss() -> dismiss
-    void dismissAllowingStateLoss() -> dismissAllowingStateLoss
     void dismissInternal(boolean) -> dismissInternal
     android.app.Dialog getDialog() -> getDialog
     int getTheme() -> getTheme
@@ -100,8 +101,6 @@ android.support.v4.app.DialogFragment -> android.support.v4.app.e:
     boolean isCancelable() -> isCancelable
     void setShowsDialog(boolean) -> setShowsDialog
     boolean getShowsDialog() -> getShowsDialog
-    void onAttach(android.app.Activity) -> onAttach
-    void onDetach() -> onDetach
     void onCreate(android.os.Bundle) -> onCreate
     android.view.LayoutInflater getLayoutInflater(android.os.Bundle) -> getLayoutInflater
     android.app.Dialog onCreateDialog(android.os.Bundle) -> onCreateDialog
@@ -260,7 +259,7 @@ android.support.v4.app.FragmentActivity -> android.support.v4.app.FragmentActivi
     boolean mOptionsMenuInvalidated -> mOptionsMenuInvalidated
     boolean mCheckedForLoaderManager -> mCheckedForLoaderManager
     boolean mLoadersStarted -> mLoadersStarted
-    android.support.v4.util.SparseArrayCompat mAllLoaderManagers -> mAllLoaderManagers
+    android.support.v4.app.HCSparseArray mAllLoaderManagers -> mAllLoaderManagers
     android.support.v4.app.LoaderManagerImpl mLoaderManager -> mLoaderManager
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
     void onBackPressed() -> onBackPressed
@@ -276,7 +275,6 @@ android.support.v4.app.FragmentActivity -> android.support.v4.app.FragmentActivi
     void onPause() -> onPause
     void onResume() -> onResume
     void onPostResume() -> onPostResume
-    void onResumeFragments() -> onResumeFragments
     boolean onPreparePanel(int,android.view.View,android.view.Menu) -> onPreparePanel
     java.lang.Object onRetainNonConfigurationInstance() -> onRetainNonConfigurationInstance
     void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
@@ -305,9 +303,10 @@ android.support.v4.app.FragmentActivity$NonConfigurationInstances -> android.sup
     java.lang.Object custom -> b
     java.util.HashMap children -> c
     java.util.ArrayList fragments -> d
-    android.support.v4.util.SparseArrayCompat loaders -> e
+    android.support.v4.app.HCSparseArray loaders -> e
 android.support.v4.app.FragmentManager -> android.support.v4.app.FragmentManager:
     android.support.v4.app.FragmentTransaction beginTransaction() -> a
+    android.support.v4.app.Fragment findFragmentByTag(java.lang.String) -> a
     void popBackStack(int,int) -> a
 android.support.v4.app.FragmentManager$BackStackEntry -> android.support.v4.app.FragmentManager$BackStackEntry:
     int getId() -> getId
@@ -358,7 +357,7 @@ android.support.v4.app.FragmentManagerImpl -> android.support.v4.app.k:
     android.view.animation.Animation makeFadeAnimation(android.content.Context,float,float) -> a
     android.view.animation.Animation loadAnimation(android.support.v4.app.Fragment,int,boolean,int) -> a
     void performPendingDeferredStart(android.support.v4.app.Fragment) -> a
-    void moveToState(android.support.v4.app.Fragment,int,int,int,boolean) -> a
+    void moveToState(android.support.v4.app.Fragment,int,int,int) -> a
     void moveToState(android.support.v4.app.Fragment) -> b
     void moveToState(int,boolean) -> a
     void moveToState(int,int,int,boolean) -> a
@@ -455,12 +454,35 @@ android.support.v4.app.FragmentState$1 -> android.support.v4.app.p:
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
 android.support.v4.app.FragmentTransaction -> android.support.v4.app.q:
     android.support.v4.app.FragmentTransaction add(android.support.v4.app.Fragment,java.lang.String) -> a
+    android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment,java.lang.String) -> a
     android.support.v4.app.FragmentTransaction remove(android.support.v4.app.Fragment) -> a
+    android.support.v4.app.FragmentTransaction detach(android.support.v4.app.Fragment) -> b
+    android.support.v4.app.FragmentTransaction attach(android.support.v4.app.Fragment) -> c
     boolean isEmpty() -> d
     android.support.v4.app.FragmentTransaction disallowAddToBackStack() -> a
     int commit() -> b
     int commitAllowingStateLoss() -> c
-android.support.v4.app.ListFragment -> android.support.v4.app.r:
+android.support.v4.app.HCSparseArray -> android.support.v4.app.r:
+    java.lang.Object DELETED -> a
+    boolean mGarbage -> b
+    int[] mKeys -> c
+    java.lang.Object[] mValues -> d
+    int mSize -> e
+    java.lang.Object get(int) -> a
+    java.lang.Object get(int,java.lang.Object) -> a
+    void delete(int) -> b
+    void remove(int) -> c
+    void removeAt(int) -> d
+    void gc() -> c
+    void put(int,java.lang.Object) -> b
+    int size() -> a
+    int keyAt(int) -> e
+    java.lang.Object valueAt(int) -> f
+    void clear() -> b
+    int binarySearch(int[],int,int,int) -> a
+    int idealByteArraySize(int) -> g
+    int idealIntArraySize(int) -> h
+android.support.v4.app.ListFragment -> android.support.v4.app.s:
     int INTERNAL_EMPTY_ID -> INTERNAL_EMPTY_ID
     int INTERNAL_PROGRESS_CONTAINER_ID -> INTERNAL_PROGRESS_CONTAINER_ID
     int INTERNAL_LIST_CONTAINER_ID -> INTERNAL_LIST_CONTAINER_ID
@@ -490,10 +512,10 @@ android.support.v4.app.ListFragment -> android.support.v4.app.r:
     void setListShown(boolean,boolean) -> setListShown
     android.widget.ListAdapter getListAdapter() -> getListAdapter
     void ensureList() -> ensureList
-android.support.v4.app.ListFragment$1 -> android.support.v4.app.s:
+android.support.v4.app.ListFragment$1 -> android.support.v4.app.t:
     android.support.v4.app.ListFragment this$0 -> a
     void run() -> run
-android.support.v4.app.ListFragment$2 -> android.support.v4.app.t:
+android.support.v4.app.ListFragment$2 -> android.support.v4.app.u:
     android.support.v4.app.ListFragment this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 android.support.v4.app.LoaderManager -> android.support.v4.app.LoaderManager:
@@ -502,10 +524,10 @@ android.support.v4.app.LoaderManager$LoaderCallbacks -> android.support.v4.app.L
     android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> onCreateLoader
     void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> onLoadFinished
     void onLoaderReset(android.support.v4.content.Loader) -> onLoaderReset
-android.support.v4.app.LoaderManagerImpl -> android.support.v4.app.u:
+android.support.v4.app.LoaderManagerImpl -> android.support.v4.app.v:
     boolean DEBUG -> a
-    android.support.v4.util.SparseArrayCompat mLoaders -> b
-    android.support.v4.util.SparseArrayCompat mInactiveLoaders -> c
+    android.support.v4.app.HCSparseArray mLoaders -> b
+    android.support.v4.app.HCSparseArray mInactiveLoaders -> c
     android.support.v4.app.FragmentActivity mActivity -> d
     boolean mStarted -> e
     boolean mRetaining -> f
@@ -520,7 +542,7 @@ android.support.v4.app.LoaderManagerImpl -> android.support.v4.app.u:
     java.lang.String toString() -> toString
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
     boolean hasRunningLoaders() -> a
-android.support.v4.app.LoaderManagerImpl$LoaderInfo -> android.support.v4.app.v:
+android.support.v4.app.LoaderManagerImpl$LoaderInfo -> android.support.v4.app.w:
     int mId -> a
     android.os.Bundle mArgs -> b
     android.support.v4.app.LoaderManager$LoaderCallbacks mCallbacks -> c
@@ -545,37 +567,13 @@ android.support.v4.app.LoaderManagerImpl$LoaderInfo -> android.support.v4.app.v:
     void callOnLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
     java.lang.String toString() -> toString
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
-android.support.v4.app.NavUtils -> android.support.v4.app.NavUtils:
-    android.support.v4.app.NavUtils$NavUtilsImpl IMPL -> a
-    java.lang.String getParentActivityName(android.app.Activity) -> a
-    java.lang.String getParentActivityName(android.content.Context,android.content.ComponentName) -> a
-android.support.v4.app.NavUtils$NavUtilsImpl -> android.support.v4.app.NavUtils$NavUtilsImpl:
-    android.content.Intent getParentActivityIntent(android.app.Activity) -> getParentActivityIntent
-    boolean shouldUpRecreateTask(android.app.Activity,android.content.Intent) -> shouldUpRecreateTask
-    void navigateUpTo(android.app.Activity,android.content.Intent) -> navigateUpTo
-    java.lang.String getParentActivityName(android.content.Context,android.content.pm.ActivityInfo) -> getParentActivityName
-android.support.v4.app.NavUtils$NavUtilsImplBase -> android.support.v4.app.w:
-    android.content.Intent getParentActivityIntent(android.app.Activity) -> getParentActivityIntent
-    boolean shouldUpRecreateTask(android.app.Activity,android.content.Intent) -> shouldUpRecreateTask
-    void navigateUpTo(android.app.Activity,android.content.Intent) -> navigateUpTo
-    java.lang.String getParentActivityName(android.content.Context,android.content.pm.ActivityInfo) -> getParentActivityName
-android.support.v4.app.NavUtils$NavUtilsImplJB -> android.support.v4.app.x:
-    android.content.Intent getParentActivityIntent(android.app.Activity) -> getParentActivityIntent
-    boolean shouldUpRecreateTask(android.app.Activity,android.content.Intent) -> shouldUpRecreateTask
-    void navigateUpTo(android.app.Activity,android.content.Intent) -> navigateUpTo
-    java.lang.String getParentActivityName(android.content.Context,android.content.pm.ActivityInfo) -> getParentActivityName
-android.support.v4.app.NavUtilsJB -> android.support.v4.app.y:
-    android.content.Intent getParentActivityIntent(android.app.Activity) -> a
-    boolean shouldUpRecreateTask(android.app.Activity,android.content.Intent) -> a
-    void navigateUpTo(android.app.Activity,android.content.Intent) -> b
-    java.lang.String getParentActivityName(android.content.pm.ActivityInfo) -> a
-android.support.v4.app.NoSaveStateFrameLayout -> android.support.v4.app.z:
+android.support.v4.app.NoSaveStateFrameLayout -> android.support.v4.app.x:
     android.view.ViewGroup wrap(android.view.View) -> a
     void dispatchSaveInstanceState(android.util.SparseArray) -> dispatchSaveInstanceState
     void dispatchRestoreInstanceState(android.util.SparseArray) -> dispatchRestoreInstanceState
 android.support.v4.app.NotificationCompat -> android.support.v4.app.NotificationCompat:
     android.support.v4.app.NotificationCompat$NotificationCompatImpl IMPL -> a
-android.support.v4.app.NotificationCompat$Builder -> android.support.v4.app.aa:
+android.support.v4.app.NotificationCompat$Builder -> android.support.v4.app.y:
     android.content.Context mContext -> a
     java.lang.CharSequence mContentTitle -> b
     java.lang.CharSequence mContentText -> c
@@ -588,15 +586,15 @@ android.support.v4.app.NotificationCompat$Builder -> android.support.v4.app.aa:
     android.app.Notification mNotification -> j
 android.support.v4.app.NotificationCompat$NotificationCompatImpl -> android.support.v4.app.NotificationCompat$NotificationCompatImpl:
     android.app.Notification getNotification(android.support.v4.app.NotificationCompat$Builder) -> getNotification
-android.support.v4.app.NotificationCompat$NotificationCompatImplBase -> android.support.v4.app.ab:
+android.support.v4.app.NotificationCompat$NotificationCompatImplBase -> android.support.v4.app.z:
     android.app.Notification getNotification(android.support.v4.app.NotificationCompat$Builder) -> getNotification
-android.support.v4.app.NotificationCompat$NotificationCompatImplHoneycomb -> android.support.v4.app.ac:
+android.support.v4.app.NotificationCompat$NotificationCompatImplHoneycomb -> android.support.v4.app.aa:
     android.app.Notification getNotification(android.support.v4.app.NotificationCompat$Builder) -> getNotification
-android.support.v4.app.NotificationCompatHoneycomb -> android.support.v4.app.ad:
+android.support.v4.app.NotificationCompatHoneycomb -> android.support.v4.app.ab:
     android.app.Notification add(android.content.Context,android.app.Notification,java.lang.CharSequence,java.lang.CharSequence,java.lang.CharSequence,android.widget.RemoteViews,int,android.app.PendingIntent,android.app.PendingIntent,android.graphics.Bitmap) -> a
 android.support.v4.app.ShareCompat -> android.support.v4.app.ShareCompat:
     android.support.v4.app.ShareCompat$ShareCompatImpl IMPL -> a
-android.support.v4.app.ShareCompat$IntentBuilder -> android.support.v4.app.ae:
+android.support.v4.app.ShareCompat$IntentBuilder -> android.support.v4.app.ac:
     android.app.Activity mActivity -> a
     android.content.Intent mIntent -> b
     java.lang.CharSequence mChooserTitle -> c
@@ -610,35 +608,26 @@ android.support.v4.app.ShareCompat$IntentBuilder -> android.support.v4.app.ae:
     android.content.Intent createChooserIntent() -> c
 android.support.v4.app.ShareCompat$ShareCompatImpl -> android.support.v4.app.ShareCompat$ShareCompatImpl:
     void configureMenuItem(android.view.MenuItem,android.support.v4.app.ShareCompat$IntentBuilder) -> configureMenuItem
-    java.lang.String escapeHtml(java.lang.CharSequence) -> escapeHtml
-android.support.v4.app.ShareCompat$ShareCompatImplBase -> android.support.v4.app.af:
+android.support.v4.app.ShareCompat$ShareCompatImplBase -> android.support.v4.app.ad:
     void configureMenuItem(android.view.MenuItem,android.support.v4.app.ShareCompat$IntentBuilder) -> configureMenuItem
-    java.lang.String escapeHtml(java.lang.CharSequence) -> escapeHtml
-    void withinStyle(java.lang.StringBuilder,java.lang.CharSequence,int,int) -> a
-android.support.v4.app.ShareCompat$ShareCompatImplICS -> android.support.v4.app.ag:
+android.support.v4.app.ShareCompat$ShareCompatImplICS -> android.support.v4.app.ae:
     void configureMenuItem(android.view.MenuItem,android.support.v4.app.ShareCompat$IntentBuilder) -> configureMenuItem
-    boolean shouldAddChooserIntent(android.view.MenuItem) -> a
-android.support.v4.app.ShareCompat$ShareCompatImplJB -> android.support.v4.app.ah:
-    java.lang.String escapeHtml(java.lang.CharSequence) -> escapeHtml
-    boolean shouldAddChooserIntent(android.view.MenuItem) -> a
-android.support.v4.app.ShareCompatICS -> android.support.v4.app.ai:
+android.support.v4.app.ShareCompatICS -> android.support.v4.app.af:
     void configureMenuItem(android.view.MenuItem,android.app.Activity,android.content.Intent) -> a
-android.support.v4.app.ShareCompatJB -> android.support.v4.app.aj:
-    java.lang.String escapeHtml(java.lang.CharSequence) -> a
-android.support.v4.app.SuperNotCalledException -> android.support.v4.app.ak:
+android.support.v4.app.SuperNotCalledException -> android.support.v4.app.ag:
 android.support.v4.app.TaskStackBuilder -> android.support.v4.app.TaskStackBuilder:
     android.support.v4.app.TaskStackBuilder$TaskStackBuilderImpl IMPL -> a
     java.util.ArrayList mIntents -> b
     java.util.Iterator iterator() -> iterator
 android.support.v4.app.TaskStackBuilder$TaskStackBuilderImpl -> android.support.v4.app.TaskStackBuilder$TaskStackBuilderImpl:
-    android.app.PendingIntent getPendingIntent(android.content.Context,android.content.Intent[],int,int,android.os.Bundle) -> getPendingIntent
-android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplBase -> android.support.v4.app.al:
-    android.app.PendingIntent getPendingIntent(android.content.Context,android.content.Intent[],int,int,android.os.Bundle) -> getPendingIntent
-android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplHoneycomb -> android.support.v4.app.am:
-    android.app.PendingIntent getPendingIntent(android.content.Context,android.content.Intent[],int,int,android.os.Bundle) -> getPendingIntent
-android.support.v4.app.TaskStackBuilderHoneycomb -> android.support.v4.app.an:
+    android.app.PendingIntent getPendingIntent(android.content.Context,android.content.Intent[],int,int) -> getPendingIntent
+android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplBase -> android.support.v4.app.ah:
+    android.app.PendingIntent getPendingIntent(android.content.Context,android.content.Intent[],int,int) -> getPendingIntent
+android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplHoneycomb -> android.support.v4.app.ai:
+    android.app.PendingIntent getPendingIntent(android.content.Context,android.content.Intent[],int,int) -> getPendingIntent
+android.support.v4.app.TaskStackBuilderHoneycomb -> android.support.v4.app.aj:
     android.app.PendingIntent getActivitiesPendingIntent(android.content.Context,int,android.content.Intent[],int) -> a
-android.support.v4.app._ActionBarSherlockTrojanHorse -> android.support.v4.app._ActionBarSherlockTrojanHorse:
+android.support.v4.app.Watson -> android.support.v4.app.Watson:
     boolean DEBUG -> DEBUG
     java.lang.String TAG -> TAG
     java.util.ArrayList mCreatedMenus -> mCreatedMenus
@@ -649,11 +638,11 @@ android.support.v4.app._ActionBarSherlockTrojanHorse -> android.support.v4.app._
     boolean onPrepareOptionsMenu(com.actionbarsherlock.view.Menu) -> onPrepareOptionsMenu
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
     com.actionbarsherlock.view.MenuInflater getSupportMenuInflater() -> getSupportMenuInflater
-android.support.v4.app._ActionBarSherlockTrojanHorse$OnCreateOptionsMenuListener -> android.support.v4.app._ActionBarSherlockTrojanHorse$OnCreateOptionsMenuListener:
+android.support.v4.app.Watson$OnCreateOptionsMenuListener -> android.support.v4.app.Watson$OnCreateOptionsMenuListener:
     void onCreateOptionsMenu(com.actionbarsherlock.view.Menu,com.actionbarsherlock.view.MenuInflater) -> onCreateOptionsMenu
-android.support.v4.app._ActionBarSherlockTrojanHorse$OnOptionsItemSelectedListener -> android.support.v4.app._ActionBarSherlockTrojanHorse$OnOptionsItemSelectedListener:
+android.support.v4.app.Watson$OnOptionsItemSelectedListener -> android.support.v4.app.Watson$OnOptionsItemSelectedListener:
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
-android.support.v4.app._ActionBarSherlockTrojanHorse$OnPrepareOptionsMenuListener -> android.support.v4.app._ActionBarSherlockTrojanHorse$OnPrepareOptionsMenuListener:
+android.support.v4.app.Watson$OnPrepareOptionsMenuListener -> android.support.v4.app.Watson$OnPrepareOptionsMenuListener:
     void onPrepareOptionsMenu(com.actionbarsherlock.view.Menu) -> onPrepareOptionsMenu
 android.support.v4.content.Loader -> a:
     int mId -> a
@@ -699,198 +688,52 @@ android.support.v4.util.LogWriter -> i:
     void flush() -> flush
     void write(char[],int,int) -> write
     void flushBuilder() -> a
-android.support.v4.util.SparseArrayCompat -> j:
-    java.lang.Object DELETED -> a
-    boolean mGarbage -> b
-    int[] mKeys -> c
-    java.lang.Object[] mValues -> d
-    int mSize -> e
-    java.lang.Object get(int) -> a
-    java.lang.Object get(int,java.lang.Object) -> a
-    void delete(int) -> b
-    void remove(int) -> c
-    void removeAt(int) -> d
-    void gc() -> c
-    void put(int,java.lang.Object) -> b
-    int size() -> a
-    int keyAt(int) -> e
-    java.lang.Object valueAt(int) -> f
-    void clear() -> b
-    int binarySearch(int[],int,int,int) -> a
-    int idealByteArraySize(int) -> g
-    int idealIntArraySize(int) -> h
-android.support.v4.view.AccessibilityDelegateCompat -> android.support.v4.view.a:
-    android.support.v4.view.AccessibilityDelegateCompat$AccessibilityDelegateImpl IMPL -> b
-    java.lang.Object DEFAULT_DELEGATE -> c
-    java.lang.Object mBridge -> a
-    java.lang.Object getBridge() -> a
-    void sendAccessibilityEvent(android.view.View,int) -> a
-    void sendAccessibilityEventUnchecked(android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    boolean dispatchPopulateAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> b
-    void onPopulateAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> c
-    void onInitializeAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> d
-    void onInitializeAccessibilityNodeInfo(android.view.View,android.support.v4.view.accessibility.AccessibilityNodeInfoCompat) -> a
-    boolean onRequestSendAccessibilityEvent(android.view.ViewGroup,android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    android.support.v4.view.accessibility.AccessibilityNodeProviderCompat getAccessibilityNodeProvider(android.view.View) -> a
-    boolean performAccessibilityAction(android.view.View,int,android.os.Bundle) -> a
-android.support.v4.view.AccessibilityDelegateCompat$AccessibilityDelegateIcsImpl -> android.support.v4.view.b:
-    java.lang.Object newAccessiblityDelegateDefaultImpl() -> a
-    java.lang.Object newAccessiblityDelegateBridge(android.support.v4.view.AccessibilityDelegateCompat) -> a
-    boolean dispatchPopulateAccessibilityEvent(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void onInitializeAccessibilityEvent(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> b
-    void onInitializeAccessibilityNodeInfo(java.lang.Object,android.view.View,android.support.v4.view.accessibility.AccessibilityNodeInfoCompat) -> a
-    void onPopulateAccessibilityEvent(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> c
-    boolean onRequestSendAccessibilityEvent(java.lang.Object,android.view.ViewGroup,android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void sendAccessibilityEvent(java.lang.Object,android.view.View,int) -> a
-    void sendAccessibilityEventUnchecked(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> d
-android.support.v4.view.AccessibilityDelegateCompat$AccessibilityDelegateIcsImpl$1 -> android.support.v4.view.c:
-    android.support.v4.view.AccessibilityDelegateCompat val$compat -> a
-    android.support.v4.view.AccessibilityDelegateCompat$AccessibilityDelegateIcsImpl this$0 -> b
-    boolean dispatchPopulateAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void onInitializeAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> b
-    void onInitializeAccessibilityNodeInfo(android.view.View,java.lang.Object) -> a
-    void onPopulateAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> c
-    boolean onRequestSendAccessibilityEvent(android.view.ViewGroup,android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void sendAccessibilityEvent(android.view.View,int) -> a
-    void sendAccessibilityEventUnchecked(android.view.View,android.view.accessibility.AccessibilityEvent) -> d
-android.support.v4.view.AccessibilityDelegateCompat$AccessibilityDelegateImpl -> android.support.v4.view.d:
-    java.lang.Object newAccessiblityDelegateDefaultImpl() -> a
-    java.lang.Object newAccessiblityDelegateBridge(android.support.v4.view.AccessibilityDelegateCompat) -> a
-    boolean dispatchPopulateAccessibilityEvent(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void onInitializeAccessibilityEvent(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> b
-    void onInitializeAccessibilityNodeInfo(java.lang.Object,android.view.View,android.support.v4.view.accessibility.AccessibilityNodeInfoCompat) -> a
-    void onPopulateAccessibilityEvent(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> c
-    boolean onRequestSendAccessibilityEvent(java.lang.Object,android.view.ViewGroup,android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void sendAccessibilityEvent(java.lang.Object,android.view.View,int) -> a
-    void sendAccessibilityEventUnchecked(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> d
-    android.support.v4.view.accessibility.AccessibilityNodeProviderCompat getAccessibilityNodeProvider(java.lang.Object,android.view.View) -> a
-    boolean performAccessibilityAction(java.lang.Object,android.view.View,int,android.os.Bundle) -> a
-android.support.v4.view.AccessibilityDelegateCompat$AccessibilityDelegateJellyBeanImpl -> android.support.v4.view.e:
-    java.lang.Object newAccessiblityDelegateBridge(android.support.v4.view.AccessibilityDelegateCompat) -> a
-    android.support.v4.view.accessibility.AccessibilityNodeProviderCompat getAccessibilityNodeProvider(java.lang.Object,android.view.View) -> a
-    boolean performAccessibilityAction(java.lang.Object,android.view.View,int,android.os.Bundle) -> a
-android.support.v4.view.AccessibilityDelegateCompat$AccessibilityDelegateJellyBeanImpl$1 -> android.support.v4.view.f:
-    android.support.v4.view.AccessibilityDelegateCompat val$compat -> a
-    android.support.v4.view.AccessibilityDelegateCompat$AccessibilityDelegateJellyBeanImpl this$0 -> b
-    boolean dispatchPopulateAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void onInitializeAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> b
-    void onInitializeAccessibilityNodeInfo(android.view.View,java.lang.Object) -> a
-    void onPopulateAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> c
-    boolean onRequestSendAccessibilityEvent(android.view.ViewGroup,android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void sendAccessibilityEvent(android.view.View,int) -> a
-    void sendAccessibilityEventUnchecked(android.view.View,android.view.accessibility.AccessibilityEvent) -> d
-    java.lang.Object getAccessibilityNodeProvider(android.view.View) -> a
-    boolean performAccessibilityAction(android.view.View,int,android.os.Bundle) -> a
-android.support.v4.view.AccessibilityDelegateCompat$AccessibilityDelegateStubImpl -> android.support.v4.view.g:
-    java.lang.Object newAccessiblityDelegateDefaultImpl() -> a
-    java.lang.Object newAccessiblityDelegateBridge(android.support.v4.view.AccessibilityDelegateCompat) -> a
-    boolean dispatchPopulateAccessibilityEvent(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void onInitializeAccessibilityEvent(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> b
-    void onInitializeAccessibilityNodeInfo(java.lang.Object,android.view.View,android.support.v4.view.accessibility.AccessibilityNodeInfoCompat) -> a
-    void onPopulateAccessibilityEvent(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> c
-    boolean onRequestSendAccessibilityEvent(java.lang.Object,android.view.ViewGroup,android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void sendAccessibilityEvent(java.lang.Object,android.view.View,int) -> a
-    void sendAccessibilityEventUnchecked(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> d
-    android.support.v4.view.accessibility.AccessibilityNodeProviderCompat getAccessibilityNodeProvider(java.lang.Object,android.view.View) -> a
-    boolean performAccessibilityAction(java.lang.Object,android.view.View,int,android.os.Bundle) -> a
-android.support.v4.view.AccessibilityDelegateCompatIcs -> android.support.v4.view.h:
-    java.lang.Object newAccessibilityDelegateDefaultImpl() -> a
-    java.lang.Object newAccessibilityDelegateBridge(android.support.v4.view.AccessibilityDelegateCompatIcs$AccessibilityDelegateBridge) -> a
-    boolean dispatchPopulateAccessibilityEvent(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void onInitializeAccessibilityEvent(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> b
-    void onInitializeAccessibilityNodeInfo(java.lang.Object,android.view.View,java.lang.Object) -> a
-    void onPopulateAccessibilityEvent(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> c
-    boolean onRequestSendAccessibilityEvent(java.lang.Object,android.view.ViewGroup,android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void sendAccessibilityEvent(java.lang.Object,android.view.View,int) -> a
-    void sendAccessibilityEventUnchecked(java.lang.Object,android.view.View,android.view.accessibility.AccessibilityEvent) -> d
-android.support.v4.view.AccessibilityDelegateCompatIcs$1 -> android.support.v4.view.i:
-    android.support.v4.view.AccessibilityDelegateCompatIcs$AccessibilityDelegateBridge val$bridge -> a
-    boolean dispatchPopulateAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> dispatchPopulateAccessibilityEvent
-    void onInitializeAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> onInitializeAccessibilityEvent
-    void onInitializeAccessibilityNodeInfo(android.view.View,android.view.accessibility.AccessibilityNodeInfo) -> onInitializeAccessibilityNodeInfo
-    void onPopulateAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> onPopulateAccessibilityEvent
-    boolean onRequestSendAccessibilityEvent(android.view.ViewGroup,android.view.View,android.view.accessibility.AccessibilityEvent) -> onRequestSendAccessibilityEvent
-    void sendAccessibilityEvent(android.view.View,int) -> sendAccessibilityEvent
-    void sendAccessibilityEventUnchecked(android.view.View,android.view.accessibility.AccessibilityEvent) -> sendAccessibilityEventUnchecked
-android.support.v4.view.AccessibilityDelegateCompatIcs$AccessibilityDelegateBridge -> android.support.v4.view.j:
-    boolean dispatchPopulateAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void onInitializeAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> b
-    void onInitializeAccessibilityNodeInfo(android.view.View,java.lang.Object) -> a
-    void onPopulateAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> c
-    boolean onRequestSendAccessibilityEvent(android.view.ViewGroup,android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void sendAccessibilityEvent(android.view.View,int) -> a
-    void sendAccessibilityEventUnchecked(android.view.View,android.view.accessibility.AccessibilityEvent) -> d
-android.support.v4.view.AccessibilityDelegateCompatJellyBean -> android.support.v4.view.k:
-    java.lang.Object newAccessibilityDelegateBridge(android.support.v4.view.AccessibilityDelegateCompatJellyBean$AccessibilityDelegateBridgeJellyBean) -> a
-    java.lang.Object getAccessibilityNodeProvider(java.lang.Object,android.view.View) -> a
-    boolean performAccessibilityAction(java.lang.Object,android.view.View,int,android.os.Bundle) -> a
-android.support.v4.view.AccessibilityDelegateCompatJellyBean$1 -> android.support.v4.view.l:
-    android.support.v4.view.AccessibilityDelegateCompatJellyBean$AccessibilityDelegateBridgeJellyBean val$bridge -> a
-    boolean dispatchPopulateAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> dispatchPopulateAccessibilityEvent
-    void onInitializeAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> onInitializeAccessibilityEvent
-    void onInitializeAccessibilityNodeInfo(android.view.View,android.view.accessibility.AccessibilityNodeInfo) -> onInitializeAccessibilityNodeInfo
-    void onPopulateAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> onPopulateAccessibilityEvent
-    boolean onRequestSendAccessibilityEvent(android.view.ViewGroup,android.view.View,android.view.accessibility.AccessibilityEvent) -> onRequestSendAccessibilityEvent
-    void sendAccessibilityEvent(android.view.View,int) -> sendAccessibilityEvent
-    void sendAccessibilityEventUnchecked(android.view.View,android.view.accessibility.AccessibilityEvent) -> sendAccessibilityEventUnchecked
-    android.view.accessibility.AccessibilityNodeProvider getAccessibilityNodeProvider(android.view.View) -> getAccessibilityNodeProvider
-    boolean performAccessibilityAction(android.view.View,int,android.os.Bundle) -> performAccessibilityAction
-android.support.v4.view.AccessibilityDelegateCompatJellyBean$AccessibilityDelegateBridgeJellyBean -> android.support.v4.view.m:
-    boolean dispatchPopulateAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void onInitializeAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> b
-    void onInitializeAccessibilityNodeInfo(android.view.View,java.lang.Object) -> a
-    void onPopulateAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> c
-    boolean onRequestSendAccessibilityEvent(android.view.ViewGroup,android.view.View,android.view.accessibility.AccessibilityEvent) -> a
-    void sendAccessibilityEvent(android.view.View,int) -> a
-    void sendAccessibilityEventUnchecked(android.view.View,android.view.accessibility.AccessibilityEvent) -> d
-    java.lang.Object getAccessibilityNodeProvider(android.view.View) -> a
-    boolean performAccessibilityAction(android.view.View,int,android.os.Bundle) -> a
-android.support.v4.view.KeyEventCompat -> android.support.v4.view.n:
+android.support.v4.view.KeyEventCompat -> android.support.v4.view.a:
     android.support.v4.view.KeyEventCompat$KeyEventVersionImpl IMPL -> a
     boolean hasModifiers(android.view.KeyEvent,int) -> a
     boolean hasNoModifiers(android.view.KeyEvent) -> a
-android.support.v4.view.KeyEventCompat$BaseKeyEventVersionImpl -> android.support.v4.view.o:
+android.support.v4.view.KeyEventCompat$BaseKeyEventVersionImpl -> android.support.v4.view.b:
     int metaStateFilterDirectionalModifiers(int,int,int,int,int) -> a
     int normalizeMetaState(int) -> a
     boolean metaStateHasModifiers(int,int) -> a
     boolean metaStateHasNoModifiers(int) -> b
-android.support.v4.view.KeyEventCompat$HoneycombKeyEventVersionImpl -> android.support.v4.view.p:
+android.support.v4.view.KeyEventCompat$HoneycombKeyEventVersionImpl -> android.support.v4.view.c:
     boolean metaStateHasModifiers(int,int) -> a
     boolean metaStateHasNoModifiers(int) -> b
-android.support.v4.view.KeyEventCompat$KeyEventVersionImpl -> android.support.v4.view.q:
+android.support.v4.view.KeyEventCompat$KeyEventVersionImpl -> android.support.v4.view.d:
     boolean metaStateHasModifiers(int,int) -> a
     boolean metaStateHasNoModifiers(int) -> b
-android.support.v4.view.KeyEventCompatHoneycomb -> android.support.v4.view.r:
+android.support.v4.view.KeyEventCompatHoneycomb -> android.support.v4.view.e:
     boolean metaStateHasModifiers(int,int) -> a
     boolean metaStateHasNoModifiers(int) -> a
-android.support.v4.view.MotionEventCompat -> android.support.v4.view.s:
+android.support.v4.view.MotionEventCompat -> android.support.v4.view.f:
     android.support.v4.view.MotionEventCompat$MotionEventVersionImpl IMPL -> a
     int getActionIndex(android.view.MotionEvent) -> a
     int findPointerIndex(android.view.MotionEvent,int) -> a
     int getPointerId(android.view.MotionEvent,int) -> b
     float getX(android.view.MotionEvent,int) -> c
     float getY(android.view.MotionEvent,int) -> d
-android.support.v4.view.MotionEventCompat$BaseMotionEventVersionImpl -> android.support.v4.view.t:
+android.support.v4.view.MotionEventCompat$BaseMotionEventVersionImpl -> android.support.v4.view.g:
     int findPointerIndex(android.view.MotionEvent,int) -> a
     int getPointerId(android.view.MotionEvent,int) -> b
     float getX(android.view.MotionEvent,int) -> c
     float getY(android.view.MotionEvent,int) -> d
-android.support.v4.view.MotionEventCompat$EclairMotionEventVersionImpl -> android.support.v4.view.u:
+android.support.v4.view.MotionEventCompat$EclairMotionEventVersionImpl -> android.support.v4.view.h:
     int findPointerIndex(android.view.MotionEvent,int) -> a
     int getPointerId(android.view.MotionEvent,int) -> b
     float getX(android.view.MotionEvent,int) -> c
     float getY(android.view.MotionEvent,int) -> d
-android.support.v4.view.MotionEventCompat$MotionEventVersionImpl -> android.support.v4.view.v:
+android.support.v4.view.MotionEventCompat$MotionEventVersionImpl -> android.support.v4.view.i:
     int findPointerIndex(android.view.MotionEvent,int) -> a
     int getPointerId(android.view.MotionEvent,int) -> b
     float getX(android.view.MotionEvent,int) -> c
     float getY(android.view.MotionEvent,int) -> d
-android.support.v4.view.MotionEventCompatEclair -> android.support.v4.view.w:
+android.support.v4.view.MotionEventCompatEclair -> android.support.v4.view.j:
     int findPointerIndex(android.view.MotionEvent,int) -> a
     int getPointerId(android.view.MotionEvent,int) -> b
     float getX(android.view.MotionEvent,int) -> c
     float getY(android.view.MotionEvent,int) -> d
-android.support.v4.view.PagerAdapter -> android.support.v4.view.x:
+android.support.v4.view.PagerAdapter -> android.support.v4.view.k:
     android.database.DataSetObservable mObservable -> a
     int getCount() -> a
     void startUpdate(android.view.ViewGroup) -> a
@@ -910,79 +753,28 @@ android.support.v4.view.PagerAdapter -> android.support.v4.view.x:
     void registerDataSetObserver(android.database.DataSetObserver) -> a
     void unregisterDataSetObserver(android.database.DataSetObserver) -> b
     java.lang.CharSequence getPageTitle(int) -> a
-    float getPageWidth(int) -> b
-android.support.v4.view.PagerTabStrip -> android.support.v4.view.PagerTabStrip:
-    int mIndicatorColor -> f
-    int mIndicatorHeight -> g
-    int mMinPaddingBottom -> h
-    int mMinTextSpacing -> i
-    int mMinStripHeight -> j
-    int mTabPadding -> k
-    android.graphics.Paint mTabPaint -> l
-    android.graphics.Rect mTempRect -> m
-    int mTabAlpha -> n
-    boolean mDrawFullUnderline -> o
-    boolean mDrawFullUnderlineSet -> p
-    int mFullUnderlineHeight -> q
-    boolean mIgnoreTap -> r
-    float mInitialMotionX -> s
-    float mInitialMotionY -> t
-    int mTouchSlop -> u
-    void setTabIndicatorColor(int) -> setTabIndicatorColor
-    void setTabIndicatorColorResource(int) -> setTabIndicatorColorResource
-    int getTabIndicatorColor() -> getTabIndicatorColor
-    void setPadding(int,int,int,int) -> setPadding
-    void setTextSpacing(int) -> setTextSpacing
-    void setBackgroundDrawable(android.graphics.drawable.Drawable) -> setBackgroundDrawable
-    void setBackgroundColor(int) -> setBackgroundColor
-    void setBackgroundResource(int) -> setBackgroundResource
-    void setDrawFullUnderline(boolean) -> setDrawFullUnderline
-    boolean getDrawFullUnderline() -> getDrawFullUnderline
-    int getMinHeight() -> getMinHeight
-    boolean onTouchEvent(android.view.MotionEvent) -> onTouchEvent
-    void onDraw(android.graphics.Canvas) -> onDraw
-    void updateTextPositions(int,float,boolean) -> a
-android.support.v4.view.PagerTabStrip$1 -> android.support.v4.view.y:
-    android.support.v4.view.PagerTabStrip this$0 -> a
-    void onClick(android.view.View) -> onClick
-android.support.v4.view.PagerTabStrip$2 -> android.support.v4.view.z:
-    android.support.v4.view.PagerTabStrip this$0 -> a
-    void onClick(android.view.View) -> onClick
 android.support.v4.view.PagerTitleStrip -> android.support.v4.view.PagerTitleStrip:
     android.support.v4.view.ViewPager mPager -> a
     android.widget.TextView mPrevText -> b
     android.widget.TextView mCurrText -> c
     android.widget.TextView mNextText -> d
-    int mLastKnownCurrentPage -> f
-    float mLastKnownPositionOffset -> g
-    int mScaledTextSpacing -> h
-    int mGravity -> i
-    boolean mUpdatingText -> j
-    boolean mUpdatingPositions -> k
-    android.support.v4.view.PagerTitleStrip$PageListener mPageListener -> l
-    int[] ATTRS -> m
-    int[] TEXT_ATTRS -> n
-    int mNonPrimaryAlpha -> o
-    int mTextColor -> e
-    android.support.v4.view.PagerTitleStrip$PagerTitleStripImpl IMPL -> p
-    void setSingleLineAllCaps(android.widget.TextView) -> setSingleLineAllCaps
-    void setTextSpacing(int) -> setTextSpacing
-    int getTextSpacing() -> getTextSpacing
-    void setNonPrimaryAlpha(float) -> setNonPrimaryAlpha
-    void setTextColor(int) -> setTextColor
-    void setTextSize(int,float) -> setTextSize
-    void setGravity(int) -> setGravity
+    int mLastKnownCurrentPage -> e
+    float mLastKnownPositionOffset -> f
+    int mScaledTextSpacing -> g
+    boolean mUpdatingText -> h
+    boolean mUpdatingPositions -> i
+    android.support.v4.view.PagerTitleStrip$PageListener mPageListener -> j
+    int[] ATTRS -> k
     void onAttachedToWindow() -> onAttachedToWindow
     void onDetachedFromWindow() -> onDetachedFromWindow
     void updateText(int,android.support.v4.view.PagerAdapter) -> a
     void requestLayout() -> requestLayout
     void updateAdapter(android.support.v4.view.PagerAdapter,android.support.v4.view.PagerAdapter) -> a
-    void updateTextPositions(int,float,boolean) -> a
+    void updateTextPositions(int,float) -> a
     void onMeasure(int,int) -> onMeasure
     void onLayout(boolean,int,int,int,int) -> onLayout
-    int getMinHeight() -> getMinHeight
-android.support.v4.view.PagerTitleStrip$1 -> android.support.v4.view.aa:
-android.support.v4.view.PagerTitleStrip$PageListener -> android.support.v4.view.ab:
+android.support.v4.view.PagerTitleStrip$1 -> android.support.v4.view.l:
+android.support.v4.view.PagerTitleStrip$PageListener -> android.support.v4.view.m:
     int mScrollState -> b
     android.support.v4.view.PagerTitleStrip this$0 -> a
     void onPageScrolled(int,float,int) -> a
@@ -990,135 +782,90 @@ android.support.v4.view.PagerTitleStrip$PageListener -> android.support.v4.view.
     void onPageScrollStateChanged(int) -> b
     void onAdapterChanged(android.support.v4.view.PagerAdapter,android.support.v4.view.PagerAdapter) -> a
     void onChanged() -> onChanged
-android.support.v4.view.PagerTitleStrip$PagerTitleStripImpl -> android.support.v4.view.ac:
-    void setSingleLineAllCaps(android.widget.TextView) -> a
-android.support.v4.view.PagerTitleStrip$PagerTitleStripImplBase -> android.support.v4.view.ad:
-    void setSingleLineAllCaps(android.widget.TextView) -> a
-android.support.v4.view.PagerTitleStrip$PagerTitleStripImplIcs -> android.support.v4.view.ae:
-    void setSingleLineAllCaps(android.widget.TextView) -> a
-android.support.v4.view.PagerTitleStripIcs -> android.support.v4.view.af:
-    void setSingleLineAllCaps(android.widget.TextView) -> a
-android.support.v4.view.PagerTitleStripIcs$SingleLineAllCapsTransform -> android.support.v4.view.ag:
-    java.util.Locale mLocale -> a
-    java.lang.CharSequence getTransformation(java.lang.CharSequence,android.view.View) -> getTransformation
-android.support.v4.view.VelocityTrackerCompat -> android.support.v4.view.ah:
+android.support.v4.view.VelocityTrackerCompat -> android.support.v4.view.n:
     android.support.v4.view.VelocityTrackerCompat$VelocityTrackerVersionImpl IMPL -> a
     float getXVelocity(android.view.VelocityTracker,int) -> a
-android.support.v4.view.VelocityTrackerCompat$BaseVelocityTrackerVersionImpl -> android.support.v4.view.ai:
+android.support.v4.view.VelocityTrackerCompat$BaseVelocityTrackerVersionImpl -> android.support.v4.view.o:
     float getXVelocity(android.view.VelocityTracker,int) -> a
-android.support.v4.view.VelocityTrackerCompat$HoneycombVelocityTrackerVersionImpl -> android.support.v4.view.aj:
+android.support.v4.view.VelocityTrackerCompat$HoneycombVelocityTrackerVersionImpl -> android.support.v4.view.p:
     float getXVelocity(android.view.VelocityTracker,int) -> a
-android.support.v4.view.VelocityTrackerCompat$VelocityTrackerVersionImpl -> android.support.v4.view.ak:
+android.support.v4.view.VelocityTrackerCompat$VelocityTrackerVersionImpl -> android.support.v4.view.q:
     float getXVelocity(android.view.VelocityTracker,int) -> a
-android.support.v4.view.VelocityTrackerCompatHoneycomb -> android.support.v4.view.al:
+android.support.v4.view.VelocityTrackerCompatHoneycomb -> android.support.v4.view.r:
     float getXVelocity(android.view.VelocityTracker,int) -> a
-android.support.v4.view.ViewCompat -> android.support.v4.view.am:
+android.support.v4.view.ViewCompat -> android.support.v4.view.s:
     android.support.v4.view.ViewCompat$ViewCompatImpl IMPL -> a
     boolean canScrollHorizontally(android.view.View,int) -> a
     int getOverScrollMode(android.view.View) -> a
-    void setAccessibilityDelegate(android.view.View,android.support.v4.view.AccessibilityDelegateCompat) -> a
-    void postInvalidateOnAnimation(android.view.View) -> b
-    int getImportantForAccessibility(android.view.View) -> c
-    void setImportantForAccessibility(android.view.View,int) -> b
-android.support.v4.view.ViewCompat$BaseViewCompatImpl -> android.support.v4.view.an:
+android.support.v4.view.ViewCompat$BaseViewCompatImpl -> android.support.v4.view.t:
     boolean canScrollHorizontally(android.view.View,int) -> a
     int getOverScrollMode(android.view.View) -> a
-    void setAccessibilityDelegate(android.view.View,android.support.v4.view.AccessibilityDelegateCompat) -> a
-    void postInvalidateOnAnimation(android.view.View) -> b
-    long getFrameTime() -> a
-    int getImportantForAccessibility(android.view.View) -> c
-    void setImportantForAccessibility(android.view.View,int) -> b
-android.support.v4.view.ViewCompat$GBViewCompatImpl -> android.support.v4.view.ao:
+android.support.v4.view.ViewCompat$GBViewCompatImpl -> android.support.v4.view.u:
     int getOverScrollMode(android.view.View) -> a
-android.support.v4.view.ViewCompat$HCViewCompatImpl -> android.support.v4.view.ap:
-    long getFrameTime() -> a
-android.support.v4.view.ViewCompat$ICSViewCompatImpl -> android.support.v4.view.aq:
+android.support.v4.view.ViewCompat$ICSViewCompatImpl -> android.support.v4.view.v:
     boolean canScrollHorizontally(android.view.View,int) -> a
-    void setAccessibilityDelegate(android.view.View,android.support.v4.view.AccessibilityDelegateCompat) -> a
-android.support.v4.view.ViewCompat$JBViewCompatImpl -> android.support.v4.view.ar:
-    void postInvalidateOnAnimation(android.view.View) -> b
-    int getImportantForAccessibility(android.view.View) -> c
-    void setImportantForAccessibility(android.view.View,int) -> b
-android.support.v4.view.ViewCompat$ViewCompatImpl -> android.support.v4.view.as:
+android.support.v4.view.ViewCompat$ViewCompatImpl -> android.support.v4.view.w:
     boolean canScrollHorizontally(android.view.View,int) -> a
     int getOverScrollMode(android.view.View) -> a
-    void setAccessibilityDelegate(android.view.View,android.support.v4.view.AccessibilityDelegateCompat) -> a
-    void postInvalidateOnAnimation(android.view.View) -> b
-    int getImportantForAccessibility(android.view.View) -> c
-    void setImportantForAccessibility(android.view.View,int) -> b
-android.support.v4.view.ViewCompatGingerbread -> android.support.v4.view.at:
+android.support.v4.view.ViewCompatGingerbread -> android.support.v4.view.x:
     int getOverScrollMode(android.view.View) -> a
-android.support.v4.view.ViewCompatHC -> android.support.v4.view.au:
-    long getFrameTime() -> a
-android.support.v4.view.ViewCompatICS -> android.support.v4.view.av:
+android.support.v4.view.ViewCompatICS -> android.support.v4.view.y:
     boolean canScrollHorizontally(android.view.View,int) -> a
-    void setAccessibilityDelegate(android.view.View,java.lang.Object) -> a
-android.support.v4.view.ViewCompatJB -> android.support.v4.view.aw:
-    void postInvalidateOnAnimation(android.view.View) -> a
-    int getImportantForAccessibility(android.view.View) -> b
-    void setImportantForAccessibility(android.view.View,int) -> a
-android.support.v4.view.ViewConfigurationCompat -> android.support.v4.view.ax:
+android.support.v4.view.ViewConfigurationCompat -> android.support.v4.view.z:
     android.support.v4.view.ViewConfigurationCompat$ViewConfigurationVersionImpl IMPL -> a
     int getScaledPagingTouchSlop(android.view.ViewConfiguration) -> a
-android.support.v4.view.ViewConfigurationCompat$BaseViewConfigurationVersionImpl -> android.support.v4.view.ay:
+android.support.v4.view.ViewConfigurationCompat$BaseViewConfigurationVersionImpl -> android.support.v4.view.aa:
     int getScaledPagingTouchSlop(android.view.ViewConfiguration) -> a
-android.support.v4.view.ViewConfigurationCompat$FroyoViewConfigurationVersionImpl -> android.support.v4.view.az:
+android.support.v4.view.ViewConfigurationCompat$FroyoViewConfigurationVersionImpl -> android.support.v4.view.ab:
     int getScaledPagingTouchSlop(android.view.ViewConfiguration) -> a
-android.support.v4.view.ViewConfigurationCompat$ViewConfigurationVersionImpl -> android.support.v4.view.ba:
+android.support.v4.view.ViewConfigurationCompat$ViewConfigurationVersionImpl -> android.support.v4.view.ac:
     int getScaledPagingTouchSlop(android.view.ViewConfiguration) -> a
-android.support.v4.view.ViewConfigurationCompatFroyo -> android.support.v4.view.bb:
+android.support.v4.view.ViewConfigurationCompatFroyo -> android.support.v4.view.ad:
     int getScaledPagingTouchSlop(android.view.ViewConfiguration) -> a
 android.support.v4.view.ViewPager -> android.support.v4.view.ViewPager:
     int[] LAYOUT_ATTRS -> a
     java.util.Comparator COMPARATOR -> b
     android.view.animation.Interpolator sInterpolator -> c
     java.util.ArrayList mItems -> d
-    android.support.v4.view.ViewPager$ItemInfo mTempItem -> e
-    android.graphics.Rect mTempRect -> f
-    android.support.v4.view.PagerAdapter mAdapter -> g
-    int mCurItem -> h
-    int mRestoredCurItem -> i
-    android.os.Parcelable mRestoredAdapterState -> j
-    java.lang.ClassLoader mRestoredClassLoader -> k
-    android.widget.Scroller mScroller -> l
-    android.support.v4.view.ViewPager$PagerObserver mObserver -> m
-    int mPageMargin -> n
-    android.graphics.drawable.Drawable mMarginDrawable -> o
-    int mTopPageBounds -> p
-    int mBottomPageBounds -> q
-    float mFirstOffset -> r
-    float mLastOffset -> s
-    int mChildWidthMeasureSpec -> t
-    int mChildHeightMeasureSpec -> u
-    boolean mInLayout -> v
-    boolean mScrollingCacheEnabled -> w
-    boolean mPopulatePending -> x
-    int mOffscreenPageLimit -> y
-    boolean mIsBeingDragged -> z
-    boolean mIsUnableToDrag -> A
-    int mDefaultGutterSize -> B
-    int mGutterSize -> C
-    int mTouchSlop -> D
-    float mInitialMotionX -> E
-    float mLastMotionX -> F
-    float mLastMotionY -> G
-    int mActivePointerId -> H
-    android.view.VelocityTracker mVelocityTracker -> I
-    int mMinimumVelocity -> J
-    int mMaximumVelocity -> K
-    int mFlingDistance -> L
-    int mCloseEnough -> M
-    boolean mFakeDragging -> N
-    android.support.v4.widget.EdgeEffectCompat mLeftEdge -> O
-    android.support.v4.widget.EdgeEffectCompat mRightEdge -> P
-    boolean mFirstLayout -> Q
-    boolean mNeedCalculatePageOffsets -> R
-    boolean mCalledSuper -> S
-    int mDecorChildCount -> T
-    android.support.v4.view.ViewPager$OnPageChangeListener mOnPageChangeListener -> U
-    android.support.v4.view.ViewPager$OnPageChangeListener mInternalPageChangeListener -> V
-    android.support.v4.view.ViewPager$OnAdapterChangeListener mAdapterChangeListener -> W
-    int mScrollState -> Z
+    android.support.v4.view.PagerAdapter mAdapter -> e
+    int mCurItem -> f
+    int mRestoredCurItem -> g
+    android.os.Parcelable mRestoredAdapterState -> h
+    java.lang.ClassLoader mRestoredClassLoader -> i
+    android.widget.Scroller mScroller -> j
+    android.support.v4.view.ViewPager$PagerObserver mObserver -> k
+    int mPageMargin -> l
+    android.graphics.drawable.Drawable mMarginDrawable -> m
+    int mTopPageBounds -> n
+    int mBottomPageBounds -> o
+    int mChildWidthMeasureSpec -> p
+    int mChildHeightMeasureSpec -> q
+    boolean mInLayout -> r
+    boolean mScrollingCacheEnabled -> s
+    boolean mPopulatePending -> t
+    boolean mScrolling -> u
+    int mOffscreenPageLimit -> v
+    boolean mIsBeingDragged -> w
+    boolean mIsUnableToDrag -> x
+    int mTouchSlop -> y
+    float mInitialMotionX -> z
+    float mLastMotionX -> A
+    float mLastMotionY -> B
+    int mActivePointerId -> C
+    android.view.VelocityTracker mVelocityTracker -> D
+    int mMinimumVelocity -> E
+    int mMaximumVelocity -> F
+    int mFlingDistance -> G
+    boolean mFakeDragging -> H
+    android.support.v4.widget.EdgeEffectCompat mLeftEdge -> I
+    android.support.v4.widget.EdgeEffectCompat mRightEdge -> J
+    boolean mFirstLayout -> K
+    boolean mCalledSuper -> L
+    int mDecorChildCount -> M
+    android.support.v4.view.ViewPager$OnPageChangeListener mOnPageChangeListener -> N
+    android.support.v4.view.ViewPager$OnPageChangeListener mInternalPageChangeListener -> O
+    android.support.v4.view.ViewPager$OnAdapterChangeListener mAdapterChangeListener -> P
+    int mScrollState -> Q
     void initViewPager() -> a
     void setScrollState(int) -> setScrollState
     void setAdapter(android.support.v4.view.PagerAdapter) -> setAdapter
@@ -1142,42 +889,35 @@ android.support.v4.view.ViewPager -> android.support.v4.view.ViewPager:
     void drawableStateChanged() -> drawableStateChanged
     float distanceInfluenceForSnapDuration(float) -> a
     void smoothScrollTo(int,int,int) -> a
-    android.support.v4.view.ViewPager$ItemInfo addNewItem(int,int) -> a
+    void addNewItem(int,int) -> a
     void dataSetChanged() -> b
     void populate() -> c
-    void populate(int) -> a
-    void calculatePageOffsets(android.support.v4.view.ViewPager$ItemInfo,int,android.support.v4.view.ViewPager$ItemInfo) -> a
     android.os.Parcelable onSaveInstanceState() -> onSaveInstanceState
     void onRestoreInstanceState(android.os.Parcelable) -> onRestoreInstanceState
     void addView(android.view.View,int,android.view.ViewGroup$LayoutParams) -> addView
     android.support.v4.view.ViewPager$ItemInfo infoForChild(android.view.View) -> a
     android.support.v4.view.ViewPager$ItemInfo infoForAnyChild(android.view.View) -> b
-    android.support.v4.view.ViewPager$ItemInfo infoForPosition(int) -> b
     void onAttachedToWindow() -> onAttachedToWindow
     void onMeasure(int,int) -> onMeasure
     void onSizeChanged(int,int,int,int) -> onSizeChanged
     void recomputeScrollPosition(int,int,int,int) -> a
     void onLayout(boolean,int,int,int,int) -> onLayout
     void computeScroll() -> computeScroll
-    boolean pageScrolled(int) -> d
+    void pageScrolled(int) -> b
     void onPageScrolled(int,float,int) -> a
     void completeScroll() -> h
-    boolean isGutterDrag(float,float) -> a
     boolean onInterceptTouchEvent(android.view.MotionEvent) -> onInterceptTouchEvent
     boolean onTouchEvent(android.view.MotionEvent) -> onTouchEvent
-    boolean performDrag(float) -> b
-    android.support.v4.view.ViewPager$ItemInfo infoForCurrentScrollPosition() -> i
     int determineTargetPage(int,float,int,int) -> a
     void draw(android.graphics.Canvas) -> draw
     void onDraw(android.graphics.Canvas) -> onDraw
     void onSecondaryPointerUp(android.view.MotionEvent) -> a
-    void endDrag() -> j
+    void endDrag() -> i
     void setScrollingCacheEnabled(boolean) -> setScrollingCacheEnabled
     boolean canScroll(android.view.View,boolean,int,int,int) -> a
     boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
     boolean executeKeyEvent(android.view.KeyEvent) -> a
-    boolean arrowScroll(int) -> c
-    android.graphics.Rect getChildRectInPagerCoordinates(android.graphics.Rect,android.view.View) -> a
+    boolean arrowScroll(int) -> a
     boolean pageLeft() -> d
     boolean pageRight() -> e
     void addFocusables(java.util.ArrayList,int,int) -> addFocusables
@@ -1188,38 +928,27 @@ android.support.v4.view.ViewPager -> android.support.v4.view.ViewPager:
     android.view.ViewGroup$LayoutParams generateLayoutParams(android.view.ViewGroup$LayoutParams) -> generateLayoutParams
     boolean checkLayoutParams(android.view.ViewGroup$LayoutParams) -> checkLayoutParams
     android.view.ViewGroup$LayoutParams generateLayoutParams(android.util.AttributeSet) -> generateLayoutParams
-    android.support.v4.view.PagerAdapter access$100(android.support.v4.view.ViewPager) -> a
-    int access$200(android.support.v4.view.ViewPager) -> b
-    int[] access$300() -> f
-android.support.v4.view.ViewPager$1 -> android.support.v4.view.bc:
+    int[] access$100() -> f
+android.support.v4.view.ViewPager$1 -> android.support.v4.view.ae:
     int compare(android.support.v4.view.ViewPager$ItemInfo,android.support.v4.view.ViewPager$ItemInfo) -> a
     int compare(java.lang.Object,java.lang.Object) -> compare
-android.support.v4.view.ViewPager$2 -> android.support.v4.view.bd:
+android.support.v4.view.ViewPager$2 -> android.support.v4.view.af:
     float getInterpolation(float) -> getInterpolation
-android.support.v4.view.ViewPager$Decor -> android.support.v4.view.be:
-android.support.v4.view.ViewPager$ItemInfo -> android.support.v4.view.bf:
+android.support.v4.view.ViewPager$Decor -> android.support.v4.view.ag:
+android.support.v4.view.ViewPager$ItemInfo -> android.support.v4.view.ah:
     java.lang.Object object -> a
     int position -> b
     boolean scrolling -> c
-    float widthFactor -> d
-    float offset -> e
 android.support.v4.view.ViewPager$LayoutParams -> android.support.v4.view.ViewPager$LayoutParams:
     boolean isDecor -> a
     int gravity -> b
-    float widthFactor -> c
-    boolean needsMeasure -> d
-android.support.v4.view.ViewPager$MyAccessibilityDelegate -> android.support.v4.view.bg:
-    android.support.v4.view.ViewPager this$0 -> b
-    void onInitializeAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent) -> d
-    void onInitializeAccessibilityNodeInfo(android.view.View,android.support.v4.view.accessibility.AccessibilityNodeInfoCompat) -> a
-    boolean performAccessibilityAction(android.view.View,int,android.os.Bundle) -> a
-android.support.v4.view.ViewPager$OnAdapterChangeListener -> android.support.v4.view.bh:
+android.support.v4.view.ViewPager$OnAdapterChangeListener -> android.support.v4.view.ai:
     void onAdapterChanged(android.support.v4.view.PagerAdapter,android.support.v4.view.PagerAdapter) -> a
-android.support.v4.view.ViewPager$OnPageChangeListener -> android.support.v4.view.bi:
+android.support.v4.view.ViewPager$OnPageChangeListener -> android.support.v4.view.aj:
     void onPageScrolled(int,float,int) -> a
     void onPageSelected(int) -> a
     void onPageScrollStateChanged(int) -> b
-android.support.v4.view.ViewPager$PagerObserver -> android.support.v4.view.bj:
+android.support.v4.view.ViewPager$PagerObserver -> android.support.v4.view.ak:
     android.support.v4.view.ViewPager this$0 -> a
     void onChanged() -> onChanged
     void onInvalidated() -> onInvalidated
@@ -1230,114 +959,63 @@ android.support.v4.view.ViewPager$SavedState -> android.support.v4.view.ViewPage
     android.os.Parcelable$Creator CREATOR -> CREATOR
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
     java.lang.String toString() -> toString
-android.support.v4.view.ViewPager$SavedState$1 -> android.support.v4.view.bk:
+android.support.v4.view.ViewPager$SavedState$1 -> android.support.v4.view.al:
     android.support.v4.view.ViewPager$SavedState createFromParcel(android.os.Parcel,java.lang.ClassLoader) -> b
     android.support.v4.view.ViewPager$SavedState[] newArray(int) -> b
     java.lang.Object[] newArray(int) -> a
     java.lang.Object createFromParcel(android.os.Parcel,java.lang.ClassLoader) -> a
-android.support.v4.view.accessibility.AccessibilityNodeInfoCompat -> k:
-    android.support.v4.view.accessibility.AccessibilityNodeInfoCompat$AccessibilityNodeInfoImpl IMPL -> a
-    java.lang.Object mInfo -> b
-    java.lang.Object getInfo() -> a
-    void addAction(int) -> a
-    void setScrollable(boolean) -> a
-    void setClassName(java.lang.CharSequence) -> a
-    int hashCode() -> hashCode
-    boolean equals(java.lang.Object) -> equals
-android.support.v4.view.accessibility.AccessibilityNodeInfoCompat$AccessibilityNodeInfoIcsImpl -> l:
-    void addAction(java.lang.Object,int) -> a
-    void setClassName(java.lang.Object,java.lang.CharSequence) -> a
-    void setScrollable(java.lang.Object,boolean) -> a
-android.support.v4.view.accessibility.AccessibilityNodeInfoCompat$AccessibilityNodeInfoImpl -> m:
-    void addAction(java.lang.Object,int) -> a
-    void setScrollable(java.lang.Object,boolean) -> a
-    void setClassName(java.lang.Object,java.lang.CharSequence) -> a
-android.support.v4.view.accessibility.AccessibilityNodeInfoCompat$AccessibilityNodeInfoJellybeanImpl -> n:
-android.support.v4.view.accessibility.AccessibilityNodeInfoCompat$AccessibilityNodeInfoStubImpl -> o:
-    void addAction(java.lang.Object,int) -> a
-    void setClassName(java.lang.Object,java.lang.CharSequence) -> a
-    void setScrollable(java.lang.Object,boolean) -> a
-android.support.v4.view.accessibility.AccessibilityNodeInfoCompatIcs -> p:
-    void addAction(java.lang.Object,int) -> a
-    void setClassName(java.lang.Object,java.lang.CharSequence) -> a
-    void setScrollable(java.lang.Object,boolean) -> a
-android.support.v4.view.accessibility.AccessibilityNodeProviderCompat -> q:
-    android.support.v4.view.accessibility.AccessibilityNodeProviderCompat$AccessibilityNodeProviderImpl IMPL -> a
-    java.lang.Object mProvider -> b
-    java.lang.Object getProvider() -> a
-    android.support.v4.view.accessibility.AccessibilityNodeInfoCompat createAccessibilityNodeInfo(int) -> a
-    boolean performAction(int,int,android.os.Bundle) -> a
-    java.util.List findAccessibilityNodeInfosByText(java.lang.String,int) -> a
-android.support.v4.view.accessibility.AccessibilityNodeProviderCompat$AccessibilityNodeProviderImpl -> r:
-    java.lang.Object newAccessibilityNodeProviderBridge(android.support.v4.view.accessibility.AccessibilityNodeProviderCompat) -> a
-android.support.v4.view.accessibility.AccessibilityNodeProviderCompat$AccessibilityNodeProviderJellyBeanImpl -> s:
-    java.lang.Object newAccessibilityNodeProviderBridge(android.support.v4.view.accessibility.AccessibilityNodeProviderCompat) -> a
-android.support.v4.view.accessibility.AccessibilityNodeProviderCompat$AccessibilityNodeProviderJellyBeanImpl$1 -> t:
-    android.support.v4.view.accessibility.AccessibilityNodeProviderCompat val$compat -> a
-    android.support.v4.view.accessibility.AccessibilityNodeProviderCompat$AccessibilityNodeProviderJellyBeanImpl this$0 -> b
-    boolean performAction(int,int,android.os.Bundle) -> a
-    java.util.List findAccessibilityNodeInfosByText(java.lang.String,int) -> a
-    java.lang.Object createAccessibilityNodeInfo(int) -> a
-android.support.v4.view.accessibility.AccessibilityNodeProviderCompat$AccessibilityNodeProviderStubImpl -> u:
-    java.lang.Object newAccessibilityNodeProviderBridge(android.support.v4.view.accessibility.AccessibilityNodeProviderCompat) -> a
-android.support.v4.view.accessibility.AccessibilityNodeProviderCompatJellyBean -> v:
-    java.lang.Object newAccessibilityNodeProviderBridge(android.support.v4.view.accessibility.AccessibilityNodeProviderCompatJellyBean$AccessibilityNodeInfoBridge) -> a
-android.support.v4.view.accessibility.AccessibilityNodeProviderCompatJellyBean$1 -> w:
-    android.support.v4.view.accessibility.AccessibilityNodeProviderCompatJellyBean$AccessibilityNodeInfoBridge val$bridge -> a
-    android.view.accessibility.AccessibilityNodeInfo createAccessibilityNodeInfo(int) -> createAccessibilityNodeInfo
-    java.util.List findAccessibilityNodeInfosByText(java.lang.String,int) -> findAccessibilityNodeInfosByText
-    boolean performAction(int,int,android.os.Bundle) -> performAction
-android.support.v4.view.accessibility.AccessibilityNodeProviderCompatJellyBean$AccessibilityNodeInfoBridge -> x:
-    java.lang.Object createAccessibilityNodeInfo(int) -> a
-    boolean performAction(int,int,android.os.Bundle) -> a
-    java.util.List findAccessibilityNodeInfosByText(java.lang.String,int) -> a
-android.support.v4.widget.CursorAdapter -> y:
-    boolean mDataValid -> a
-    boolean mAutoRequery -> b
-    android.database.Cursor mCursor -> c
-    android.content.Context mContext -> d
-    int mRowIDColumn -> e
-    android.support.v4.widget.CursorAdapter$ChangeObserver mChangeObserver -> f
-    android.database.DataSetObserver mDataSetObserver -> g
-    android.support.v4.widget.CursorFilter mCursorFilter -> h
-    android.widget.FilterQueryProvider mFilterQueryProvider -> i
-    void init(android.content.Context,android.database.Cursor,int) -> a
-    android.database.Cursor getCursor() -> a
+android.support.v4.widget.CursorAdapter -> j:
+    boolean mDataValid -> mDataValid
+    boolean mAutoRequery -> mAutoRequery
+    android.database.Cursor mCursor -> mCursor
+    android.content.Context mContext -> mContext
+    int mRowIDColumn -> mRowIDColumn
+    android.support.v4.widget.CursorAdapter$ChangeObserver mChangeObserver -> mChangeObserver
+    android.database.DataSetObserver mDataSetObserver -> mDataSetObserver
+    android.support.v4.widget.CursorFilter mCursorFilter -> mCursorFilter
+    android.widget.FilterQueryProvider mFilterQueryProvider -> mFilterQueryProvider
+    int FLAG_AUTO_REQUERY -> FLAG_AUTO_REQUERY
+    int FLAG_REGISTER_CONTENT_OBSERVER -> FLAG_REGISTER_CONTENT_OBSERVER
+    void init(android.content.Context,android.database.Cursor,boolean) -> init
+    void init(android.content.Context,android.database.Cursor,int) -> init
+    android.database.Cursor getCursor() -> getCursor
     int getCount() -> getCount
     java.lang.Object getItem(int) -> getItem
     long getItemId(int) -> getItemId
     boolean hasStableIds() -> hasStableIds
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     android.view.View getDropDownView(int,android.view.View,android.view.ViewGroup) -> getDropDownView
-    android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
-    android.view.View newDropDownView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> b
-    void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
-    void changeCursor(android.database.Cursor) -> a
-    android.database.Cursor swapCursor(android.database.Cursor) -> b
-    java.lang.CharSequence convertToString(android.database.Cursor) -> c
-    android.database.Cursor runQueryOnBackgroundThread(java.lang.CharSequence) -> a
+    android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> newView
+    android.view.View newDropDownView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> newDropDownView
+    void bindView(android.view.View,android.content.Context,android.database.Cursor) -> bindView
+    void changeCursor(android.database.Cursor) -> changeCursor
+    android.database.Cursor swapCursor(android.database.Cursor) -> swapCursor
+    java.lang.CharSequence convertToString(android.database.Cursor) -> convertToString
+    android.database.Cursor runQueryOnBackgroundThread(java.lang.CharSequence) -> runQueryOnBackgroundThread
     android.widget.Filter getFilter() -> getFilter
-    void onContentChanged() -> b
-android.support.v4.widget.CursorAdapter$1 -> z:
-android.support.v4.widget.CursorAdapter$ChangeObserver -> aa:
+    android.widget.FilterQueryProvider getFilterQueryProvider() -> getFilterQueryProvider
+    void setFilterQueryProvider(android.widget.FilterQueryProvider) -> setFilterQueryProvider
+    void onContentChanged() -> onContentChanged
+android.support.v4.widget.CursorAdapter$1 -> k:
+android.support.v4.widget.CursorAdapter$ChangeObserver -> l:
     android.support.v4.widget.CursorAdapter this$0 -> a
     boolean deliverSelfNotifications() -> deliverSelfNotifications
     void onChange(boolean) -> onChange
-android.support.v4.widget.CursorAdapter$MyDataSetObserver -> ab:
+android.support.v4.widget.CursorAdapter$MyDataSetObserver -> m:
     android.support.v4.widget.CursorAdapter this$0 -> a
     void onChanged() -> onChanged
     void onInvalidated() -> onInvalidated
-android.support.v4.widget.CursorFilter -> ac:
+android.support.v4.widget.CursorFilter -> n:
     android.support.v4.widget.CursorFilter$CursorFilterClient mClient -> a
     java.lang.CharSequence convertResultToString(java.lang.Object) -> convertResultToString
     android.widget.Filter$FilterResults performFiltering(java.lang.CharSequence) -> performFiltering
     void publishResults(java.lang.CharSequence,android.widget.Filter$FilterResults) -> publishResults
-android.support.v4.widget.CursorFilter$CursorFilterClient -> ad:
-    java.lang.CharSequence convertToString(android.database.Cursor) -> c
-    android.database.Cursor runQueryOnBackgroundThread(java.lang.CharSequence) -> a
-    android.database.Cursor getCursor() -> a
-    void changeCursor(android.database.Cursor) -> a
-android.support.v4.widget.EdgeEffectCompat -> ae:
+android.support.v4.widget.CursorFilter$CursorFilterClient -> o:
+    java.lang.CharSequence convertToString(android.database.Cursor) -> convertToString
+    android.database.Cursor runQueryOnBackgroundThread(java.lang.CharSequence) -> runQueryOnBackgroundThread
+    android.database.Cursor getCursor() -> getCursor
+    void changeCursor(android.database.Cursor) -> changeCursor
+android.support.v4.widget.EdgeEffectCompat -> p:
     java.lang.Object mEdgeEffect -> a
     android.support.v4.widget.EdgeEffectCompat$EdgeEffectImpl IMPL -> b
     void setSize(int,int) -> a
@@ -1346,7 +1024,7 @@ android.support.v4.widget.EdgeEffectCompat -> ae:
     boolean onPull(float) -> a
     boolean onRelease() -> c
     boolean draw(android.graphics.Canvas) -> a
-android.support.v4.widget.EdgeEffectCompat$BaseEdgeEffectImpl -> af:
+android.support.v4.widget.EdgeEffectCompat$BaseEdgeEffectImpl -> q:
     java.lang.Object newEdgeEffect(android.content.Context) -> a
     void setSize(java.lang.Object,int,int) -> a
     boolean isFinished(java.lang.Object) -> a
@@ -1354,7 +1032,7 @@ android.support.v4.widget.EdgeEffectCompat$BaseEdgeEffectImpl -> af:
     boolean onPull(java.lang.Object,float) -> a
     boolean onRelease(java.lang.Object) -> c
     boolean draw(java.lang.Object,android.graphics.Canvas) -> a
-android.support.v4.widget.EdgeEffectCompat$EdgeEffectIcsImpl -> ag:
+android.support.v4.widget.EdgeEffectCompat$EdgeEffectIcsImpl -> r:
     java.lang.Object newEdgeEffect(android.content.Context) -> a
     void setSize(java.lang.Object,int,int) -> a
     boolean isFinished(java.lang.Object) -> a
@@ -1362,7 +1040,7 @@ android.support.v4.widget.EdgeEffectCompat$EdgeEffectIcsImpl -> ag:
     boolean onPull(java.lang.Object,float) -> a
     boolean onRelease(java.lang.Object) -> c
     boolean draw(java.lang.Object,android.graphics.Canvas) -> a
-android.support.v4.widget.EdgeEffectCompat$EdgeEffectImpl -> ah:
+android.support.v4.widget.EdgeEffectCompat$EdgeEffectImpl -> s:
     java.lang.Object newEdgeEffect(android.content.Context) -> a
     void setSize(java.lang.Object,int,int) -> a
     boolean isFinished(java.lang.Object) -> a
@@ -1370,7 +1048,7 @@ android.support.v4.widget.EdgeEffectCompat$EdgeEffectImpl -> ah:
     boolean onPull(java.lang.Object,float) -> a
     boolean onRelease(java.lang.Object) -> c
     boolean draw(java.lang.Object,android.graphics.Canvas) -> a
-android.support.v4.widget.EdgeEffectCompatIcs -> ai:
+android.support.v4.widget.EdgeEffectCompatIcs -> t:
     java.lang.Object newEdgeEffect(android.content.Context) -> a
     void setSize(java.lang.Object,int,int) -> a
     boolean isFinished(java.lang.Object) -> a
@@ -1378,12 +1056,31 @@ android.support.v4.widget.EdgeEffectCompatIcs -> ai:
     boolean onPull(java.lang.Object,float) -> a
     boolean onRelease(java.lang.Object) -> c
     boolean draw(java.lang.Object,android.graphics.Canvas) -> a
-android.support.v4.widget.ResourceCursorAdapter -> aj:
-    int mLayout -> j
-    int mDropDownLayout -> k
-    android.view.LayoutInflater mInflater -> l
-    android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
-    android.view.View newDropDownView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> b
+android.support.v4.widget.ResourceCursorAdapter -> u:
+    int mLayout -> mLayout
+    int mDropDownLayout -> mDropDownLayout
+    android.view.LayoutInflater mInflater -> mInflater
+    android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> newView
+    android.view.View newDropDownView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> newDropDownView
+    void setViewResource(int) -> setViewResource
+    void setDropDownViewResource(int) -> setDropDownViewResource
+android.support.v4.widget.SimpleCursorAdapter -> v:
+    int[] mFrom -> a
+    int[] mTo -> b
+    int mStringConversionColumn -> d
+    android.support.v4.widget.SimpleCursorAdapter$CursorToStringConverter mCursorToStringConverter -> e
+    android.support.v4.widget.SimpleCursorAdapter$ViewBinder mViewBinder -> f
+    java.lang.String[] mOriginalFrom -> c
+    void bindView(android.view.View,android.content.Context,android.database.Cursor) -> bindView
+    void setViewImage(android.widget.ImageView,java.lang.String) -> a
+    void setViewText(android.widget.TextView,java.lang.String) -> a
+    java.lang.CharSequence convertToString(android.database.Cursor) -> convertToString
+    void findColumns(java.lang.String[]) -> a
+    android.database.Cursor swapCursor(android.database.Cursor) -> swapCursor
+android.support.v4.widget.SimpleCursorAdapter$CursorToStringConverter -> w:
+    java.lang.CharSequence convertToString(android.database.Cursor) -> a
+android.support.v4.widget.SimpleCursorAdapter$ViewBinder -> x:
+    boolean setViewValue(android.view.View,android.database.Cursor,int) -> a
 com.actionbarsherlock.ActionBarSherlock -> com.actionbarsherlock.ActionBarSherlock:
     java.lang.String TAG -> TAG
     boolean DEBUG -> DEBUG
@@ -1414,6 +1111,8 @@ com.actionbarsherlock.ActionBarSherlock -> com.actionbarsherlock.ActionBarSherlo
     boolean dispatchMenuOpened(int,android.view.Menu) -> dispatchMenuOpened
     void dispatchPanelClosed(int,android.view.Menu) -> dispatchPanelClosed
     void dispatchDestroy() -> dispatchDestroy
+    void dispatchSaveInstanceState(android.os.Bundle) -> dispatchSaveInstanceState
+    void dispatchRestoreInstanceState(android.os.Bundle) -> dispatchRestoreInstanceState
     boolean callbackCreateOptionsMenu(com.actionbarsherlock.view.Menu) -> callbackCreateOptionsMenu
     boolean callbackPrepareOptionsMenu(com.actionbarsherlock.view.Menu) -> callbackPrepareOptionsMenu
     boolean callbackOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> callbackOptionsItemSelected
@@ -1460,7 +1159,6 @@ com.actionbarsherlock.R -> com.actionbarsherlock.R:
 com.actionbarsherlock.R$array -> com.actionbarsherlock.R$array:
     int restaurants -> restaurants
 com.actionbarsherlock.R$attr -> com.actionbarsherlock.R$attr:
-    int absForceOverflow -> absForceOverflow
     int actionBarDivider -> actionBarDivider
     int actionBarItemBackground -> actionBarItemBackground
     int actionBarSize -> actionBarSize
@@ -1502,6 +1200,7 @@ com.actionbarsherlock.R$attr -> com.actionbarsherlock.R$attr:
     int homeLayout -> homeLayout
     int horizontalDivider -> horizontalDivider
     int icon -> icon
+    int iconifiedByDefault -> iconifiedByDefault
     int indeterminateProgressStyle -> indeterminateProgressStyle
     int initialActivityCount -> initialActivityCount
     int itemBackground -> itemBackground
@@ -1518,17 +1217,33 @@ com.actionbarsherlock.R$attr -> com.actionbarsherlock.R$attr:
     int preserveIconSpacing -> preserveIconSpacing
     int progressBarPadding -> progressBarPadding
     int progressBarStyle -> progressBarStyle
+    int queryHint -> queryHint
+    int searchAutoCompleteTextView -> searchAutoCompleteTextView
+    int searchDropdownBackground -> searchDropdownBackground
+    int searchResultListItemHeight -> searchResultListItemHeight
+    int searchViewCloseIcon -> searchViewCloseIcon
+    int searchViewEditQuery -> searchViewEditQuery
+    int searchViewEditQueryBackground -> searchViewEditQueryBackground
+    int searchViewGoIcon -> searchViewGoIcon
+    int searchViewSearchIcon -> searchViewSearchIcon
+    int searchViewTextField -> searchViewTextField
+    int searchViewTextFieldRight -> searchViewTextFieldRight
+    int searchViewVoiceIcon -> searchViewVoiceIcon
+    int selectableItemBackground -> selectableItemBackground
     int spinnerDropDownItemStyle -> spinnerDropDownItemStyle
     int spinnerItemStyle -> spinnerItemStyle
     int subtitle -> subtitle
     int subtitleTextStyle -> subtitleTextStyle
     int textAppearanceLargePopupMenu -> textAppearanceLargePopupMenu
     int textAppearanceListItemSmall -> textAppearanceListItemSmall
+    int textAppearanceSearchResultSubtitle -> textAppearanceSearchResultSubtitle
+    int textAppearanceSearchResultTitle -> textAppearanceSearchResultTitle
     int textAppearanceSmall -> textAppearanceSmall
     int textAppearanceSmallPopupMenu -> textAppearanceSmallPopupMenu
     int textColorPrimary -> textColorPrimary
     int textColorPrimaryDisableOnly -> textColorPrimaryDisableOnly
     int textColorPrimaryInverse -> textColorPrimaryInverse
+    int textColorSearchUrl -> textColorSearchUrl
     int title -> title
     int titleTextStyle -> titleTextStyle
     int verticalDivider -> verticalDivider
@@ -1563,6 +1278,7 @@ com.actionbarsherlock.R$color -> com.actionbarsherlock.R$color:
     int abs__primary_text_holo_dark -> abs__primary_text_holo_dark
     int abs__primary_text_holo_light -> abs__primary_text_holo_light
     int green -> green
+    int restaurant_tile_title_bg -> restaurant_tile_title_bg
 com.actionbarsherlock.R$dimen -> com.actionbarsherlock.R$dimen:
     int abs__action_bar_default_height -> abs__action_bar_default_height
     int abs__action_bar_icon_vertical_padding -> abs__action_bar_icon_vertical_padding
@@ -1575,6 +1291,11 @@ com.actionbarsherlock.R$dimen -> com.actionbarsherlock.R$dimen:
     int abs__config_prefDialogWidth -> abs__config_prefDialogWidth
     int abs__dialog_min_width_major -> abs__dialog_min_width_major
     int abs__dialog_min_width_minor -> abs__dialog_min_width_minor
+    int abs__dropdownitem_icon_width -> abs__dropdownitem_icon_width
+    int abs__dropdownitem_text_padding_left -> abs__dropdownitem_text_padding_left
+    int abs__dropdownitem_text_padding_right -> abs__dropdownitem_text_padding_right
+    int abs__search_view_preferred_width -> abs__search_view_preferred_width
+    int abs__search_view_text_min_width -> abs__search_view_text_min_width
     int action_button_min_width -> action_button_min_width
 com.actionbarsherlock.R$drawable -> com.actionbarsherlock.R$drawable:
     int abs__ab_bottom_solid_dark_holo -> abs__ab_bottom_solid_dark_holo
@@ -1613,12 +1334,24 @@ com.actionbarsherlock.R$drawable -> com.actionbarsherlock.R$drawable:
     int abs__ic_ab_back_holo_light -> abs__ic_ab_back_holo_light
     int abs__ic_cab_done_holo_dark -> abs__ic_cab_done_holo_dark
     int abs__ic_cab_done_holo_light -> abs__ic_cab_done_holo_light
+    int abs__ic_clear -> abs__ic_clear
+    int abs__ic_clear_disabled -> abs__ic_clear_disabled
+    int abs__ic_clear_holo_light -> abs__ic_clear_holo_light
+    int abs__ic_clear_normal -> abs__ic_clear_normal
+    int abs__ic_clear_search_api_disabled_holo_light -> abs__ic_clear_search_api_disabled_holo_light
+    int abs__ic_clear_search_api_holo_light -> abs__ic_clear_search_api_holo_light
+    int abs__ic_go -> abs__ic_go
+    int abs__ic_go_search_api_holo_light -> abs__ic_go_search_api_holo_light
     int abs__ic_menu_moreoverflow_holo_dark -> abs__ic_menu_moreoverflow_holo_dark
     int abs__ic_menu_moreoverflow_holo_light -> abs__ic_menu_moreoverflow_holo_light
     int abs__ic_menu_moreoverflow_normal_holo_dark -> abs__ic_menu_moreoverflow_normal_holo_dark
     int abs__ic_menu_moreoverflow_normal_holo_light -> abs__ic_menu_moreoverflow_normal_holo_light
     int abs__ic_menu_share_holo_dark -> abs__ic_menu_share_holo_dark
     int abs__ic_menu_share_holo_light -> abs__ic_menu_share_holo_light
+    int abs__ic_search -> abs__ic_search
+    int abs__ic_search_api_holo_light -> abs__ic_search_api_holo_light
+    int abs__ic_voice_search -> abs__ic_voice_search
+    int abs__ic_voice_search_api_holo_light -> abs__ic_voice_search_api_holo_light
     int abs__item_background_holo_dark -> abs__item_background_holo_dark
     int abs__item_background_holo_light -> abs__item_background_holo_light
     int abs__list_activated_holo -> abs__list_activated_holo
@@ -1645,6 +1378,8 @@ com.actionbarsherlock.R$drawable -> com.actionbarsherlock.R$drawable:
     int abs__progress_primary_holo_light -> abs__progress_primary_holo_light
     int abs__progress_secondary_holo_dark -> abs__progress_secondary_holo_dark
     int abs__progress_secondary_holo_light -> abs__progress_secondary_holo_light
+    int abs__search_dropdown_dark -> abs__search_dropdown_dark
+    int abs__search_dropdown_light -> abs__search_dropdown_light
     int abs__spinner_48_inner_holo -> abs__spinner_48_inner_holo
     int abs__spinner_48_outer_holo -> abs__spinner_48_outer_holo
     int abs__spinner_ab_default_holo_dark -> abs__spinner_ab_default_holo_dark
@@ -1662,16 +1397,33 @@ com.actionbarsherlock.R$drawable -> com.actionbarsherlock.R$drawable:
     int abs__tab_selected_holo -> abs__tab_selected_holo
     int abs__tab_selected_pressed_holo -> abs__tab_selected_pressed_holo
     int abs__tab_unselected_pressed_holo -> abs__tab_unselected_pressed_holo
+    int abs__textfield_search_default_holo_dark -> abs__textfield_search_default_holo_dark
+    int abs__textfield_search_default_holo_light -> abs__textfield_search_default_holo_light
+    int abs__textfield_search_right_default_holo_dark -> abs__textfield_search_right_default_holo_dark
+    int abs__textfield_search_right_default_holo_light -> abs__textfield_search_right_default_holo_light
+    int abs__textfield_search_right_selected_holo_dark -> abs__textfield_search_right_selected_holo_dark
+    int abs__textfield_search_right_selected_holo_light -> abs__textfield_search_right_selected_holo_light
+    int abs__textfield_search_selected_holo_dark -> abs__textfield_search_selected_holo_dark
+    int abs__textfield_search_selected_holo_light -> abs__textfield_search_selected_holo_light
+    int abs__textfield_searchview_holo_dark -> abs__textfield_searchview_holo_dark
+    int abs__textfield_searchview_holo_light -> abs__textfield_searchview_holo_light
+    int abs__textfield_searchview_right_holo_dark -> abs__textfield_searchview_right_holo_dark
+    int abs__textfield_searchview_right_holo_light -> abs__textfield_searchview_right_holo_light
     int ad_selectable_background -> ad_selectable_background
     int ad_spinner_background_holo_light -> ad_spinner_background_holo_light
     int ad_spinner_focused_holo_light -> ad_spinner_focused_holo_light
     int ad_spinner_pressed_holo_light -> ad_spinner_pressed_holo_light
+    int amk_logo -> amk_logo
     int ic_favorite -> ic_favorite
     int ic_launcher -> ic_launcher
+    int ic_search -> ic_search
     int ic_settings -> ic_settings
+    int logo_sodexo480 -> logo_sodexo480
+    int logo_unica480 -> logo_unica480
     int selected_background -> selected_background
     int spinner_default_holo_light -> spinner_default_holo_light
     int spinner_disabled_holo_light -> spinner_disabled_holo_light
+    int utu_logo -> utu_logo
 com.actionbarsherlock.R$id -> com.actionbarsherlock.R$id:
     int abs__action_bar -> abs__action_bar
     int abs__action_bar_container -> abs__action_bar_container
@@ -1696,20 +1448,39 @@ com.actionbarsherlock.R$id -> com.actionbarsherlock.R$id:
     int abs__progress_circular -> abs__progress_circular
     int abs__progress_horizontal -> abs__progress_horizontal
     int abs__radio -> abs__radio
+    int abs__search_badge -> abs__search_badge
+    int abs__search_bar -> abs__search_bar
+    int abs__search_button -> abs__search_button
+    int abs__search_close_btn -> abs__search_close_btn
+    int abs__search_edit_frame -> abs__search_edit_frame
+    int abs__search_go_btn -> abs__search_go_btn
+    int abs__search_mag_icon -> abs__search_mag_icon
+    int abs__search_plate -> abs__search_plate
+    int abs__search_src_text -> abs__search_src_text
+    int abs__search_voice_btn -> abs__search_voice_btn
     int abs__shortcut -> abs__shortcut
     int abs__split_action_bar -> abs__split_action_bar
+    int abs__submit_area -> abs__submit_area
     int abs__textButton -> abs__textButton
     int abs__title -> abs__title
     int abs__titleDivider -> abs__titleDivider
     int abs__up -> abs__up
+    int content -> content
     int course_price -> course_price
     int course_properties -> course_properties
     int course_title -> course_title
+    int d_restaurant_address -> d_restaurant_address
+    int d_restaurant_location -> d_restaurant_location
+    int d_restaurant_title -> d_restaurant_title
     int disableHome -> disableHome
+    int edit_query -> edit_query
     int homeAsUp -> homeAsUp
     int listMode -> listMode
+    int menu_search -> menu_search
     int menu_setAsDefault -> menu_setAsDefault
     int normal -> normal
+    int restaurant_address -> restaurant_address
+    int restaurant_title -> restaurant_title
     int showCustom -> showCustom
     int showHome -> showHome
     int showTitle -> showTitle
@@ -1739,9 +1510,17 @@ com.actionbarsherlock.R$layout -> com.actionbarsherlock.R$layout:
     int abs__screen_action_bar_overlay -> abs__screen_action_bar_overlay
     int abs__screen_simple -> abs__screen_simple
     int abs__screen_simple_overlay_action_mode -> abs__screen_simple_overlay_action_mode
+    int abs__search_dropdown_item_icons_2line -> abs__search_dropdown_item_icons_2line
+    int abs__search_view -> abs__search_view
+    int abs__simple_dropdown_hint -> abs__simple_dropdown_hint
     int course -> course
+    int discover_view -> discover_view
     int footer_legend -> footer_legend
-    int main -> main
+    int list_view -> list_view
+    int main_view -> main_view
+    int restaurant -> restaurant
+    int search_result -> search_result
+    int search_view -> search_view
     int sherlock_spinner_dropdown_item -> sherlock_spinner_dropdown_item
     int sherlock_spinner_item -> sherlock_spinner_item
 com.actionbarsherlock.R$menu -> com.actionbarsherlock.R$menu:
@@ -1754,13 +1533,23 @@ com.actionbarsherlock.R$string -> com.actionbarsherlock.R$string:
     int abs__activity_chooser_view_dialog_title_default -> abs__activity_chooser_view_dialog_title_default
     int abs__activity_chooser_view_see_all -> abs__activity_chooser_view_see_all
     int abs__activitychooserview_choose_application -> abs__activitychooserview_choose_application
+    int abs__searchview_description_clear -> abs__searchview_description_clear
+    int abs__searchview_description_query -> abs__searchview_description_query
+    int abs__searchview_description_search -> abs__searchview_description_search
+    int abs__searchview_description_submit -> abs__searchview_description_submit
+    int abs__searchview_description_voice -> abs__searchview_description_voice
     int abs__share_action_provider_share_with -> abs__share_action_provider_share_with
     int abs__shareactionprovider_share_with -> abs__shareactionprovider_share_with
     int abs__shareactionprovider_share_with_application -> abs__shareactionprovider_share_with_application
     int app_name -> app_name
     int footer_legend -> footer_legend
+    int insert_restaurants -> insert_restaurants
     int no_courses -> no_courses
+    int no_results -> no_results
+    int restaurant_text -> restaurant_text
+    int search -> search
     int set_as_default -> set_as_default
+    int settings -> settings
 com.actionbarsherlock.R$style -> com.actionbarsherlock.R$style:
     int AppTheme -> AppTheme
     int DialogWindowTitle_Sherlock -> DialogWindowTitle_Sherlock
@@ -1779,6 +1568,7 @@ com.actionbarsherlock.R$style -> com.actionbarsherlock.R$style:
     int Sherlock___Widget_Holo_DropDownItem -> Sherlock___Widget_Holo_DropDownItem
     int Sherlock___Widget_Holo_ListView -> Sherlock___Widget_Holo_ListView
     int Sherlock___Widget_Holo_Spinner -> Sherlock___Widget_Holo_Spinner
+    int Sherlock___Widget_SearchAutoCompleteTextView -> Sherlock___Widget_SearchAutoCompleteTextView
     int TextAppearance_Sherlock_DialogWindowTitle -> TextAppearance_Sherlock_DialogWindowTitle
     int TextAppearance_Sherlock_Light_DialogWindowTitle -> TextAppearance_Sherlock_Light_DialogWindowTitle
     int TextAppearance_Sherlock_Light_Small -> TextAppearance_Sherlock_Light_Small
@@ -1794,6 +1584,7 @@ com.actionbarsherlock.R$style -> com.actionbarsherlock.R$style:
     int TextAppearance_Sherlock_Widget_ActionMode_Subtitle_Inverse -> TextAppearance_Sherlock_Widget_ActionMode_Subtitle_Inverse
     int TextAppearance_Sherlock_Widget_ActionMode_Title -> TextAppearance_Sherlock_Widget_ActionMode_Title
     int TextAppearance_Sherlock_Widget_ActionMode_Title_Inverse -> TextAppearance_Sherlock_Widget_ActionMode_Title_Inverse
+    int TextAppearance_Sherlock_Widget_DropDownHint -> TextAppearance_Sherlock_Widget_DropDownHint
     int TextAppearance_Sherlock_Widget_DropDownItem -> TextAppearance_Sherlock_Widget_DropDownItem
     int TextAppearance_Sherlock_Widget_PopupMenu -> TextAppearance_Sherlock_Widget_PopupMenu
     int TextAppearance_Sherlock_Widget_PopupMenu_Large -> TextAppearance_Sherlock_Widget_PopupMenu_Large
@@ -1801,12 +1592,9 @@ com.actionbarsherlock.R$style -> com.actionbarsherlock.R$style:
     int TextAppearance_Sherlock_Widget_TextView_SpinnerItem -> TextAppearance_Sherlock_Widget_TextView_SpinnerItem
     int Theme_Sherlock -> Theme_Sherlock
     int Theme_Sherlock_Dialog -> Theme_Sherlock_Dialog
-    int Theme_Sherlock_ForceOverflow -> Theme_Sherlock_ForceOverflow
     int Theme_Sherlock_Light -> Theme_Sherlock_Light
     int Theme_Sherlock_Light_DarkActionBar -> Theme_Sherlock_Light_DarkActionBar
-    int Theme_Sherlock_Light_DarkActionBar_ForceOverflow -> Theme_Sherlock_Light_DarkActionBar_ForceOverflow
     int Theme_Sherlock_Light_Dialog -> Theme_Sherlock_Light_Dialog
-    int Theme_Sherlock_Light_ForceOverflow -> Theme_Sherlock_Light_ForceOverflow
     int Theme_Sherlock_Light_NoActionBar -> Theme_Sherlock_Light_NoActionBar
     int Theme_Sherlock_NoActionBar -> Theme_Sherlock_NoActionBar
     int Widget -> Widget
@@ -1845,6 +1633,7 @@ com.actionbarsherlock.R$style -> com.actionbarsherlock.R$style:
     int Widget_Sherlock_Light_PopupWindow_ActionMode -> Widget_Sherlock_Light_PopupWindow_ActionMode
     int Widget_Sherlock_Light_ProgressBar -> Widget_Sherlock_Light_ProgressBar
     int Widget_Sherlock_Light_ProgressBar_Horizontal -> Widget_Sherlock_Light_ProgressBar_Horizontal
+    int Widget_Sherlock_Light_SearchAutoCompleteTextView -> Widget_Sherlock_Light_SearchAutoCompleteTextView
     int Widget_Sherlock_Light_Spinner_DropDown_ActionBar -> Widget_Sherlock_Light_Spinner_DropDown_ActionBar
     int Widget_Sherlock_ListPopupWindow -> Widget_Sherlock_ListPopupWindow
     int Widget_Sherlock_ListView_DropDown -> Widget_Sherlock_ListView_DropDown
@@ -1852,6 +1641,7 @@ com.actionbarsherlock.R$style -> com.actionbarsherlock.R$style:
     int Widget_Sherlock_PopupWindow_ActionMode -> Widget_Sherlock_PopupWindow_ActionMode
     int Widget_Sherlock_ProgressBar -> Widget_Sherlock_ProgressBar
     int Widget_Sherlock_ProgressBar_Horizontal -> Widget_Sherlock_ProgressBar_Horizontal
+    int Widget_Sherlock_SearchAutoCompleteTextView -> Widget_Sherlock_SearchAutoCompleteTextView
     int Widget_Sherlock_Spinner_DropDown_ActionBar -> Widget_Sherlock_Spinner_DropDown_ActionBar
     int Widget_Sherlock_TextView_SpinnerItem -> Widget_Sherlock_TextView_SpinnerItem
 com.actionbarsherlock.R$styleable -> com.actionbarsherlock.R$styleable:
@@ -1921,6 +1711,12 @@ com.actionbarsherlock.R$styleable -> com.actionbarsherlock.R$styleable:
     int SherlockMenuView_preserveIconSpacing -> SherlockMenuView_preserveIconSpacing
     int SherlockMenuView_verticalDivider -> SherlockMenuView_verticalDivider
     int SherlockMenuView_windowAnimationStyle -> SherlockMenuView_windowAnimationStyle
+    int[] SherlockSearchView -> SherlockSearchView
+    int SherlockSearchView_android_imeOptions -> SherlockSearchView_android_imeOptions
+    int SherlockSearchView_android_inputType -> SherlockSearchView_android_inputType
+    int SherlockSearchView_android_maxWidth -> SherlockSearchView_android_maxWidth
+    int SherlockSearchView_iconifiedByDefault -> SherlockSearchView_iconifiedByDefault
+    int SherlockSearchView_queryHint -> SherlockSearchView_queryHint
     int[] SherlockSpinner -> SherlockSpinner
     int SherlockSpinner_android_dropDownHorizontalOffset -> SherlockSpinner_android_dropDownHorizontalOffset
     int SherlockSpinner_android_dropDownSelector -> SherlockSpinner_android_dropDownSelector
@@ -1931,7 +1727,6 @@ com.actionbarsherlock.R$styleable -> com.actionbarsherlock.R$styleable:
     int SherlockSpinner_android_popupPromptView -> SherlockSpinner_android_popupPromptView
     int SherlockSpinner_android_prompt -> SherlockSpinner_android_prompt
     int[] SherlockTheme -> SherlockTheme
-    int SherlockTheme_absForceOverflow -> SherlockTheme_absForceOverflow
     int SherlockTheme_actionBarDivider -> SherlockTheme_actionBarDivider
     int SherlockTheme_actionBarItemBackground -> SherlockTheme_actionBarItemBackground
     int SherlockTheme_actionBarSize -> SherlockTheme_actionBarSize
@@ -1967,15 +1762,30 @@ com.actionbarsherlock.R$styleable -> com.actionbarsherlock.R$styleable:
     int SherlockTheme_listPreferredItemPaddingLeft -> SherlockTheme_listPreferredItemPaddingLeft
     int SherlockTheme_listPreferredItemPaddingRight -> SherlockTheme_listPreferredItemPaddingRight
     int SherlockTheme_popupMenuStyle -> SherlockTheme_popupMenuStyle
+    int SherlockTheme_searchAutoCompleteTextView -> SherlockTheme_searchAutoCompleteTextView
+    int SherlockTheme_searchDropdownBackground -> SherlockTheme_searchDropdownBackground
+    int SherlockTheme_searchResultListItemHeight -> SherlockTheme_searchResultListItemHeight
+    int SherlockTheme_searchViewCloseIcon -> SherlockTheme_searchViewCloseIcon
+    int SherlockTheme_searchViewEditQuery -> SherlockTheme_searchViewEditQuery
+    int SherlockTheme_searchViewEditQueryBackground -> SherlockTheme_searchViewEditQueryBackground
+    int SherlockTheme_searchViewGoIcon -> SherlockTheme_searchViewGoIcon
+    int SherlockTheme_searchViewSearchIcon -> SherlockTheme_searchViewSearchIcon
+    int SherlockTheme_searchViewTextField -> SherlockTheme_searchViewTextField
+    int SherlockTheme_searchViewTextFieldRight -> SherlockTheme_searchViewTextFieldRight
+    int SherlockTheme_searchViewVoiceIcon -> SherlockTheme_searchViewVoiceIcon
+    int SherlockTheme_selectableItemBackground -> SherlockTheme_selectableItemBackground
     int SherlockTheme_spinnerDropDownItemStyle -> SherlockTheme_spinnerDropDownItemStyle
     int SherlockTheme_spinnerItemStyle -> SherlockTheme_spinnerItemStyle
     int SherlockTheme_textAppearanceLargePopupMenu -> SherlockTheme_textAppearanceLargePopupMenu
     int SherlockTheme_textAppearanceListItemSmall -> SherlockTheme_textAppearanceListItemSmall
+    int SherlockTheme_textAppearanceSearchResultSubtitle -> SherlockTheme_textAppearanceSearchResultSubtitle
+    int SherlockTheme_textAppearanceSearchResultTitle -> SherlockTheme_textAppearanceSearchResultTitle
     int SherlockTheme_textAppearanceSmall -> SherlockTheme_textAppearanceSmall
     int SherlockTheme_textAppearanceSmallPopupMenu -> SherlockTheme_textAppearanceSmallPopupMenu
     int SherlockTheme_textColorPrimary -> SherlockTheme_textColorPrimary
     int SherlockTheme_textColorPrimaryDisableOnly -> SherlockTheme_textColorPrimaryDisableOnly
     int SherlockTheme_textColorPrimaryInverse -> SherlockTheme_textColorPrimaryInverse
+    int SherlockTheme_textColorSearchUrl -> SherlockTheme_textColorSearchUrl
     int SherlockTheme_windowActionBar -> SherlockTheme_windowActionBar
     int SherlockTheme_windowActionBarOverlay -> SherlockTheme_windowActionBarOverlay
     int SherlockTheme_windowActionModeOverlay -> SherlockTheme_windowActionModeOverlay
@@ -1984,9 +1794,12 @@ com.actionbarsherlock.R$styleable -> com.actionbarsherlock.R$styleable:
     int SherlockTheme_windowMinWidthMinor -> SherlockTheme_windowMinWidthMinor
     int SherlockTheme_windowNoTitle -> SherlockTheme_windowNoTitle
     int SherlockTheme_windowSplitActionBar -> SherlockTheme_windowSplitActionBar
+    int[] SherlockView -> SherlockView
+    int SherlockView_android_focusable -> SherlockView_android_focusable
 com.actionbarsherlock.R$xml -> com.actionbarsherlock.R$xml:
     int account_preferences -> account_preferences
     int authenticator -> authenticator
+    int searchable -> searchable
     int sync_courses -> sync_courses
 com.actionbarsherlock.app.ActionBar -> com.actionbarsherlock.app.ActionBar:
     int NAVIGATION_MODE_STANDARD -> NAVIGATION_MODE_STANDARD
@@ -2049,6 +1862,7 @@ com.actionbarsherlock.app.ActionBar -> com.actionbarsherlock.app.ActionBar:
     void setHomeButtonEnabled(boolean) -> setHomeButtonEnabled
     android.content.Context getThemedContext() -> getThemedContext
 com.actionbarsherlock.app.ActionBar$LayoutParams -> com.actionbarsherlock.app.ActionBar$LayoutParams:
+    int[] ATTRS -> ATTRS
     int gravity -> gravity
 com.actionbarsherlock.app.ActionBar$OnMenuVisibilityListener -> com.actionbarsherlock.app.ActionBar$OnMenuVisibilityListener:
     void onMenuVisibilityChanged(boolean) -> onMenuVisibilityChanged
@@ -2094,6 +1908,8 @@ com.actionbarsherlock.app.SherlockActivity -> com.actionbarsherlock.app.Sherlock
     boolean onMenuOpened(int,android.view.Menu) -> onMenuOpened
     void onPanelClosed(int,android.view.Menu) -> onPanelClosed
     boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
+    void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    void onRestoreInstanceState(android.os.Bundle) -> onRestoreInstanceState
     com.actionbarsherlock.view.MenuInflater getSupportMenuInflater() -> getSupportMenuInflater
     void invalidateOptionsMenu() -> invalidateOptionsMenu
     void supportInvalidateOptionsMenu() -> supportInvalidateOptionsMenu
@@ -2203,6 +2019,8 @@ com.actionbarsherlock.app.SherlockFragmentActivity -> com.actionbarsherlock.app.
     boolean onMenuOpened(int,android.view.Menu) -> onMenuOpened
     void onPanelClosed(int,android.view.Menu) -> onPanelClosed
     boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
+    void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    void onRestoreInstanceState(android.os.Bundle) -> onRestoreInstanceState
     com.actionbarsherlock.view.MenuInflater getSupportMenuInflater() -> getSupportMenuInflater
     void invalidateOptionsMenu() -> invalidateOptionsMenu
     void supportInvalidateOptionsMenu() -> supportInvalidateOptionsMenu
@@ -2244,6 +2062,8 @@ com.actionbarsherlock.app.SherlockListActivity -> com.actionbarsherlock.app.Sher
     boolean onMenuOpened(int,android.view.Menu) -> onMenuOpened
     void onPanelClosed(int,android.view.Menu) -> onPanelClosed
     boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
+    void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    void onRestoreInstanceState(android.os.Bundle) -> onRestoreInstanceState
     com.actionbarsherlock.view.MenuInflater getSupportMenuInflater() -> getSupportMenuInflater
     void invalidateOptionsMenu() -> invalidateOptionsMenu
     void supportInvalidateOptionsMenu() -> supportInvalidateOptionsMenu
@@ -2296,6 +2116,8 @@ com.actionbarsherlock.app.SherlockPreferenceActivity -> com.actionbarsherlock.ap
     boolean onMenuOpened(int,android.view.Menu) -> onMenuOpened
     void onPanelClosed(int,android.view.Menu) -> onPanelClosed
     boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
+    void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    void onRestoreInstanceState(android.os.Bundle) -> onRestoreInstanceState
     com.actionbarsherlock.view.MenuInflater getSupportMenuInflater() -> getSupportMenuInflater
     void invalidateOptionsMenu() -> invalidateOptionsMenu
     void supportInvalidateOptionsMenu() -> supportInvalidateOptionsMenu
@@ -2322,11 +2144,11 @@ com.actionbarsherlock.app.SherlockPreferenceActivity -> com.actionbarsherlock.ap
     void setSupportSecondaryProgress(int) -> setSupportSecondaryProgress
 com.actionbarsherlock.internal.ActionBarSherlockCompat -> com.actionbarsherlock.internal.ActionBarSherlockCompat:
     int DEFAULT_FEATURES -> DEFAULT_FEATURES
+    java.lang.String PANELS_TAG -> PANELS_TAG
     boolean mReserveOverflow -> mReserveOverflow
     boolean mReserveOverflowSet -> mReserveOverflowSet
     com.actionbarsherlock.internal.view.menu.MenuBuilder mMenu -> mMenu
     java.util.HashMap mNativeItemMap -> mNativeItemMap
-    boolean mMenuKeyIsLongPress -> mMenuKeyIsLongPress
     android.view.ViewGroup mDecor -> mDecor
     android.view.ViewGroup mContentParent -> mContentParent
     boolean mIsTitleReady -> mIsTitleReady
@@ -2367,6 +2189,8 @@ com.actionbarsherlock.internal.ActionBarSherlockCompat -> com.actionbarsherlock.
     void dispatchTitleChanged(java.lang.CharSequence,int) -> dispatchTitleChanged
     boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
     void dispatchDestroy() -> dispatchDestroy
+    void dispatchSaveInstanceState(android.os.Bundle) -> dispatchSaveInstanceState
+    void dispatchRestoreInstanceState(android.os.Bundle) -> dispatchRestoreInstanceState
     boolean preparePanel() -> preparePanel
     boolean onMenuItemSelected(com.actionbarsherlock.internal.view.menu.MenuBuilder,com.actionbarsherlock.view.MenuItem) -> onMenuItemSelected
     void onMenuModeChange(com.actionbarsherlock.internal.view.menu.MenuBuilder) -> onMenuModeChange
@@ -2446,6 +2270,7 @@ com.actionbarsherlock.internal.ActionBarSherlockNative -> com.actionbarsherlock.
     com.actionbarsherlock.view.ActionMode startActionMode(com.actionbarsherlock.view.ActionMode$Callback) -> startActionMode
     void access$0(com.actionbarsherlock.internal.ActionBarSherlockNative,com.actionbarsherlock.internal.ActionBarSherlockNative$ActionModeWrapper) -> access$0
     com.actionbarsherlock.internal.ActionBarSherlockNative$ActionModeWrapper access$1(com.actionbarsherlock.internal.ActionBarSherlockNative) -> access$1
+    android.app.Activity access$2(com.actionbarsherlock.internal.ActionBarSherlockNative) -> access$2
 com.actionbarsherlock.internal.ActionBarSherlockNative$ActionModeCallbackWrapper -> com.actionbarsherlock.internal.ActionBarSherlockNative$ActionModeCallbackWrapper:
     com.actionbarsherlock.view.ActionMode$Callback mCallback -> mCallback
     com.actionbarsherlock.internal.ActionBarSherlockNative this$0 -> this$0
@@ -3399,10 +3224,11 @@ com.actionbarsherlock.internal.view.menu.ActionMenuPresenter -> com.actionbarshe
     android.os.Parcelable onSaveInstanceState() -> onSaveInstanceState
     void onRestoreInstanceState(android.os.Parcelable) -> onRestoreInstanceState
     void onSubUiVisibilityChanged(boolean) -> onSubUiVisibilityChanged
-    void access$0(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter,com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$OverflowPopup) -> access$0
-    android.view.View access$1(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter) -> access$1
-    void access$2(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter,com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$ActionButtonSubmenu) -> access$2
-    void access$3(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter,com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$OpenOverflowRunnable) -> access$3
+    com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$OverflowPopup access$0(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter) -> access$0
+    void access$1(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter,com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$OverflowPopup) -> access$1
+    android.view.View access$2(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter) -> access$2
+    void access$3(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter,com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$ActionButtonSubmenu) -> access$3
+    void access$4(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter,com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$OpenOverflowRunnable) -> access$4
 com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$ActionButtonSubmenu -> com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$ActionButtonSubmenu:
     com.actionbarsherlock.internal.view.menu.ActionMenuPresenter this$0 -> this$0
     void onDismiss() -> onDismiss
@@ -4252,6 +4078,11 @@ com.actionbarsherlock.internal.widget.CapitalizingTextView -> com.actionbarsherl
     int R_styleable_TextView_textAllCaps -> R_styleable_TextView_textAllCaps
     boolean mAllCaps -> mAllCaps
     void setTextCompat(java.lang.CharSequence) -> setTextCompat
+com.actionbarsherlock.internal.widget.CollapsibleActionViewWrapper -> com.actionbarsherlock.internal.widget.CollapsibleActionViewWrapper:
+    com.actionbarsherlock.view.CollapsibleActionView child -> child
+    void onActionViewExpanded() -> onActionViewExpanded
+    void onActionViewCollapsed() -> onActionViewCollapsed
+    android.view.View unwrap() -> unwrap
 com.actionbarsherlock.internal.widget.FakeDialogPhoneWindow -> com.actionbarsherlock.internal.widget.FakeDialogPhoneWindow:
     android.util.TypedValue mMinWidthMajor -> mMinWidthMajor
     android.util.TypedValue mMinWidthMinor -> mMinWidthMinor
@@ -4418,9 +4249,17 @@ com.actionbarsherlock.internal.widget.IcsAdapterView$OnItemSelectedListener -> c
 com.actionbarsherlock.internal.widget.IcsAdapterView$SelectionNotifier -> com.actionbarsherlock.internal.widget.IcsAdapterView$SelectionNotifier:
     com.actionbarsherlock.internal.widget.IcsAdapterView this$0 -> this$0
     void run() -> run
+com.actionbarsherlock.internal.widget.IcsColorDrawable -> com.actionbarsherlock.internal.widget.IcsColorDrawable:
+    int color -> color
+    android.graphics.Paint paint -> paint
+    void draw(android.graphics.Canvas) -> draw
+    void setAlpha(int) -> setAlpha
+    void setColorFilter(android.graphics.ColorFilter) -> setColorFilter
+    int getOpacity() -> getOpacity
 com.actionbarsherlock.internal.widget.IcsLinearLayout -> com.actionbarsherlock.internal.widget.IcsLinearLayout:
-    int[] LinearLayout -> LinearLayout
+    int[] R_styleable_LinearLayout -> R_styleable_LinearLayout
     int LinearLayout_divider -> LinearLayout_divider
+    int LinearLayout_measureWithLargestChild -> LinearLayout_measureWithLargestChild
     int LinearLayout_showDividers -> LinearLayout_showDividers
     int LinearLayout_dividerPadding -> LinearLayout_dividerPadding
     int SHOW_DIVIDER_NONE -> SHOW_DIVIDER_NONE
@@ -4432,6 +4271,7 @@ com.actionbarsherlock.internal.widget.IcsLinearLayout -> com.actionbarsherlock.i
     int mDividerHeight -> mDividerHeight
     int mShowDividers -> mShowDividers
     int mDividerPadding -> mDividerPadding
+    boolean mUseLargestChild -> mUseLargestChild
     void setShowDividers(int) -> setShowDividers
     int getShowDividers() -> getShowDividers
     void setDividerDrawable(android.graphics.drawable.Drawable) -> setDividerDrawable
@@ -4445,6 +4285,11 @@ com.actionbarsherlock.internal.widget.IcsLinearLayout -> com.actionbarsherlock.i
     void drawHorizontalDivider(android.graphics.Canvas,int) -> drawHorizontalDivider
     void drawVerticalDivider(android.graphics.Canvas,int) -> drawVerticalDivider
     boolean hasDividerBeforeChildAt(int) -> hasDividerBeforeChildAt
+    boolean isMeasureWithLargestChildEnabled() -> isMeasureWithLargestChildEnabled
+    void setMeasureWithLargestChildEnabled(boolean) -> setMeasureWithLargestChildEnabled
+    void onMeasure(int,int) -> onMeasure
+    void useLargestChildHorizontal() -> useLargestChildHorizontal
+    void useLargestChildVertical() -> useLargestChildVertical
 com.actionbarsherlock.internal.widget.IcsListPopupWindow -> com.actionbarsherlock.internal.widget.IcsListPopupWindow:
     int EXPAND_LIST_TIMEOUT -> EXPAND_LIST_TIMEOUT
     android.content.Context mContext -> mContext
@@ -4866,16 +4711,18 @@ com.actionbarsherlock.view.MenuInflater -> com.actionbarsherlock.view.MenuInflat
     java.lang.Object[] mActionViewConstructorArguments -> mActionViewConstructorArguments
     java.lang.Object[] mActionProviderConstructorArguments -> mActionProviderConstructorArguments
     android.content.Context mContext -> mContext
+    java.lang.Object mRealOwner -> mRealOwner
     void inflate(int,com.actionbarsherlock.view.Menu) -> inflate
     void parseMenu(org.xmlpull.v1.XmlPullParser,android.util.AttributeSet,com.actionbarsherlock.view.Menu) -> parseMenu
     android.content.Context access$0(com.actionbarsherlock.view.MenuInflater) -> access$0
     java.lang.Class[] access$1() -> access$1
     java.lang.Object[] access$2(com.actionbarsherlock.view.MenuInflater) -> access$2
-    java.lang.Class[] access$3() -> access$3
-    java.lang.Object[] access$4(com.actionbarsherlock.view.MenuInflater) -> access$4
+    java.lang.Object access$3(com.actionbarsherlock.view.MenuInflater) -> access$3
+    java.lang.Class[] access$4() -> access$4
+    java.lang.Object[] access$5(com.actionbarsherlock.view.MenuInflater) -> access$5
 com.actionbarsherlock.view.MenuInflater$InflatedOnMenuItemClickListener -> com.actionbarsherlock.view.MenuInflater$InflatedOnMenuItemClickListener:
     java.lang.Class[] PARAM_TYPES -> PARAM_TYPES
-    android.content.Context mContext -> mContext
+    java.lang.Object mRealOwner -> mRealOwner
     java.lang.reflect.Method mMethod -> mMethod
     boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem) -> onMenuItemClick
 com.actionbarsherlock.view.MenuInflater$MenuState -> com.actionbarsherlock.view.MenuInflater$MenuState:
@@ -5023,7 +4870,7 @@ com.actionbarsherlock.widget.ActivityChooserModel -> com.actionbarsherlock.widge
     boolean mHistoricalRecordsChanged -> mHistoricalRecordsChanged
     android.os.Handler mHandler -> mHandler
     com.actionbarsherlock.widget.ActivityChooserModel$OnChooseActivityListener mActivityChoserModelPolicy -> mActivityChoserModelPolicy
-    com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor SERIAL_EXECUTOR -> SERIAL_EXECUTOR
+    java.util.concurrent.Executor SERIAL_EXECUTOR -> SERIAL_EXECUTOR
     com.actionbarsherlock.widget.ActivityChooserModel get(android.content.Context,java.lang.String) -> get
     void setIntent(android.content.Intent) -> setIntent
     android.content.Intent getIntent() -> getIntent
@@ -5090,15 +4937,6 @@ com.actionbarsherlock.widget.ActivityChooserModel$HistoryPersister -> com.action
     void run() -> run
 com.actionbarsherlock.widget.ActivityChooserModel$OnChooseActivityListener -> com.actionbarsherlock.widget.ActivityChooserModel$OnChooseActivityListener:
     boolean onChooseActivity(com.actionbarsherlock.widget.ActivityChooserModel,android.content.Intent) -> onChooseActivity
-com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor -> com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor:
-    java.util.LinkedList mTasks -> mTasks
-    java.lang.Runnable mActive -> mActive
-    void execute(java.lang.Runnable) -> execute
-    void scheduleNext() -> scheduleNext
-com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor$1 -> com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor$1:
-    com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor this$1 -> this$1
-    java.lang.Runnable val$r -> val$r
-    void run() -> run
 com.actionbarsherlock.widget.ActivityChooserView -> com.actionbarsherlock.widget.ActivityChooserView:
     com.actionbarsherlock.widget.ActivityChooserView$ActivityChooserViewAdapter mAdapter -> mAdapter
     com.actionbarsherlock.widget.ActivityChooserView$Callbacks mCallbacks -> mCallbacks
@@ -5199,6 +5037,213 @@ com.actionbarsherlock.widget.ActivityChooserView$Callbacks -> com.actionbarsherl
     void notifyOnDismissListener() -> notifyOnDismissListener
 com.actionbarsherlock.widget.ActivityChooserView$SetActivated -> com.actionbarsherlock.widget.ActivityChooserView$SetActivated:
     void invoke(android.view.View,boolean) -> invoke
+com.actionbarsherlock.widget.SearchView -> com.actionbarsherlock.widget.SearchView:
+    boolean DBG -> DBG
+    java.lang.String LOG_TAG -> LOG_TAG
+    java.lang.String IME_OPTION_NO_MICROPHONE -> IME_OPTION_NO_MICROPHONE
+    com.actionbarsherlock.widget.SearchView$OnQueryTextListener mOnQueryChangeListener -> mOnQueryChangeListener
+    com.actionbarsherlock.widget.SearchView$OnCloseListener mOnCloseListener -> mOnCloseListener
+    android.view.View$OnFocusChangeListener mOnQueryTextFocusChangeListener -> mOnQueryTextFocusChangeListener
+    com.actionbarsherlock.widget.SearchView$OnSuggestionListener mOnSuggestionListener -> mOnSuggestionListener
+    android.view.View$OnClickListener mOnSearchClickListener -> mOnSearchClickListener
+    boolean mIconifiedByDefault -> mIconifiedByDefault
+    boolean mIconified -> mIconified
+    android.support.v4.widget.CursorAdapter mSuggestionsAdapter -> mSuggestionsAdapter
+    android.view.View mSearchButton -> mSearchButton
+    android.view.View mSubmitButton -> mSubmitButton
+    android.view.View mSearchPlate -> mSearchPlate
+    android.view.View mSubmitArea -> mSubmitArea
+    android.widget.ImageView mCloseButton -> mCloseButton
+    android.view.View mSearchEditFrame -> mSearchEditFrame
+    android.view.View mVoiceButton -> mVoiceButton
+    com.actionbarsherlock.widget.SearchView$SearchAutoComplete mQueryTextView -> mQueryTextView
+    android.view.View mDropDownAnchor -> mDropDownAnchor
+    android.widget.ImageView mSearchHintIcon -> mSearchHintIcon
+    boolean mSubmitButtonEnabled -> mSubmitButtonEnabled
+    java.lang.CharSequence mQueryHint -> mQueryHint
+    boolean mQueryRefinement -> mQueryRefinement
+    boolean mClearingFocus -> mClearingFocus
+    int mMaxWidth -> mMaxWidth
+    boolean mVoiceButtonEnabled -> mVoiceButtonEnabled
+    java.lang.CharSequence mOldQueryText -> mOldQueryText
+    java.lang.CharSequence mUserQuery -> mUserQuery
+    boolean mExpandedInActionView -> mExpandedInActionView
+    int mCollapsedImeOptions -> mCollapsedImeOptions
+    android.app.SearchableInfo mSearchable -> mSearchable
+    android.os.Bundle mAppSearchData -> mAppSearchData
+    java.lang.Runnable mShowImeRunnable -> mShowImeRunnable
+    java.lang.Runnable mUpdateDrawableStateRunnable -> mUpdateDrawableStateRunnable
+    java.lang.Runnable mReleaseCursorRunnable -> mReleaseCursorRunnable
+    android.content.Intent mVoiceWebSearchIntent -> mVoiceWebSearchIntent
+    android.content.Intent mVoiceAppSearchIntent -> mVoiceAppSearchIntent
+    java.util.WeakHashMap mOutsideDrawablesCache -> mOutsideDrawablesCache
+    android.view.View$OnClickListener mOnClickListener -> mOnClickListener
+    android.view.View$OnKeyListener mTextKeyListener -> mTextKeyListener
+    android.widget.TextView$OnEditorActionListener mOnEditorActionListener -> mOnEditorActionListener
+    android.widget.AdapterView$OnItemClickListener mOnItemClickListener -> mOnItemClickListener
+    android.widget.AdapterView$OnItemSelectedListener mOnItemSelectedListener -> mOnItemSelectedListener
+    android.text.TextWatcher mTextWatcher -> mTextWatcher
+    void setSearchableInfo(android.app.SearchableInfo) -> setSearchableInfo
+    void setAppSearchData(android.os.Bundle) -> setAppSearchData
+    void setImeOptions(int) -> setImeOptions
+    int getImeOptions() -> getImeOptions
+    void setInputType(int) -> setInputType
+    int getInputType() -> getInputType
+    boolean requestFocus(int,android.graphics.Rect) -> requestFocus
+    void clearFocus() -> clearFocus
+    void setOnQueryTextListener(com.actionbarsherlock.widget.SearchView$OnQueryTextListener) -> setOnQueryTextListener
+    void setOnCloseListener(com.actionbarsherlock.widget.SearchView$OnCloseListener) -> setOnCloseListener
+    void setOnQueryTextFocusChangeListener(android.view.View$OnFocusChangeListener) -> setOnQueryTextFocusChangeListener
+    void setOnSuggestionListener(com.actionbarsherlock.widget.SearchView$OnSuggestionListener) -> setOnSuggestionListener
+    void setOnSearchClickListener(android.view.View$OnClickListener) -> setOnSearchClickListener
+    java.lang.CharSequence getQuery() -> getQuery
+    void setQuery(java.lang.CharSequence,boolean) -> setQuery
+    void setQueryHint(java.lang.CharSequence) -> setQueryHint
+    java.lang.CharSequence getQueryHint() -> getQueryHint
+    void setIconifiedByDefault(boolean) -> setIconifiedByDefault
+    boolean isIconfiedByDefault() -> isIconfiedByDefault
+    void setIconified(boolean) -> setIconified
+    boolean isIconified() -> isIconified
+    void setSubmitButtonEnabled(boolean) -> setSubmitButtonEnabled
+    boolean isSubmitButtonEnabled() -> isSubmitButtonEnabled
+    void setQueryRefinementEnabled(boolean) -> setQueryRefinementEnabled
+    boolean isQueryRefinementEnabled() -> isQueryRefinementEnabled
+    void setSuggestionsAdapter(android.support.v4.widget.CursorAdapter) -> setSuggestionsAdapter
+    android.support.v4.widget.CursorAdapter getSuggestionsAdapter() -> getSuggestionsAdapter
+    void setMaxWidth(int) -> setMaxWidth
+    int getMaxWidth() -> getMaxWidth
+    void onMeasure(int,int) -> onMeasure
+    int getPreferredWidth() -> getPreferredWidth
+    void updateViewsVisibility(boolean) -> updateViewsVisibility
+    boolean hasVoiceSearch() -> hasVoiceSearch
+    boolean isSubmitAreaEnabled() -> isSubmitAreaEnabled
+    void updateSubmitButton(boolean) -> updateSubmitButton
+    void updateSubmitArea() -> updateSubmitArea
+    void updateCloseButton() -> updateCloseButton
+    void postUpdateFocusedState() -> postUpdateFocusedState
+    void updateFocusedState() -> updateFocusedState
+    void onDetachedFromWindow() -> onDetachedFromWindow
+    void setImeVisibility(boolean) -> setImeVisibility
+    void onQueryRefine(java.lang.CharSequence) -> onQueryRefine
+    boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
+    boolean onSuggestionsKey(android.view.View,int,android.view.KeyEvent) -> onSuggestionsKey
+    int getSearchIconId() -> getSearchIconId
+    java.lang.CharSequence getDecoratedHint(java.lang.CharSequence) -> getDecoratedHint
+    void updateQueryHint() -> updateQueryHint
+    void updateSearchAutoComplete() -> updateSearchAutoComplete
+    void updateVoiceButton(boolean) -> updateVoiceButton
+    void onTextChanged(java.lang.CharSequence) -> onTextChanged
+    void onSubmitQuery() -> onSubmitQuery
+    void dismissSuggestions() -> dismissSuggestions
+    void onCloseClicked() -> onCloseClicked
+    void onSearchClicked() -> onSearchClicked
+    void onVoiceClicked() -> onVoiceClicked
+    void onTextFocusChanged() -> onTextFocusChanged
+    void onWindowFocusChanged(boolean) -> onWindowFocusChanged
+    void onActionViewCollapsed() -> onActionViewCollapsed
+    void onActionViewExpanded() -> onActionViewExpanded
+    void onInitializeAccessibilityEvent(android.view.accessibility.AccessibilityEvent) -> onInitializeAccessibilityEvent
+    void onInitializeAccessibilityNodeInfo(android.view.accessibility.AccessibilityNodeInfo) -> onInitializeAccessibilityNodeInfo
+    void adjustDropDownSizeAndPosition() -> adjustDropDownSizeAndPosition
+    boolean onItemClicked(int,int,java.lang.String) -> onItemClicked
+    boolean onItemSelected(int) -> onItemSelected
+    void rewriteQueryFromSuggestion(int) -> rewriteQueryFromSuggestion
+    boolean launchSuggestion(int,int,java.lang.String) -> launchSuggestion
+    void launchIntent(android.content.Intent) -> launchIntent
+    void setQuery(java.lang.CharSequence) -> setQuery
+    void launchQuerySearch(int,java.lang.String,java.lang.String) -> launchQuerySearch
+    android.content.Intent createIntent(java.lang.String,android.net.Uri,java.lang.String,java.lang.String,int,java.lang.String) -> createIntent
+    android.content.Intent createVoiceWebSearchIntent(android.content.Intent,android.app.SearchableInfo) -> createVoiceWebSearchIntent
+    android.content.Intent createVoiceAppSearchIntent(android.content.Intent,android.app.SearchableInfo) -> createVoiceAppSearchIntent
+    android.content.Intent createIntentFromSuggestion(android.database.Cursor,int,java.lang.String) -> createIntentFromSuggestion
+    void forceSuggestionQuery() -> forceSuggestionQuery
+    boolean isLandscapeMode(android.content.Context) -> isLandscapeMode
+    void ensureImeVisible(android.widget.AutoCompleteTextView,boolean) -> ensureImeVisible
+    void showSoftInputUnchecked(android.view.View,android.view.inputmethod.InputMethodManager,int) -> showSoftInputUnchecked
+    void setText(android.widget.AutoCompleteTextView,java.lang.CharSequence,boolean) -> setText
+    void access$0(android.view.View,android.view.inputmethod.InputMethodManager,int) -> access$0
+    void access$1(com.actionbarsherlock.widget.SearchView) -> access$1
+    android.support.v4.widget.CursorAdapter access$2(com.actionbarsherlock.widget.SearchView) -> access$2
+    android.view.View access$3(com.actionbarsherlock.widget.SearchView) -> access$3
+    void access$4(com.actionbarsherlock.widget.SearchView) -> access$4
+    android.widget.ImageView access$5(com.actionbarsherlock.widget.SearchView) -> access$5
+    void access$6(com.actionbarsherlock.widget.SearchView) -> access$6
+    android.view.View access$7(com.actionbarsherlock.widget.SearchView) -> access$7
+    void access$8(com.actionbarsherlock.widget.SearchView) -> access$8
+    android.view.View access$9(com.actionbarsherlock.widget.SearchView) -> access$9
+    void access$10(com.actionbarsherlock.widget.SearchView) -> access$10
+    com.actionbarsherlock.widget.SearchView$SearchAutoComplete access$11(com.actionbarsherlock.widget.SearchView) -> access$11
+    void access$12(com.actionbarsherlock.widget.SearchView) -> access$12
+    android.app.SearchableInfo access$13(com.actionbarsherlock.widget.SearchView) -> access$13
+    boolean access$14(com.actionbarsherlock.widget.SearchView,android.view.View,int,android.view.KeyEvent) -> access$14
+    void access$15(com.actionbarsherlock.widget.SearchView,int,java.lang.String,java.lang.String) -> access$15
+    boolean access$16(com.actionbarsherlock.widget.SearchView,int,int,java.lang.String) -> access$16
+    boolean access$17(com.actionbarsherlock.widget.SearchView,int) -> access$17
+    void access$18(com.actionbarsherlock.widget.SearchView,java.lang.CharSequence) -> access$18
+    void access$19(android.widget.AutoCompleteTextView,boolean) -> access$19
+    void access$20(com.actionbarsherlock.widget.SearchView,boolean) -> access$20
+    android.view.View$OnFocusChangeListener access$21(com.actionbarsherlock.widget.SearchView) -> access$21
+    void access$22(com.actionbarsherlock.widget.SearchView) -> access$22
+com.actionbarsherlock.widget.SearchView$1 -> com.actionbarsherlock.widget.SearchView$1:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void run() -> run
+com.actionbarsherlock.widget.SearchView$10 -> com.actionbarsherlock.widget.SearchView$10:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void onFocusChange(android.view.View,boolean) -> onFocusChange
+com.actionbarsherlock.widget.SearchView$11 -> com.actionbarsherlock.widget.SearchView$11:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void onLayoutChange(android.view.View,int,int,int,int,int,int,int,int) -> onLayoutChange
+com.actionbarsherlock.widget.SearchView$12 -> com.actionbarsherlock.widget.SearchView$12:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void onGlobalLayout() -> onGlobalLayout
+com.actionbarsherlock.widget.SearchView$2 -> com.actionbarsherlock.widget.SearchView$2:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void run() -> run
+com.actionbarsherlock.widget.SearchView$3 -> com.actionbarsherlock.widget.SearchView$3:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void run() -> run
+com.actionbarsherlock.widget.SearchView$4 -> com.actionbarsherlock.widget.SearchView$4:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void onClick(android.view.View) -> onClick
+com.actionbarsherlock.widget.SearchView$5 -> com.actionbarsherlock.widget.SearchView$5:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    boolean onKey(android.view.View,int,android.view.KeyEvent) -> onKey
+com.actionbarsherlock.widget.SearchView$6 -> com.actionbarsherlock.widget.SearchView$6:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    boolean onEditorAction(android.widget.TextView,int,android.view.KeyEvent) -> onEditorAction
+com.actionbarsherlock.widget.SearchView$7 -> com.actionbarsherlock.widget.SearchView$7:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+com.actionbarsherlock.widget.SearchView$8 -> com.actionbarsherlock.widget.SearchView$8:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void onItemSelected(android.widget.AdapterView,android.view.View,int,long) -> onItemSelected
+    void onNothingSelected(android.widget.AdapterView) -> onNothingSelected
+com.actionbarsherlock.widget.SearchView$9 -> com.actionbarsherlock.widget.SearchView$9:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    void afterTextChanged(android.text.Editable) -> afterTextChanged
+com.actionbarsherlock.widget.SearchView$OnCloseListener -> com.actionbarsherlock.widget.SearchView$OnCloseListener:
+    boolean onClose() -> onClose
+com.actionbarsherlock.widget.SearchView$OnQueryTextListener -> com.actionbarsherlock.widget.SearchView$OnQueryTextListener:
+    boolean onQueryTextSubmit(java.lang.String) -> onQueryTextSubmit
+    boolean onQueryTextChange(java.lang.String) -> onQueryTextChange
+com.actionbarsherlock.widget.SearchView$OnSuggestionListener -> com.actionbarsherlock.widget.SearchView$OnSuggestionListener:
+    boolean onSuggestionSelect(int) -> onSuggestionSelect
+    boolean onSuggestionClick(int) -> onSuggestionClick
+com.actionbarsherlock.widget.SearchView$SearchAutoComplete -> com.actionbarsherlock.widget.SearchView$SearchAutoComplete:
+    int mThreshold -> mThreshold
+    com.actionbarsherlock.widget.SearchView mSearchView -> mSearchView
+    void setSearchView(com.actionbarsherlock.widget.SearchView) -> setSearchView
+    void setThreshold(int) -> setThreshold
+    boolean isEmpty() -> isEmpty
+    void replaceText(java.lang.CharSequence) -> replaceText
+    void performCompletion() -> performCompletion
+    void onWindowFocusChanged(boolean) -> onWindowFocusChanged
+    void onFocusChanged(boolean,int,android.graphics.Rect) -> onFocusChanged
+    boolean enoughToFilter() -> enoughToFilter
+    boolean onKeyPreIme(int,android.view.KeyEvent) -> onKeyPreIme
+    boolean access$0(com.actionbarsherlock.widget.SearchView$SearchAutoComplete) -> access$0
 com.actionbarsherlock.widget.ShareActionProvider -> com.actionbarsherlock.widget.ShareActionProvider:
     int DEFAULT_INITIAL_ACTIVITY_COUNT -> DEFAULT_INITIAL_ACTIVITY_COUNT
     int mMaxShownActivityCount -> mMaxShownActivityCount
@@ -5226,6 +5271,63 @@ com.actionbarsherlock.widget.ShareActionProvider$ShareAcitivityChooserModelPolic
 com.actionbarsherlock.widget.ShareActionProvider$ShareMenuItemOnMenuItemClickListener -> com.actionbarsherlock.widget.ShareActionProvider$ShareMenuItemOnMenuItemClickListener:
     com.actionbarsherlock.widget.ShareActionProvider this$0 -> this$0
     boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem) -> onMenuItemClick
+com.actionbarsherlock.widget.SuggestionsAdapter -> com.actionbarsherlock.widget.SuggestionsAdapter:
+    boolean DBG -> DBG
+    java.lang.String LOG_TAG -> LOG_TAG
+    int QUERY_LIMIT -> QUERY_LIMIT
+    int REFINE_NONE -> REFINE_NONE
+    int REFINE_BY_ENTRY -> REFINE_BY_ENTRY
+    int REFINE_ALL -> REFINE_ALL
+    android.app.SearchManager mSearchManager -> mSearchManager
+    com.actionbarsherlock.widget.SearchView mSearchView -> mSearchView
+    android.content.Context mProviderContext -> mProviderContext
+    java.util.WeakHashMap mOutsideDrawablesCache -> mOutsideDrawablesCache
+    boolean mClosed -> mClosed
+    int mQueryRefinement -> mQueryRefinement
+    android.content.res.ColorStateList mUrlColor -> mUrlColor
+    int INVALID_INDEX -> INVALID_INDEX
+    int mText1Col -> mText1Col
+    int mText2Col -> mText2Col
+    int mText2UrlCol -> mText2UrlCol
+    int mIconName1Col -> mIconName1Col
+    int mIconName2Col -> mIconName2Col
+    int mFlagsCol -> mFlagsCol
+    void setQueryRefinement(int) -> setQueryRefinement
+    int getQueryRefinement() -> getQueryRefinement
+    boolean hasStableIds() -> hasStableIds
+    android.database.Cursor runQueryOnBackgroundThread(java.lang.CharSequence) -> runQueryOnBackgroundThread
+    android.database.Cursor getSuggestions(java.lang.String,int) -> getSuggestions
+    void close() -> close
+    void notifyDataSetChanged() -> notifyDataSetChanged
+    void notifyDataSetInvalidated() -> notifyDataSetInvalidated
+    void updateSpinnerState(android.database.Cursor) -> updateSpinnerState
+    void changeCursor(android.database.Cursor) -> changeCursor
+    android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> newView
+    void bindView(android.view.View,android.content.Context,android.database.Cursor) -> bindView
+    void onClick(android.view.View) -> onClick
+    java.lang.CharSequence formatUrl(java.lang.CharSequence) -> formatUrl
+    void setViewText(android.widget.TextView,java.lang.CharSequence) -> setViewText
+    android.graphics.drawable.Drawable getIcon1(android.database.Cursor) -> getIcon1
+    android.graphics.drawable.Drawable getIcon2(android.database.Cursor) -> getIcon2
+    void setViewDrawable(android.widget.ImageView,android.graphics.drawable.Drawable,int) -> setViewDrawable
+    java.lang.CharSequence convertToString(android.database.Cursor) -> convertToString
+    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    android.graphics.drawable.Drawable getDrawableFromResourceValue(java.lang.String) -> getDrawableFromResourceValue
+    android.graphics.drawable.Drawable getDrawable(android.net.Uri) -> getDrawable
+    android.graphics.drawable.Drawable getTheDrawable(android.net.Uri) -> getTheDrawable
+    android.graphics.drawable.Drawable checkIconCache(java.lang.String) -> checkIconCache
+    void storeInIconCache(java.lang.String,android.graphics.drawable.Drawable) -> storeInIconCache
+    android.graphics.drawable.Drawable getDefaultIcon1(android.database.Cursor) -> getDefaultIcon1
+    android.graphics.drawable.Drawable getActivityIconWithCache(android.content.ComponentName) -> getActivityIconWithCache
+    android.graphics.drawable.Drawable getActivityIcon(android.content.ComponentName) -> getActivityIcon
+    java.lang.String getColumnString(android.database.Cursor,java.lang.String) -> getColumnString
+    java.lang.String getStringOrNull(android.database.Cursor,int) -> getStringOrNull
+com.actionbarsherlock.widget.SuggestionsAdapter$ChildViewCache -> com.actionbarsherlock.widget.SuggestionsAdapter$ChildViewCache:
+    android.widget.TextView mText1 -> mText1
+    android.widget.TextView mText2 -> mText2
+    android.widget.ImageView mIcon1 -> mIcon1
+    android.widget.ImageView mIcon2 -> mIcon2
+    android.widget.ImageView mIconRefine -> mIconRefine
 com.blogspot.fwfaill.lunchbuddy.AccountAuthenticatorService -> com.blogspot.fwfaill.lunchbuddy.AccountAuthenticatorService:
     com.blogspot.fwfaill.lunchbuddy.AccountAuthenticatorService$AccountAuthenticatorImpl sAccountAuthenticator -> a
     android.os.IBinder onBind(android.content.Intent) -> onBind
@@ -5246,23 +5348,22 @@ com.blogspot.fwfaill.lunchbuddy.Course -> com.blogspot.fwfaill.lunchbuddy.b:
     java.lang.String titleEn -> d
     java.lang.String price -> e
     java.lang.String properties -> f
-    void setTitleEn(java.lang.String) -> a
     int hashCode() -> hashCode
     boolean equals(java.lang.Object) -> equals
     android.content.ContentValues getContentValues() -> a
 com.blogspot.fwfaill.lunchbuddy.CourseCursorAdapter -> com.blogspot.fwfaill.lunchbuddy.c:
-    java.util.Locale mLocale -> j
-    boolean mFi -> k
-    int mColumnIndexTitleFi -> l
-    int mColumnIndexTitleEn -> m
-    int mColumnIndexTitlePrice -> n
-    int mColumnIndexTitleProperties -> o
-    void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
+    java.util.Locale mLocale -> a
+    boolean mFi -> b
+    int mColumnIndexTitleFi -> c
+    int mColumnIndexTitleEn -> d
+    int mColumnIndexTitlePrice -> e
+    int mColumnIndexTitleProperties -> f
+    void bindView(android.view.View,android.content.Context,android.database.Cursor) -> bindView
 com.blogspot.fwfaill.lunchbuddy.CourseCursorAdapter$ViewHolder -> com.blogspot.fwfaill.lunchbuddy.d:
     android.widget.TextView title -> a
     android.widget.TextView price -> b
     android.widget.TextView properties -> c
-com.blogspot.fwfaill.lunchbuddy.CourseHandler -> com.blogspot.fwfaill.lunchbuddy.e:
+com.blogspot.fwfaill.lunchbuddy.CoursesJsonHandler -> com.blogspot.fwfaill.lunchbuddy.e:
     com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider mProvider -> a
     java.lang.String mResponseString -> b
     java.lang.Object handleResponse(org.apache.http.HttpResponse) -> handleResponse
@@ -5278,8 +5379,13 @@ com.blogspot.fwfaill.lunchbuddy.CoursesSyncAdapterService -> com.blogspot.fwfail
 com.blogspot.fwfaill.lunchbuddy.CoursesSyncAdapterService$SyncAdapterImpl -> com.blogspot.fwfaill.lunchbuddy.f:
     android.content.Context mContext -> a
     void onPerformSync(android.accounts.Account,android.os.Bundle,java.lang.String,android.content.ContentProviderClient,android.content.SyncResult) -> onPerformSync
-com.blogspot.fwfaill.lunchbuddy.LunchBuddy -> com.blogspot.fwfaill.lunchbuddy.g:
-com.blogspot.fwfaill.lunchbuddy.LunchBuddy$Courses -> com.blogspot.fwfaill.lunchbuddy.h:
+com.blogspot.fwfaill.lunchbuddy.DiscoverFragment -> com.blogspot.fwfaill.lunchbuddy.g:
+    android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    void onActivityCreated(android.os.Bundle) -> onActivityCreated
+    void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
+    void query() -> a
+com.blogspot.fwfaill.lunchbuddy.LunchBuddy -> com.blogspot.fwfaill.lunchbuddy.h:
+com.blogspot.fwfaill.lunchbuddy.LunchBuddy$Courses -> com.blogspot.fwfaill.lunchbuddy.i:
     android.net.Uri CONTENT_URI -> a
     android.net.Uri SYNC_CONTENT_URI -> b
     android.net.Uri CONTENT_ID_URI_BASE -> c
@@ -5287,53 +5393,82 @@ com.blogspot.fwfaill.lunchbuddy.LunchBuddy$Courses -> com.blogspot.fwfaill.lunch
     android.net.Uri BASE_URI_SALO -> e
     android.net.Uri BASE_URI_ICT -> f
     android.net.Uri BASE_URI_LEMPPARI -> g
-    java.lang.String[] REF_TITLES -> h
+    android.net.Uri BASE_URI_NUTRITIO -> h
+    android.net.Uri BASE_URI_ASSARI -> i
+    android.net.Uri BASE_URI_BRYGGE -> j
+    android.net.Uri BASE_URI_DELICA -> k
+    android.net.Uri BASE_URI_DELI_PHARMA -> l
+    android.net.Uri BASE_URI_DENTAL -> m
+    android.net.Uri BASE_URI_MACCIAVELLI -> n
+    android.net.Uri BASE_URI_MIKRO -> o
+    android.net.Uri BASE_URI_PARKKIS -> p
+    android.net.Uri BASE_URI_MYSSY -> q
+com.blogspot.fwfaill.lunchbuddy.LunchBuddy$Restaurants -> com.blogspot.fwfaill.lunchbuddy.j:
+    android.net.Uri CONTENT_URI -> a
+    android.net.Uri CONTENT_ID_URI_BASE -> b
+    android.net.Uri CONTENT_ID_URI_PATTERN -> c
+    java.lang.String[] REF_TITLES -> d
 com.blogspot.fwfaill.lunchbuddy.LunchBuddyActivity -> com.blogspot.fwfaill.lunchbuddy.LunchBuddyActivity:
-    java.lang.String[] PROJECTION -> a
-    android.view.LayoutInflater mInflater -> b
-    android.content.SharedPreferences mPreferences -> c
-    int mNavigationPosition -> d
+    java.lang.Integer mNavigationPosition -> a
     void onCreate(android.os.Bundle) -> onCreate
-    void removeOld(long) -> a
-    void query() -> a
     boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu) -> onCreateOptionsMenu
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
-    void access$0(com.blogspot.fwfaill.lunchbuddy.LunchBuddyActivity,int) -> a
-    void access$1(com.blogspot.fwfaill.lunchbuddy.LunchBuddyActivity) -> a
-com.blogspot.fwfaill.lunchbuddy.LunchBuddyActivity$1 -> com.blogspot.fwfaill.lunchbuddy.i:
-    com.blogspot.fwfaill.lunchbuddy.LunchBuddyActivity this$0 -> a
-    boolean onNavigationItemSelected(int,long) -> onNavigationItemSelected
+    java.lang.Integer getNavigationPosition() -> a
+com.blogspot.fwfaill.lunchbuddy.LunchBuddyActivity$TabListener -> com.blogspot.fwfaill.lunchbuddy.k:
+    android.support.v4.app.Fragment mFragment -> a
+    android.app.Activity mActivity -> b
+    java.lang.String mTag -> c
+    java.lang.Class mClass -> d
+    void onTabSelected(com.actionbarsherlock.app.ActionBar$Tab,android.support.v4.app.FragmentTransaction) -> onTabSelected
+    void onTabUnselected(com.actionbarsherlock.app.ActionBar$Tab,android.support.v4.app.FragmentTransaction) -> onTabUnselected
+    void onTabReselected(com.actionbarsherlock.app.ActionBar$Tab,android.support.v4.app.FragmentTransaction) -> onTabReselected
 com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider -> com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider:
     java.util.HashMap sCoursesProjectionMap -> a
-    android.content.UriMatcher sUriMatcher -> b
-    com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider$DatabaseHelper mOpenHelper -> c
-    java.util.HashMap mRequestsInProgress -> d
+    java.util.HashMap sRestaurantsProjectionMap -> b
+    android.content.UriMatcher sUriMatcher -> c
+    com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider$DatabaseHelper mOpenHelper -> d
+    java.util.HashMap mRequestsInProgress -> e
     com.blogspot.fwfaill.lunchbuddy.UriRequestTask getRequestTask(java.lang.String) -> b
     int delete(android.net.Uri,java.lang.String,java.lang.String[]) -> delete
     java.lang.String getType(android.net.Uri) -> getType
     android.net.Uri insert(android.net.Uri,android.content.ContentValues) -> insert
     boolean onCreate() -> onCreate
     android.database.Cursor query(android.net.Uri,java.lang.String[],java.lang.String,java.lang.String[],java.lang.String) -> query
+    android.database.Cursor getAllRestaurants() -> a
+    android.database.Cursor search(java.lang.String) -> c
+    void requestCourses(java.lang.String,int) -> a
     int update(android.net.Uri,android.content.ContentValues,java.lang.String,java.lang.String[]) -> update
     boolean callerIsSyncAdapter(android.net.Uri) -> a
     void requestComplete(java.lang.String) -> a
-    org.apache.http.client.ResponseHandler newResponseHandler() -> a
     com.blogspot.fwfaill.lunchbuddy.UriRequestTask newQueryTask(java.lang.String,java.lang.String) -> b
     void asyncQueryRequest(java.lang.String,java.lang.String) -> a
-com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider$DatabaseHelper -> com.blogspot.fwfaill.lunchbuddy.j:
+com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider$DatabaseHelper -> com.blogspot.fwfaill.lunchbuddy.l:
+    java.lang.String[] mInsertRestaurants -> a
     void onCreate(android.database.sqlite.SQLiteDatabase) -> onCreate
     void onUpgrade(android.database.sqlite.SQLiteDatabase,int,int) -> onUpgrade
-com.blogspot.fwfaill.lunchbuddy.Scraper -> com.blogspot.fwfaill.lunchbuddy.k:
-    java.util.List scrapeFi(org.jsoup.nodes.Document,long,java.util.List) -> a
-    java.util.List scrapeEn(org.jsoup.nodes.Document) -> a
-com.blogspot.fwfaill.lunchbuddy.UnicaHandler -> com.blogspot.fwfaill.lunchbuddy.l:
-    com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider mProvider -> a
-    java.lang.String mResponseString -> b
-    java.lang.String mResponseStringEn -> c
-    java.lang.Object handleResponse(org.apache.http.HttpResponse) -> handleResponse
-    void requestEnTitles() -> a
-    java.lang.String convertStreamToString(java.io.InputStream) -> a
-com.blogspot.fwfaill.lunchbuddy.UriRequestTask -> com.blogspot.fwfaill.lunchbuddy.m:
+    void execMultipleSQL(android.database.sqlite.SQLiteDatabase,java.lang.String[]) -> a
+com.blogspot.fwfaill.lunchbuddy.LunchListFragment -> com.blogspot.fwfaill.lunchbuddy.m:
+    java.lang.String[] PROJECTION -> a
+    android.view.LayoutInflater mInflater -> b
+    int mNavigationPosition -> c
+    void onCreate(android.os.Bundle) -> onCreate
+    android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    void onActivityCreated(android.os.Bundle) -> onActivityCreated
+    void setNavigationPosition(int) -> a
+    int getNavigationPosition() -> a
+    void query() -> b
+com.blogspot.fwfaill.lunchbuddy.RestaurantAdapter -> com.blogspot.fwfaill.lunchbuddy.n:
+    void bindView(android.view.View,android.content.Context,android.database.Cursor) -> bindView
+com.blogspot.fwfaill.lunchbuddy.RestaurantAdapter$ViewHolder -> com.blogspot.fwfaill.lunchbuddy.o:
+    android.widget.TextView title -> a
+    android.widget.TextView address -> b
+    android.widget.TextView location -> c
+com.blogspot.fwfaill.lunchbuddy.SearchActivity -> com.blogspot.fwfaill.lunchbuddy.SearchActivity:
+    void onCreate(android.os.Bundle) -> onCreate
+    boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
+    void doSearch(java.lang.String) -> a
+    void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
+com.blogspot.fwfaill.lunchbuddy.UriRequestTask -> com.blogspot.fwfaill.lunchbuddy.p:
     org.apache.http.client.methods.HttpUriRequest mRequest -> b
     org.apache.http.client.ResponseHandler mHandler -> c
     android.content.Context mContext -> a

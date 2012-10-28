@@ -33,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.ContentValues;
+import android.util.Log;
 
 public class CoursesJsonHandler implements ResponseHandler {
 	
@@ -81,7 +82,7 @@ public class CoursesJsonHandler implements ResponseHandler {
 					mProvider.insert(LunchBuddy.Courses.CONTENT_URI, course.getContentValues());
 				}
 			} catch (JSONException e) {
-				e.printStackTrace();
+				Log.e(TAG, "error parsing json", e);
 			}
 		}
 		return null;
