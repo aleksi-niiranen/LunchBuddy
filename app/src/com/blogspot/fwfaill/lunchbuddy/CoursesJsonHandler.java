@@ -32,7 +32,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.ContentValues;
 import android.util.Log;
 
 public class CoursesJsonHandler implements ResponseHandler {
