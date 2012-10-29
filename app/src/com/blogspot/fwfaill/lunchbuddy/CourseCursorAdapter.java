@@ -15,10 +15,10 @@
 
 package com.blogspot.fwfaill.lunchbuddy;
 
-import java.util.Locale;
-
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.ResourceCursorAdapter;
 import android.view.View;
 import android.widget.TextView;
@@ -27,8 +27,7 @@ public class CourseCursorAdapter extends ResourceCursorAdapter {
 	
 	private static final String TAG = "CourseCursorAdapter";
 	
-	private Locale mLocale = Locale.getDefault();
-	private boolean mFi;
+	private String mLang;
 	
 	private int mColumnIndexTitleFi;
 	private int mColumnIndexTitleEn;
@@ -37,11 +36,13 @@ public class CourseCursorAdapter extends ResourceCursorAdapter {
 	
 	public CourseCursorAdapter(int layout, Context context, Cursor c) {
 		super(context, layout, c);
-		mFi = mLocale.toString().equals("fi_FI");
 		mColumnIndexTitleFi = c.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_TITLE_FI);
 		mColumnIndexTitleEn = c.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_TITLE_EN);
 		mColumnIndexTitlePrice = c.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_PRICE);
 		mColumnIndexTitleProperties = c.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_PROPERTIES);
+		
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		mLang = preferences.getString("language_preference", context.getString(R.string.default_language));
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class CourseCursorAdapter extends ResourceCursorAdapter {
 			view.setTag(holder);
 		}
 		
-		holder.title.setText(mFi 
+		holder.title.setText(mLang.equals("fi") 
 				? c.getString(mColumnIndexTitleFi) 
 				: c.getString(mColumnIndexTitleEn));
 		holder.price.setText(c.getString(mColumnIndexTitlePrice) + " €");
