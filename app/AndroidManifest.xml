@@ -67,6 +67,10 @@
                 android:resource="@xml/searchable" />
         </activity>
         
+        <activity android:label="@string/settings" android:name="com.blogspot.fwfaill.lunchbuddy.SettingsActivity">
+            
+        </activity>
+        
         <meta-data android:name="android.app.default_searchable"
             android:value="com.blogspot.fwfaill.lunchbuddy.SearchActivity"/>
     </application>

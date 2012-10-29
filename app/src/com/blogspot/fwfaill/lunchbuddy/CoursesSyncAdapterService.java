@@ -20,8 +20,6 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import com.blogspot.fwfaill.lunchbuddy.LunchBuddy.Restaurants;
-
 import android.accounts.Account;
 import android.app.Service;
 import android.content.AbstractThreadedSyncAdapter;

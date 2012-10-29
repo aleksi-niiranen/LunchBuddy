@@ -112,9 +112,11 @@ public class LunchBuddyActivity extends SherlockFragmentActivity {
     	case R.id.menu_search:
     		onSearchRequested();
     		break;
-//    	case R.id.menu_settings:
-//    		// TODO: start settings activity
-//    		break;
+    	case R.id.menu_settings:
+    		// TODO: start settings activity
+    		Intent intent = new Intent(this, SettingsActivity.class);
+    		startActivity(intent);
+    		break;
     	}
     	return super.onOptionsItemSelected(item);
     }

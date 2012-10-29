@@ -9,4 +9,5 @@
     <string name="search">Haku</string>
     <string name="no_results">Ei hakutuloksia</string>
     <string name="rate">Arvioi</string>
+    <string name="default_language">fi</string>
 </resources>
