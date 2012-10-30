@@ -8,9 +8,9 @@
     <string name="settings">Settings</string>
     <string name="search">Search</string>
     <string name="no_results">No search results</string>
-    
     <string name="default_language">en</string>
-    
+    <string name="lang_preference">Language</string>
+    <string name="lang_pref_summary">Language used in menus. If menu is not available in this language the application will fall back to other language.</string>
     <string name="insert_restaurants">"
         insert into restaurants (title, address, location, position) values ('Sodexo Aurinkolaiva', 'Ylhäistentie 2 24130 Salo', 'Turun ammattikorkeakoulu Salo', 0);
         insert into restaurants (title, address, location, position) values ('Sodexo ICT - talo', 'Joukahaisenkatu 3 20520 Turku', 'ICT-talo', 1);
@@ -25,8 +25,6 @@
         insert into restaurants (title, address, location, position) values ('Unica Mikro', 'Kiinanmyllynkatu 13 20520 Turku', null, 10);
         insert into restaurants (title, address, location, position) values ('Unica Parkkis', 'Vesilinnanmäki 20500 Turku', null, 11);
         insert into restaurants (title, address, location, position) values ('Unica Myssy \u0026 Silinteri', 'Vesilinnanmäki 20500 Turku', null, 12);
-        "
-    </string>
-    
-    <string name="restaurant_text">Sodexo Aurinkolaiva\nYlhäistentie 2 20000 Salogggggggggg</string>
+        "	</string>
+	
 </resources>

@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.ResourceCursorAdapter;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -57,10 +58,10 @@ public class CourseCursorAdapter extends ResourceCursorAdapter {
 			
 			view.setTag(holder);
 		}
-		
-		holder.title.setText(mLang.equals("fi") 
-				? c.getString(mColumnIndexTitleFi) 
-				: c.getString(mColumnIndexTitleEn));
+		if (mLang.equals("fi") || c.getString(mColumnIndexTitleEn).equals("null"))
+			holder.title.setText(c.getString(mColumnIndexTitleFi));
+		else
+			holder.title.setText(c.getString(mColumnIndexTitleEn));
 		holder.price.setText(c.getString(mColumnIndexTitlePrice) + " €");
 		holder.properties.setText(c.getString(mColumnIndexTitleProperties));
 	}

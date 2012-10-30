@@ -7,7 +7,7 @@
         android:entries="@array/language_entries"
         android:entryValues="@array/language_values"
         android:key="language_preference"
-        android:summary="Language used in menus. If menu is not available in this language app will fall back to other language."
-        android:title="Language preference" />
+        android:summary="@string/lang_pref_summary"
+        android:title="@string/lang_preference" />
 
 </PreferenceScreen>
