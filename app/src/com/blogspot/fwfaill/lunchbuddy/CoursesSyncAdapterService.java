@@ -90,6 +90,9 @@ public class CoursesSyncAdapterService extends Service {
     	args = new String[] { ""+2 };
     	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
+    	args = new String[] { ""+3 };
+    	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
+    	
     	args = new String[] { ""+4 };
     	mContentResolver.query(LunchBuddy.Courses.SYNC_CONTENT_URI, PROJECTION, where, args, LunchBuddy.Courses.DEFAULT_SORT_ORDER);
     	
