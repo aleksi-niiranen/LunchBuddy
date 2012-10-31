@@ -1,28 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="5dp" >
 
     <TextView
-        android:id="@+id/course_title" 
+        android:id="@+id/course_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp" />
-    
-    <TextView
-        android:id="@+id/course_price" 
-        android:layout_width="wrap_content"
+        android:text="Loremipsum dolorsitamet. Lorem ipsumdolor sit amet. Loremipsum dolor sitamet. Loremipsum dolorsitamet. Lorem ipsumdolor sit amet."
+        android:textSize="18sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/course_title"
-        android:textSize="12sp" />
-    
-    <TextView
-        android:id="@+id/course_properties" 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/course_title"
-        android:layout_alignParentRight="true"
-        android:textSize="12sp" />
+        android:layout_below="@id/course_title" >
+
+        <TextView
+            android:id="@+id/course_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="1,50 / 2,50 / 8,90 €"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/course_properties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="G VL VEG"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/rate_bad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/thumbdown_icon"
+            android:src="@drawable/ic_rating_bad" />
+
+        <ImageView
+            android:id="@+id/rate_good"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/rate_bad"
+            android:contentDescription="@string/thumbup_icon"
+            android:src="@drawable/ic_rating_good" />
+    </RelativeLayout>
 
 </RelativeLayout>

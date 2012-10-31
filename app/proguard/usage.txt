@@ -455,19 +455,19 @@ com.blogspot.fwfaill.lunchbuddy.AccountAuthenticatorService:
     private static final java.lang.String TAG
 com.blogspot.fwfaill.lunchbuddy.BuildConfig
 com.blogspot.fwfaill.lunchbuddy.Course:
-    16:22:public Course(long,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
-    35:35:public long getTimestamp()
-    39:40:public void setTimestamp(long)
-    43:43:public java.lang.String getRefTitle()
-    47:48:public void setRefTitle(java.lang.String)
-    51:51:public java.lang.String getTitleFi()
-    55:56:public void setTitleFi(java.lang.String)
-    59:59:public java.lang.String getTitleEn()
-    63:64:public void setTitleEn(java.lang.String)
-    67:67:public java.lang.String getPrice()
-    71:72:public void setPrice(java.lang.String)
-    75:75:public java.lang.String getProperties()
-    79:80:public void setProperties(java.lang.String)
+    31:37:public Course(long,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
+    50:50:public long getTimestamp()
+    54:55:public void setTimestamp(long)
+    58:58:public java.lang.String getRefTitle()
+    62:63:public void setRefTitle(java.lang.String)
+    66:66:public java.lang.String getTitleFi()
+    70:71:public void setTitleFi(java.lang.String)
+    74:74:public java.lang.String getTitleEn()
+    78:79:public void setTitleEn(java.lang.String)
+    82:82:public java.lang.String getPrice()
+    86:87:public void setPrice(java.lang.String)
+    90:90:public java.lang.String getProperties()
+    94:95:public void setProperties(java.lang.String)
 com.blogspot.fwfaill.lunchbuddy.CourseCursorAdapter:
     private static final java.lang.String TAG
 com.blogspot.fwfaill.lunchbuddy.CoursesJsonHandler:

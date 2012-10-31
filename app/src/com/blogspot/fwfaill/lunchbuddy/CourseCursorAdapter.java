@@ -20,7 +20,9 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.ResourceCursorAdapter;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class CourseCursorAdapter extends ResourceCursorAdapter {
@@ -54,20 +56,41 @@ public class CourseCursorAdapter extends ResourceCursorAdapter {
 			holder.title = (TextView) view.findViewById(R.id.course_title);
 			holder.price = (TextView) view.findViewById(R.id.course_price);
 			holder.properties = (TextView) view.findViewById(R.id.course_properties);
+			holder.rateGood = (ImageView) view.findViewById(R.id.rate_good);
+			holder.rateBad = (ImageView) view.findViewById(R.id.rate_bad);
 			
 			view.setTag(holder);
 		}
-		
-		holder.title.setText(mLang.equals("fi") 
-				? c.getString(mColumnIndexTitleFi) 
-				: c.getString(mColumnIndexTitleEn));
+		if (mLang.equals("fi") || c.getString(mColumnIndexTitleEn).equals("null"))
+			holder.title.setText(c.getString(mColumnIndexTitleFi));
+		else
+			holder.title.setText(c.getString(mColumnIndexTitleEn));
 		holder.price.setText(c.getString(mColumnIndexTitlePrice) + " €");
 		holder.properties.setText(c.getString(mColumnIndexTitleProperties));
+		
+		final String title = holder.title.getText().toString();
+		holder.rateGood.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Log.d(TAG, "rated good " + title);
+			}
+		});
+		
+		holder.rateBad.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Log.d(TAG, "rated bad " + title);
+			}
+		});
 	}
 
 	static class ViewHolder {
 		public TextView title;
 		public TextView price;
 		public TextView properties;
+		public ImageView rateGood;
+		public ImageView rateBad;
 	}
 }

@@ -10,4 +10,7 @@
     <string name="no_results">Ei hakutuloksia</string>
     <string name="rate">Arvioi</string>
     <string name="default_language">fi</string>
+    <string name="lang_preference">Kieli</string>
+    <string name="lang_pref_summary">Ruokalistoissa käytetty kieli. Jos lista ei ole saatavilla tällä kielellä, sovellus näyttää sen jollain muulla kielellä.</string>
+
 </resources>
