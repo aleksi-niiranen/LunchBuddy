@@ -66,6 +66,9 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+        <activity android:name="com.blogspot.fwfaill.lunchbuddy.RatingActivity">
+            
+        </activity>
         <activity
             android:name="com.blogspot.fwfaill.lunchbuddy.SettingsActivity"
             android:label="@string/settings"

@@ -13,4 +13,5 @@
     <string name="lang_preference">Kieli</string>
     <string name="lang_pref_summary">Ruokalistoissa käytetty kieli. Jos lista ei ole saatavilla tällä kielellä, sovellus näyttää sen jollain muulla kielellä.</string>
 
+    <string name="comment">Kommentti</string>
 </resources>

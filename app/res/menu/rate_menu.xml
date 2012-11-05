@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/context_rate_good"
+        android:icon="@drawable/ic_rating_good"
+        android:orderInCategory="0"
+        android:showAsAction="always"
+        android:title="@string/thumbup_icon"/>
+    <item
+        android:id="@+id/context_rate_bad"
+        android:icon="@drawable/ic_rating_bad"
+        android:orderInCategory="1"
+        android:showAsAction="always"
+        android:title="@string/thumbdown_icon"/>
+
+</menu>

@@ -16,34 +16,61 @@
 package com.blogspot.fwfaill.lunchbuddy;
 
 import android.content.ContentValues;
+import android.database.Cursor;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 public class Course {
 
+	private long id;
 	private long timestamp;
 	private String refTitle;
 	private String titleFi;
 	private String titleEn;
 	private String price;
 	private String properties;
+	private boolean ratedGood;
+	private boolean ratedBad;
+	
+	public static Course createFromCursor(Cursor cursor) {
+		Course course = new Course();
+		course.setId(cursor.getLong(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_ID)));
+		course.setTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP)));
+		course.setRefTitle(cursor.getString(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_REF_TITLE)));
+		course.setTitleFi(cursor.getString(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_TITLE_FI)));
+		course.setTitleEn(cursor.getString(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_TITLE_EN)));
+		course.setPrice(cursor.getString(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_PRICE)));
+		course.setProperties(cursor.getString(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_PROPERTIES)));
+		course.setRatedGood(cursor.getInt(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_RATED_GOOD)) == 1 ? true : false);
+		course.setRatedBad(cursor.getInt(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_RATED_BAD)) == 1 ? true : false);
+		return course;
+	}
 	
 	public Course() { }
-	
-	public Course(long timestamp, String refTitle, String titleFi, String price, String properties) {
-		this.timestamp = timestamp;
-		this.refTitle = refTitle;
-		this.titleFi = titleFi;
-		this.price = price;
-		this.properties = properties;
-	}
 
-	public Course(long timestamp, String refTitle, String titleFi,
+	public Course(long id, long timestamp, String refTitle, String titleFi,
 			String titleEn, String price, String properties) {
+		this.id = id;
 		this.timestamp = timestamp;
 		this.refTitle = refTitle;
 		this.titleFi = titleFi;
 		this.titleEn = titleEn;
 		this.price = price;
 		this.properties = properties;
+		ratedGood = false;
+		ratedBad = false;
+	}
+	
+	/**
+	 * Returns the id of the course on the server side database.
+	 * @return id
+	 */
+	public long getId() {
+		return id;
+	}
+	
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public long getTimestamp() {
@@ -94,6 +121,22 @@ public class Course {
 		this.properties = properties;
 	}
 
+	public boolean isRatedGood() {
+		return ratedGood;
+	}
+
+	public void setRatedGood(boolean ratedGood) {
+		this.ratedGood = ratedGood;
+	}
+
+	public boolean isRatedBad() {
+		return ratedBad;
+	}
+
+	public void setRatedBad(boolean ratedBad) {
+		this.ratedBad = ratedBad;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -130,12 +173,15 @@ public class Course {
 	
 	public ContentValues getContentValues() {
 		ContentValues values = new ContentValues();
+		values.put(LunchBuddy.Courses.COLUMN_NAME_ID, id);
 		values.put(LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP, timestamp);
 		values.put(LunchBuddy.Courses.COLUMN_NAME_REF_TITLE, refTitle);
 		values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_FI, titleFi);
 		values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_EN, titleEn);
 		values.put(LunchBuddy.Courses.COLUMN_NAME_PRICE, price);
 		values.put(LunchBuddy.Courses.COLUMN_NAME_PROPERTIES, properties);
+		values.put(LunchBuddy.Courses.COLUMN_NAME_RATED_GOOD, ratedGood ? 1 : 0);
+		values.put(LunchBuddy.Courses.COLUMN_NAME_RATED_BAD, ratedBad ? 1 : 0);
 		return values;
 	}
 }

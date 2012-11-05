@@ -23,6 +23,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 public class DiscoverFragment extends SherlockListFragment {
 	
@@ -56,4 +59,37 @@ public class DiscoverFragment extends SherlockListFragment {
 		
 		getListView().setAdapter(adapter);
 	}
+	
+	private ActionMode.Callback mRateRestaurantActionModeCallback = new ActionMode.Callback() {
+		
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+		
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+		}
+		
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			mode.getMenuInflater().inflate(R.menu.rate_menu, menu);
+			return true;
+		}
+		
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			switch (item.getItemId()) {
+			case R.id.context_rate_good:
+				// TODO: finalize restaurant rating
+				mode.finish();
+				return true;
+			case R.id.context_rate_bad:
+				// TODO: finalize restaurant rating
+				mode.finish();
+				return true;
+			}
+			return false;
+		}
+	};
 }

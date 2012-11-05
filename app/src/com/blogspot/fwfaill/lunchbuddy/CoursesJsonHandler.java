@@ -38,6 +38,7 @@ public class CoursesJsonHandler implements ResponseHandler {
 	
 	private static final String TAG = "CourseHandler";
 
+	public static final String ID = "id";
 	public static final String TIMESTAMP = "requested_timestamp";
 	public static final String REF_TITLE = "ref_title";
 	public static final String COURSES = "courses";
@@ -71,6 +72,7 @@ public class CoursesJsonHandler implements ResponseHandler {
 				for (int i = 0; i < jsonCourses.length(); i++) {
 					JSONObject jsonObject = jsonCourses.getJSONObject(i);
 					Course course = new Course(
+							jsonObject.getLong(ID),
 							jsonRoot.getJSONObject("meta").getLong(TIMESTAMP), 
 							jsonRoot.getJSONObject("meta").getString(REF_TITLE),
 							jsonObject.getString(TITLE_FI),

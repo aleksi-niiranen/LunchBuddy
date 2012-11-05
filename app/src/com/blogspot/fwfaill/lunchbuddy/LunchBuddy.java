@@ -46,16 +46,22 @@ public class LunchBuddy {
 		
 		public static final String DEFAULT_SORT_ORDER = "_id asc";
 		
+		/**
+		 * The id of a course as it is stored server side. Use _id to refer to rows in SQLite on an Android device.
+		 */
+		public static final String COLUMN_NAME_ID = "id_ss";
 		public static final String COLUMN_NAME_TITLE_FI = "title_fi";
 		public static final String COLUMN_NAME_TITLE_EN = "title_en";
 		public static final String COLUMN_NAME_PRICE = "price";
 		public static final String COLUMN_NAME_PROPERTIES = "properties";
 		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
 		public static final String COLUMN_NAME_REF_TITLE = "ref_title";
+		public static final String COLUMN_NAME_RATED_GOOD = "rated_good";
+		public static final String COLUMN_NAME_RATED_BAD = "rated_bad";
 		
-		public static final Uri BASE_URI_SALO = Uri.parse("http://www.sodexo.fi/ruokalistat/output/daily_json/459/");
-		public static final Uri BASE_URI_ICT = Uri.parse("http://www.sodexo.fi/ruokalistat/output/daily_json/427/");
-		public static final Uri BASE_URI_LEMPPARI = Uri.parse("http://www.sodexo.fi/ruokalistat/output/daily_json/442/");
+		public static final Uri BASE_URI_SALO = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Aurinkolaiva/");
+		public static final Uri BASE_URI_ICT = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/ICT%20-%20talo/");
+		public static final Uri BASE_URI_LEMPPARI = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Lemminkäisenkatu/");
 		public static final Uri BASE_URI_NUTRITIO = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Nutritio/");
 		public static final Uri BASE_URI_ASSARI = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Assarin%20ullakko/");
 		public static final Uri BASE_URI_BRYGGE = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Brygge/");
@@ -66,7 +72,6 @@ public class LunchBuddy {
 		public static final Uri BASE_URI_MIKRO = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Mikro/");
 		public static final Uri BASE_URI_PARKKIS = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Parkkis/");
 		public static final Uri BASE_URI_MYSSY = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/Myssy%20%26%20Silinteri/");
-		public static final String LANGUAGE_CODE = "fi";
 	}
 	
 	public static final class Restaurants implements BaseColumns {
@@ -97,7 +102,7 @@ public class LunchBuddy {
 		public static final String COLUMN_NAME_POSITION = "position";
 		
 		public static final String[] REF_TITLES = {
-			"Turun AMK, Aurinkolaiva",
+			"Aurinkolaiva",
 			"ICT - talo",
 			"Lemmink\u00e4isenkatu",
 			"Nutritio",

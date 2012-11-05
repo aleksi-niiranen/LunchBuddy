@@ -28,7 +28,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.widget.SearchView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -113,7 +112,6 @@ public class LunchBuddyActivity extends SherlockFragmentActivity {
     		onSearchRequested();
     		break;
     	case R.id.menu_settings:
-    		// TODO: start settings activity
     		Intent intent = new Intent(this, SettingsActivity.class);
     		startActivity(intent);
     		break;
@@ -158,6 +156,5 @@ public class LunchBuddyActivity extends SherlockFragmentActivity {
 		@Override
 		public void onTabReselected(Tab tab, FragmentTransaction ft) {
 		}
-    	
     }
 }

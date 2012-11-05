@@ -27,6 +27,7 @@
         insert into restaurants (title, address, location, position) values ('Unica Parkkis', 'Vesilinnanmäki 20500 Turku', null, 11);
         insert into restaurants (title, address, location, position) values ('Unica Myssy \u0026 Silinteri', 'Vesilinnanmäki 20500 Turku', null, 12);
         "	</string>
+	<string name="comment">Comment</string>
 	<string name="thumbup_icon">Thumb up icon</string>
 	<string name="thumbdown_icon">Thumb down icon</string>
 
