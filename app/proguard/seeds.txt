@@ -695,21 +695,12 @@ com.actionbarsherlock.R$drawable: int abs__textfield_searchview_holo_dark
 com.actionbarsherlock.R$drawable: int abs__textfield_searchview_holo_light
 com.actionbarsherlock.R$drawable: int abs__textfield_searchview_right_holo_dark
 com.actionbarsherlock.R$drawable: int abs__textfield_searchview_right_holo_light
-com.actionbarsherlock.R$drawable: int ad_selectable_background
-com.actionbarsherlock.R$drawable: int ad_spinner_background_holo_light
-com.actionbarsherlock.R$drawable: int ad_spinner_focused_holo_light
-com.actionbarsherlock.R$drawable: int ad_spinner_pressed_holo_light
-com.actionbarsherlock.R$drawable: int amk_logo
 com.actionbarsherlock.R$drawable: int ic_favorite
 com.actionbarsherlock.R$drawable: int ic_launcher
+com.actionbarsherlock.R$drawable: int ic_rating_bad
+com.actionbarsherlock.R$drawable: int ic_rating_good
 com.actionbarsherlock.R$drawable: int ic_search
 com.actionbarsherlock.R$drawable: int ic_settings
-com.actionbarsherlock.R$drawable: int logo_sodexo480
-com.actionbarsherlock.R$drawable: int logo_unica480
-com.actionbarsherlock.R$drawable: int selected_background
-com.actionbarsherlock.R$drawable: int spinner_default_holo_light
-com.actionbarsherlock.R$drawable: int spinner_disabled_holo_light
-com.actionbarsherlock.R$drawable: int utu_logo
 com.actionbarsherlock.R$drawable: R$drawable()
 com.actionbarsherlock.R$id
 com.actionbarsherlock.R$id: int abs__action_bar
@@ -753,6 +744,8 @@ com.actionbarsherlock.R$id: int abs__title
 com.actionbarsherlock.R$id: int abs__titleDivider
 com.actionbarsherlock.R$id: int abs__up
 com.actionbarsherlock.R$id: int content
+com.actionbarsherlock.R$id: int context_rate_bad
+com.actionbarsherlock.R$id: int context_rate_good
 com.actionbarsherlock.R$id: int course_price
 com.actionbarsherlock.R$id: int course_properties
 com.actionbarsherlock.R$id: int course_title
@@ -816,6 +809,7 @@ com.actionbarsherlock.R$layout: int sherlock_spinner_item
 com.actionbarsherlock.R$layout: R$layout()
 com.actionbarsherlock.R$menu
 com.actionbarsherlock.R$menu: int main
+com.actionbarsherlock.R$menu: int rate_menu
 com.actionbarsherlock.R$menu: R$menu()
 com.actionbarsherlock.R$string
 com.actionbarsherlock.R$string: int abs__action_bar_home_description
@@ -834,6 +828,7 @@ com.actionbarsherlock.R$string: int abs__share_action_provider_share_with
 com.actionbarsherlock.R$string: int abs__shareactionprovider_share_with
 com.actionbarsherlock.R$string: int abs__shareactionprovider_share_with_application
 com.actionbarsherlock.R$string: int app_name
+com.actionbarsherlock.R$string: int comment
 com.actionbarsherlock.R$string: int default_language
 com.actionbarsherlock.R$string: int footer_legend
 com.actionbarsherlock.R$string: int insert_restaurants
@@ -841,17 +836,17 @@ com.actionbarsherlock.R$string: int lang_pref_summary
 com.actionbarsherlock.R$string: int lang_preference
 com.actionbarsherlock.R$string: int no_courses
 com.actionbarsherlock.R$string: int no_results
+com.actionbarsherlock.R$string: int rate
 com.actionbarsherlock.R$string: int search
 com.actionbarsherlock.R$string: int set_as_default
 com.actionbarsherlock.R$string: int settings
+com.actionbarsherlock.R$string: int thumbdown_icon
+com.actionbarsherlock.R$string: int thumbup_icon
 com.actionbarsherlock.R$string: R$string()
 com.actionbarsherlock.R$style
 com.actionbarsherlock.R$style: int AppTheme
 com.actionbarsherlock.R$style: int DialogWindowTitle_Sherlock
 com.actionbarsherlock.R$style: int DialogWindowTitle_Sherlock_Light
-com.actionbarsherlock.R$style: int MyActionBar
-com.actionbarsherlock.R$style: int MyDropDownListView
-com.actionbarsherlock.R$style: int MyDropDownNav
 com.actionbarsherlock.R$style: int Sherlock___TextAppearance_Small
 com.actionbarsherlock.R$style: int Sherlock___Theme
 com.actionbarsherlock.R$style: int Sherlock___Theme_DarkActionBar
@@ -5160,21 +5155,12 @@ com.blogspot.fwfaill.lunchbuddy.R$drawable: int abs__textfield_searchview_holo_d
 com.blogspot.fwfaill.lunchbuddy.R$drawable: int abs__textfield_searchview_holo_light
 com.blogspot.fwfaill.lunchbuddy.R$drawable: int abs__textfield_searchview_right_holo_dark
 com.blogspot.fwfaill.lunchbuddy.R$drawable: int abs__textfield_searchview_right_holo_light
-com.blogspot.fwfaill.lunchbuddy.R$drawable: int ad_selectable_background
-com.blogspot.fwfaill.lunchbuddy.R$drawable: int ad_spinner_background_holo_light
-com.blogspot.fwfaill.lunchbuddy.R$drawable: int ad_spinner_focused_holo_light
-com.blogspot.fwfaill.lunchbuddy.R$drawable: int ad_spinner_pressed_holo_light
-com.blogspot.fwfaill.lunchbuddy.R$drawable: int amk_logo
 com.blogspot.fwfaill.lunchbuddy.R$drawable: int ic_favorite
 com.blogspot.fwfaill.lunchbuddy.R$drawable: int ic_launcher
+com.blogspot.fwfaill.lunchbuddy.R$drawable: int ic_rating_bad
+com.blogspot.fwfaill.lunchbuddy.R$drawable: int ic_rating_good
 com.blogspot.fwfaill.lunchbuddy.R$drawable: int ic_search
 com.blogspot.fwfaill.lunchbuddy.R$drawable: int ic_settings
-com.blogspot.fwfaill.lunchbuddy.R$drawable: int logo_sodexo480
-com.blogspot.fwfaill.lunchbuddy.R$drawable: int logo_unica480
-com.blogspot.fwfaill.lunchbuddy.R$drawable: int selected_background
-com.blogspot.fwfaill.lunchbuddy.R$drawable: int spinner_default_holo_light
-com.blogspot.fwfaill.lunchbuddy.R$drawable: int spinner_disabled_holo_light
-com.blogspot.fwfaill.lunchbuddy.R$drawable: int utu_logo
 com.blogspot.fwfaill.lunchbuddy.R$id: int abs__action_bar
 com.blogspot.fwfaill.lunchbuddy.R$id: int abs__action_bar_container
 com.blogspot.fwfaill.lunchbuddy.R$id: int abs__action_bar_subtitle
@@ -5216,6 +5202,8 @@ com.blogspot.fwfaill.lunchbuddy.R$id: int abs__title
 com.blogspot.fwfaill.lunchbuddy.R$id: int abs__titleDivider
 com.blogspot.fwfaill.lunchbuddy.R$id: int abs__up
 com.blogspot.fwfaill.lunchbuddy.R$id: int content
+com.blogspot.fwfaill.lunchbuddy.R$id: int context_rate_bad
+com.blogspot.fwfaill.lunchbuddy.R$id: int context_rate_good
 com.blogspot.fwfaill.lunchbuddy.R$id: int course_price
 com.blogspot.fwfaill.lunchbuddy.R$id: int course_properties
 com.blogspot.fwfaill.lunchbuddy.R$id: int course_title
@@ -5273,6 +5261,7 @@ com.blogspot.fwfaill.lunchbuddy.R$layout: int search_view
 com.blogspot.fwfaill.lunchbuddy.R$layout: int sherlock_spinner_dropdown_item
 com.blogspot.fwfaill.lunchbuddy.R$layout: int sherlock_spinner_item
 com.blogspot.fwfaill.lunchbuddy.R$menu: int main
+com.blogspot.fwfaill.lunchbuddy.R$menu: int rate_menu
 com.blogspot.fwfaill.lunchbuddy.R$string: int abs__action_bar_home_description
 com.blogspot.fwfaill.lunchbuddy.R$string: int abs__action_bar_up_description
 com.blogspot.fwfaill.lunchbuddy.R$string: int abs__action_menu_overflow_description
@@ -5289,6 +5278,7 @@ com.blogspot.fwfaill.lunchbuddy.R$string: int abs__share_action_provider_share_w
 com.blogspot.fwfaill.lunchbuddy.R$string: int abs__shareactionprovider_share_with
 com.blogspot.fwfaill.lunchbuddy.R$string: int abs__shareactionprovider_share_with_application
 com.blogspot.fwfaill.lunchbuddy.R$string: int app_name
+com.blogspot.fwfaill.lunchbuddy.R$string: int comment
 com.blogspot.fwfaill.lunchbuddy.R$string: int default_language
 com.blogspot.fwfaill.lunchbuddy.R$string: int footer_legend
 com.blogspot.fwfaill.lunchbuddy.R$string: int insert_restaurants
@@ -5296,15 +5286,15 @@ com.blogspot.fwfaill.lunchbuddy.R$string: int lang_pref_summary
 com.blogspot.fwfaill.lunchbuddy.R$string: int lang_preference
 com.blogspot.fwfaill.lunchbuddy.R$string: int no_courses
 com.blogspot.fwfaill.lunchbuddy.R$string: int no_results
+com.blogspot.fwfaill.lunchbuddy.R$string: int rate
 com.blogspot.fwfaill.lunchbuddy.R$string: int search
 com.blogspot.fwfaill.lunchbuddy.R$string: int set_as_default
 com.blogspot.fwfaill.lunchbuddy.R$string: int settings
+com.blogspot.fwfaill.lunchbuddy.R$string: int thumbdown_icon
+com.blogspot.fwfaill.lunchbuddy.R$string: int thumbup_icon
 com.blogspot.fwfaill.lunchbuddy.R$style: int AppTheme
 com.blogspot.fwfaill.lunchbuddy.R$style: int DialogWindowTitle_Sherlock
 com.blogspot.fwfaill.lunchbuddy.R$style: int DialogWindowTitle_Sherlock_Light
-com.blogspot.fwfaill.lunchbuddy.R$style: int MyActionBar
-com.blogspot.fwfaill.lunchbuddy.R$style: int MyDropDownListView
-com.blogspot.fwfaill.lunchbuddy.R$style: int MyDropDownNav
 com.blogspot.fwfaill.lunchbuddy.R$style: int Sherlock___TextAppearance_Small
 com.blogspot.fwfaill.lunchbuddy.R$style: int Sherlock___Theme
 com.blogspot.fwfaill.lunchbuddy.R$style: int Sherlock___Theme_DarkActionBar

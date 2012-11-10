@@ -45,6 +45,7 @@ public class LunchListFragment extends SherlockListFragment {
 		LunchBuddy.Courses.COLUMN_NAME_ID,
 		LunchBuddy.Courses.COLUMN_NAME_TITLE_FI,
 		LunchBuddy.Courses.COLUMN_NAME_TITLE_EN,
+		LunchBuddy.Courses.COLUMN_NAME_TITLE_SE,
 		LunchBuddy.Courses.COLUMN_NAME_PRICE,
 		LunchBuddy.Courses.COLUMN_NAME_PROPERTIES,
 		LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP,

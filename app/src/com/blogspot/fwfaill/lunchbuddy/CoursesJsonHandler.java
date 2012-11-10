@@ -44,6 +44,7 @@ public class CoursesJsonHandler implements ResponseHandler {
 	public static final String COURSES = "courses";
 	public static final String TITLE_FI = "title_fi";
 	public static final String TITLE_EN = "title_en";
+	public static final String TITLE_SE = "title_se";
 	public static final String PRICE = "price";
 	public static final String PROPERTIES = "properties";
 	
@@ -77,6 +78,7 @@ public class CoursesJsonHandler implements ResponseHandler {
 							jsonRoot.getJSONObject("meta").getString(REF_TITLE),
 							jsonObject.getString(TITLE_FI),
 							jsonObject.getString(TITLE_EN),
+							jsonObject.getString(TITLE_SE),
 							jsonObject.optString(PRICE),
 							jsonObject.optString(PROPERTIES));
 					

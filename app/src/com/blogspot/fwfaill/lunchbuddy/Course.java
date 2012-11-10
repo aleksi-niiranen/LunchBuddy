@@ -17,8 +17,6 @@ package com.blogspot.fwfaill.lunchbuddy;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 public class Course {
 
@@ -27,6 +25,7 @@ public class Course {
 	private String refTitle;
 	private String titleFi;
 	private String titleEn;
+	private String titleSe;
 	private String price;
 	private String properties;
 	private boolean ratedGood;
@@ -39,6 +38,7 @@ public class Course {
 		course.setRefTitle(cursor.getString(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_REF_TITLE)));
 		course.setTitleFi(cursor.getString(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_TITLE_FI)));
 		course.setTitleEn(cursor.getString(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_TITLE_EN)));
+		course.setTitleSe(cursor.getString(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_TITLE_SE)));
 		course.setPrice(cursor.getString(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_PRICE)));
 		course.setProperties(cursor.getString(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_PROPERTIES)));
 		course.setRatedGood(cursor.getInt(cursor.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_RATED_GOOD)) == 1 ? true : false);
@@ -49,12 +49,13 @@ public class Course {
 	public Course() { }
 
 	public Course(long id, long timestamp, String refTitle, String titleFi,
-			String titleEn, String price, String properties) {
+			String titleEn, String titleSe, String price, String properties) {
 		this.id = id;
 		this.timestamp = timestamp;
 		this.refTitle = refTitle;
 		this.titleFi = titleFi;
 		this.titleEn = titleEn;
+		this.titleSe = titleSe;
 		this.price = price;
 		this.properties = properties;
 		ratedGood = false;
@@ -103,6 +104,14 @@ public class Course {
 
 	public void setTitleEn(String titleEn) {
 		this.titleEn = titleEn;
+	}
+	
+	public String getTitleSe() {
+		return titleSe;
+	}
+
+	public void setTitleSe(String titleSe) {
+		this.titleSe = titleSe;
 	}
 
 	public String getPrice() {
@@ -178,6 +187,7 @@ public class Course {
 		values.put(LunchBuddy.Courses.COLUMN_NAME_REF_TITLE, refTitle);
 		values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_FI, titleFi);
 		values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_EN, titleEn);
+		values.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_SE, titleSe);
 		values.put(LunchBuddy.Courses.COLUMN_NAME_PRICE, price);
 		values.put(LunchBuddy.Courses.COLUMN_NAME_PROPERTIES, properties);
 		values.put(LunchBuddy.Courses.COLUMN_NAME_RATED_GOOD, ratedGood ? 1 : 0);

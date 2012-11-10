@@ -31,6 +31,7 @@ public class CourseCursorAdapter extends ResourceCursorAdapter {
 	
 	private int mColumnIndexTitleFi;
 	private int mColumnIndexTitleEn;
+	private int mColumnIndexTitleSe;
 	private int mColumnIndexTitlePrice;
 	private int mColumnIndexTitleProperties;
 	
@@ -38,6 +39,7 @@ public class CourseCursorAdapter extends ResourceCursorAdapter {
 		super(context, layout, c);
 		mColumnIndexTitleFi = c.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_TITLE_FI);
 		mColumnIndexTitleEn = c.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_TITLE_EN);
+		mColumnIndexTitleSe = c.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_TITLE_SE);
 		mColumnIndexTitlePrice = c.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_PRICE);
 		mColumnIndexTitleProperties = c.getColumnIndexOrThrow(LunchBuddy.Courses.COLUMN_NAME_PROPERTIES);
 		
@@ -57,8 +59,10 @@ public class CourseCursorAdapter extends ResourceCursorAdapter {
 			
 			view.setTag(holder);
 		}
-		if (mLang.equals("fi") || c.getString(mColumnIndexTitleEn).equals("null"))
+		if (mLang.equals("fi") || c.getString(mColumnIndexTitleSe).equals("null") || c.getString(mColumnIndexTitleEn).equals("null"))
 			holder.title.setText(c.getString(mColumnIndexTitleFi));
+		else if (mLang.equals("se"))
+			holder.title.setText(c.getString(mColumnIndexTitleSe));
 		else
 			holder.title.setText(c.getString(mColumnIndexTitleEn));
 		holder.price.setText(c.getString(mColumnIndexTitlePrice) + " €");

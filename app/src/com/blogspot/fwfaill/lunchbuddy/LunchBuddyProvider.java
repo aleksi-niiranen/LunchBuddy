@@ -46,7 +46,7 @@ public class LunchBuddyProvider extends ContentProvider {
 	
 	private static final String DATABASE_NAME = "lunchbuddy";
 	
-	private static final int DATABASE_VERSION = 5;
+	private static final int DATABASE_VERSION = 6;
 	
 	private static HashMap<String, String> sCoursesProjectionMap;
 	private static HashMap<String, String> sRestaurantsProjectionMap;
@@ -72,6 +72,7 @@ public class LunchBuddyProvider extends ContentProvider {
 		sCoursesProjectionMap.put(LunchBuddy.Courses.COLUMN_NAME_ID, LunchBuddy.Courses.COLUMN_NAME_ID);
 		sCoursesProjectionMap.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_FI, LunchBuddy.Courses.COLUMN_NAME_TITLE_FI);
 		sCoursesProjectionMap.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_EN, LunchBuddy.Courses.COLUMN_NAME_TITLE_EN);
+		sCoursesProjectionMap.put(LunchBuddy.Courses.COLUMN_NAME_TITLE_SE, LunchBuddy.Courses.COLUMN_NAME_TITLE_SE);
 		sCoursesProjectionMap.put(LunchBuddy.Courses.COLUMN_NAME_PRICE, LunchBuddy.Courses.COLUMN_NAME_PRICE);
 		sCoursesProjectionMap.put(LunchBuddy.Courses.COLUMN_NAME_PROPERTIES, LunchBuddy.Courses.COLUMN_NAME_PROPERTIES);
 		sCoursesProjectionMap.put(LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP, LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP);
@@ -408,6 +409,7 @@ public class LunchBuddyProvider extends ContentProvider {
 					+ LunchBuddy.Courses.COLUMN_NAME_ID + " integer,"
 					+ LunchBuddy.Courses.COLUMN_NAME_TITLE_FI + " text,"
 					+ LunchBuddy.Courses.COLUMN_NAME_TITLE_EN + " text,"
+					+ LunchBuddy.Courses.COLUMN_NAME_TITLE_SE + " text,"
 					+ LunchBuddy.Courses.COLUMN_NAME_PRICE + " text,"
 					+ LunchBuddy.Courses.COLUMN_NAME_PROPERTIES + " text,"
 					+ LunchBuddy.Courses.COLUMN_NAME_TIMESTAMP + " integer,"

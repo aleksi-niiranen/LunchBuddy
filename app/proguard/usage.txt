@@ -455,23 +455,19 @@ com.blogspot.fwfaill.lunchbuddy.AccountAuthenticatorService:
     private static final java.lang.String TAG
 com.blogspot.fwfaill.lunchbuddy.BuildConfig
 com.blogspot.fwfaill.lunchbuddy.Course:
-    31:37:public Course(long,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
-    50:50:public long getTimestamp()
-    54:55:public void setTimestamp(long)
-    58:58:public java.lang.String getRefTitle()
-    62:63:public void setRefTitle(java.lang.String)
-    66:66:public java.lang.String getTitleFi()
-    70:71:public void setTitleFi(java.lang.String)
-    74:74:public java.lang.String getTitleEn()
-    78:79:public void setTitleEn(java.lang.String)
-    82:82:public java.lang.String getPrice()
-    86:87:public void setPrice(java.lang.String)
-    90:90:public java.lang.String getProperties()
-    94:95:public void setProperties(java.lang.String)
+    77:77:public long getTimestamp()
+    85:85:public java.lang.String getRefTitle()
+    93:93:public java.lang.String getTitleFi()
+    101:101:public java.lang.String getTitleEn()
+    109:109:public java.lang.String getPrice()
+    117:117:public java.lang.String getProperties()
+    125:125:public boolean isRatedGood()
+    133:133:public boolean isRatedBad()
 com.blogspot.fwfaill.lunchbuddy.CourseCursorAdapter:
     private static final java.lang.String TAG
 com.blogspot.fwfaill.lunchbuddy.CoursesJsonHandler:
     private static final java.lang.String TAG
+    public static final java.lang.String ID
     public static final java.lang.String TIMESTAMP
     public static final java.lang.String REF_TITLE
     public static final java.lang.String COURSES
@@ -494,13 +490,15 @@ com.blogspot.fwfaill.lunchbuddy.LunchBuddy$Courses:
     public static final java.lang.String CONTENT_TYPE
     public static final java.lang.String CONTENT_ITEM_TYPE
     public static final java.lang.String DEFAULT_SORT_ORDER
+    public static final java.lang.String COLUMN_NAME_ID
     public static final java.lang.String COLUMN_NAME_TITLE_FI
     public static final java.lang.String COLUMN_NAME_TITLE_EN
     public static final java.lang.String COLUMN_NAME_PRICE
     public static final java.lang.String COLUMN_NAME_PROPERTIES
     public static final java.lang.String COLUMN_NAME_TIMESTAMP
     public static final java.lang.String COLUMN_NAME_REF_TITLE
-    public static final java.lang.String LANGUAGE_CODE
+    public static final java.lang.String COLUMN_NAME_RATED_GOOD
+    public static final java.lang.String COLUMN_NAME_RATED_BAD
     28:28:private LunchBuddy$Courses()
 com.blogspot.fwfaill.lunchbuddy.LunchBuddy$Restaurants:
     public static final java.lang.String TABLE_NAME
@@ -515,7 +513,7 @@ com.blogspot.fwfaill.lunchbuddy.LunchBuddy$Restaurants:
     public static final java.lang.String COLUMN_NAME_ADDRESS
     public static final java.lang.String COLUMN_NAME_LOCATION
     public static final java.lang.String COLUMN_NAME_POSITION
-    74:74:private LunchBuddy$Restaurants()
+    79:79:private LunchBuddy$Restaurants()
 com.blogspot.fwfaill.lunchbuddy.LunchBuddyActivity:
     private static final java.lang.String TAG
     public static final java.lang.String FAVORITE_KEY
@@ -528,7 +526,7 @@ com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider:
     private static final int COURSE_ID
     private static final int RESTAURANTS
     private static final int RESTAURANT_ID
-    371:371:public com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider$DatabaseHelper getOpenHelperForTest()
+    391:391:public com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider$DatabaseHelper getOpenHelperForTest()
 com.blogspot.fwfaill.lunchbuddy.LunchListFragment:
     private static final java.lang.String TAG
 com.blogspot.fwfaill.lunchbuddy.R
@@ -546,6 +544,8 @@ com.blogspot.fwfaill.lunchbuddy.R$string
 com.blogspot.fwfaill.lunchbuddy.R$style
 com.blogspot.fwfaill.lunchbuddy.R$styleable
 com.blogspot.fwfaill.lunchbuddy.R$xml
+com.blogspot.fwfaill.lunchbuddy.RateTask:
+    private static final java.lang.String BASE_URL
 com.blogspot.fwfaill.lunchbuddy.Restaurant
 com.blogspot.fwfaill.lunchbuddy.UriRequestTask:
     40:41:public UriRequestTask(org.apache.http.client.methods.HttpUriRequest,org.apache.http.client.ResponseHandler,android.content.Context)

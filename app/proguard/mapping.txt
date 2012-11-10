@@ -1411,21 +1411,12 @@ com.actionbarsherlock.R$drawable -> com.actionbarsherlock.R$drawable:
     int abs__textfield_searchview_holo_light -> abs__textfield_searchview_holo_light
     int abs__textfield_searchview_right_holo_dark -> abs__textfield_searchview_right_holo_dark
     int abs__textfield_searchview_right_holo_light -> abs__textfield_searchview_right_holo_light
-    int ad_selectable_background -> ad_selectable_background
-    int ad_spinner_background_holo_light -> ad_spinner_background_holo_light
-    int ad_spinner_focused_holo_light -> ad_spinner_focused_holo_light
-    int ad_spinner_pressed_holo_light -> ad_spinner_pressed_holo_light
-    int amk_logo -> amk_logo
     int ic_favorite -> ic_favorite
     int ic_launcher -> ic_launcher
+    int ic_rating_bad -> ic_rating_bad
+    int ic_rating_good -> ic_rating_good
     int ic_search -> ic_search
     int ic_settings -> ic_settings
-    int logo_sodexo480 -> logo_sodexo480
-    int logo_unica480 -> logo_unica480
-    int selected_background -> selected_background
-    int spinner_default_holo_light -> spinner_default_holo_light
-    int spinner_disabled_holo_light -> spinner_disabled_holo_light
-    int utu_logo -> utu_logo
 com.actionbarsherlock.R$id -> com.actionbarsherlock.R$id:
     int abs__action_bar -> abs__action_bar
     int abs__action_bar_container -> abs__action_bar_container
@@ -1468,6 +1459,8 @@ com.actionbarsherlock.R$id -> com.actionbarsherlock.R$id:
     int abs__titleDivider -> abs__titleDivider
     int abs__up -> abs__up
     int content -> content
+    int context_rate_bad -> context_rate_bad
+    int context_rate_good -> context_rate_good
     int course_price -> course_price
     int course_properties -> course_properties
     int course_title -> course_title
@@ -1528,6 +1521,7 @@ com.actionbarsherlock.R$layout -> com.actionbarsherlock.R$layout:
     int sherlock_spinner_item -> sherlock_spinner_item
 com.actionbarsherlock.R$menu -> com.actionbarsherlock.R$menu:
     int main -> main
+    int rate_menu -> rate_menu
 com.actionbarsherlock.R$string -> com.actionbarsherlock.R$string:
     int abs__action_bar_home_description -> abs__action_bar_home_description
     int abs__action_bar_up_description -> abs__action_bar_up_description
@@ -1545,6 +1539,7 @@ com.actionbarsherlock.R$string -> com.actionbarsherlock.R$string:
     int abs__shareactionprovider_share_with -> abs__shareactionprovider_share_with
     int abs__shareactionprovider_share_with_application -> abs__shareactionprovider_share_with_application
     int app_name -> app_name
+    int comment -> comment
     int default_language -> default_language
     int footer_legend -> footer_legend
     int insert_restaurants -> insert_restaurants
@@ -1552,16 +1547,16 @@ com.actionbarsherlock.R$string -> com.actionbarsherlock.R$string:
     int lang_preference -> lang_preference
     int no_courses -> no_courses
     int no_results -> no_results
+    int rate -> rate
     int search -> search
     int set_as_default -> set_as_default
     int settings -> settings
+    int thumbdown_icon -> thumbdown_icon
+    int thumbup_icon -> thumbup_icon
 com.actionbarsherlock.R$style -> com.actionbarsherlock.R$style:
     int AppTheme -> AppTheme
     int DialogWindowTitle_Sherlock -> DialogWindowTitle_Sherlock
     int DialogWindowTitle_Sherlock_Light -> DialogWindowTitle_Sherlock_Light
-    int MyActionBar -> MyActionBar
-    int MyDropDownListView -> MyDropDownListView
-    int MyDropDownNav -> MyDropDownNav
     int Sherlock___TextAppearance_Small -> Sherlock___TextAppearance_Small
     int Sherlock___Theme -> Sherlock___Theme
     int Sherlock___Theme_DarkActionBar -> Sherlock___Theme_DarkActionBar
@@ -5348,15 +5343,29 @@ com.blogspot.fwfaill.lunchbuddy.AccountAuthenticatorService$AccountAuthenticator
     android.os.Bundle hasFeatures(android.accounts.AccountAuthenticatorResponse,android.accounts.Account,java.lang.String[]) -> hasFeatures
     android.os.Bundle updateCredentials(android.accounts.AccountAuthenticatorResponse,android.accounts.Account,java.lang.String,android.os.Bundle) -> updateCredentials
 com.blogspot.fwfaill.lunchbuddy.Course -> com.blogspot.fwfaill.lunchbuddy.b:
-    long timestamp -> a
-    java.lang.String refTitle -> b
-    java.lang.String titleFi -> c
-    java.lang.String titleEn -> d
-    java.lang.String price -> e
-    java.lang.String properties -> f
+    long id -> a
+    long timestamp -> b
+    java.lang.String refTitle -> c
+    java.lang.String titleFi -> d
+    java.lang.String titleEn -> e
+    java.lang.String price -> f
+    java.lang.String properties -> g
+    boolean ratedGood -> h
+    boolean ratedBad -> i
+    com.blogspot.fwfaill.lunchbuddy.Course createFromCursor(android.database.Cursor) -> a
+    long getId() -> a
+    void setId(long) -> a
+    void setTimestamp(long) -> b
+    void setRefTitle(java.lang.String) -> a
+    void setTitleFi(java.lang.String) -> b
+    void setTitleEn(java.lang.String) -> c
+    void setPrice(java.lang.String) -> d
+    void setProperties(java.lang.String) -> e
+    void setRatedGood(boolean) -> a
+    void setRatedBad(boolean) -> b
     int hashCode() -> hashCode
     boolean equals(java.lang.Object) -> equals
-    android.content.ContentValues getContentValues() -> a
+    android.content.ContentValues getContentValues() -> b
 com.blogspot.fwfaill.lunchbuddy.CourseCursorAdapter -> com.blogspot.fwfaill.lunchbuddy.c:
     java.lang.String mLang -> a
     int mColumnIndexTitleFi -> b
@@ -5385,12 +5394,19 @@ com.blogspot.fwfaill.lunchbuddy.CoursesSyncAdapterService$SyncAdapterImpl -> com
     android.content.Context mContext -> a
     void onPerformSync(android.accounts.Account,android.os.Bundle,java.lang.String,android.content.ContentProviderClient,android.content.SyncResult) -> onPerformSync
 com.blogspot.fwfaill.lunchbuddy.DiscoverFragment -> com.blogspot.fwfaill.lunchbuddy.g:
+    com.actionbarsherlock.view.ActionMode$Callback mRateRestaurantActionModeCallback -> a
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     void onActivityCreated(android.os.Bundle) -> onActivityCreated
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
     void query() -> a
-com.blogspot.fwfaill.lunchbuddy.LunchBuddy -> com.blogspot.fwfaill.lunchbuddy.h:
-com.blogspot.fwfaill.lunchbuddy.LunchBuddy$Courses -> com.blogspot.fwfaill.lunchbuddy.i:
+com.blogspot.fwfaill.lunchbuddy.DiscoverFragment$1 -> com.blogspot.fwfaill.lunchbuddy.h:
+    com.blogspot.fwfaill.lunchbuddy.DiscoverFragment this$0 -> a
+    boolean onPrepareActionMode(com.actionbarsherlock.view.ActionMode,com.actionbarsherlock.view.Menu) -> onPrepareActionMode
+    void onDestroyActionMode(com.actionbarsherlock.view.ActionMode) -> onDestroyActionMode
+    boolean onCreateActionMode(com.actionbarsherlock.view.ActionMode,com.actionbarsherlock.view.Menu) -> onCreateActionMode
+    boolean onActionItemClicked(com.actionbarsherlock.view.ActionMode,com.actionbarsherlock.view.MenuItem) -> onActionItemClicked
+com.blogspot.fwfaill.lunchbuddy.LunchBuddy -> com.blogspot.fwfaill.lunchbuddy.i:
+com.blogspot.fwfaill.lunchbuddy.LunchBuddy$Courses -> com.blogspot.fwfaill.lunchbuddy.j:
     android.net.Uri CONTENT_URI -> a
     android.net.Uri SYNC_CONTENT_URI -> b
     android.net.Uri CONTENT_ID_URI_BASE -> c
@@ -5408,7 +5424,7 @@ com.blogspot.fwfaill.lunchbuddy.LunchBuddy$Courses -> com.blogspot.fwfaill.lunch
     android.net.Uri BASE_URI_MIKRO -> o
     android.net.Uri BASE_URI_PARKKIS -> p
     android.net.Uri BASE_URI_MYSSY -> q
-com.blogspot.fwfaill.lunchbuddy.LunchBuddy$Restaurants -> com.blogspot.fwfaill.lunchbuddy.j:
+com.blogspot.fwfaill.lunchbuddy.LunchBuddy$Restaurants -> com.blogspot.fwfaill.lunchbuddy.k:
     android.net.Uri CONTENT_URI -> a
     android.net.Uri CONTENT_ID_URI_BASE -> b
     android.net.Uri CONTENT_ID_URI_PATTERN -> c
@@ -5419,7 +5435,7 @@ com.blogspot.fwfaill.lunchbuddy.LunchBuddyActivity -> com.blogspot.fwfaill.lunch
     boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu) -> onCreateOptionsMenu
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
     java.lang.Integer getNavigationPosition() -> a
-com.blogspot.fwfaill.lunchbuddy.LunchBuddyActivity$TabListener -> com.blogspot.fwfaill.lunchbuddy.k:
+com.blogspot.fwfaill.lunchbuddy.LunchBuddyActivity$TabListener -> com.blogspot.fwfaill.lunchbuddy.l:
     android.support.v4.app.Fragment mFragment -> a
     android.app.Activity mActivity -> b
     java.lang.String mTag -> c
@@ -5447,24 +5463,43 @@ com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider -> com.blogspot.fwfaill.lunch
     void requestComplete(java.lang.String) -> a
     com.blogspot.fwfaill.lunchbuddy.UriRequestTask newQueryTask(java.lang.String,java.lang.String) -> b
     void asyncQueryRequest(java.lang.String,java.lang.String) -> a
-com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider$DatabaseHelper -> com.blogspot.fwfaill.lunchbuddy.l:
+com.blogspot.fwfaill.lunchbuddy.LunchBuddyProvider$DatabaseHelper -> com.blogspot.fwfaill.lunchbuddy.m:
     java.lang.String[] mInsertRestaurants -> a
     void onCreate(android.database.sqlite.SQLiteDatabase) -> onCreate
     void onUpgrade(android.database.sqlite.SQLiteDatabase,int,int) -> onUpgrade
     void execMultipleSQL(android.database.sqlite.SQLiteDatabase,java.lang.String[]) -> a
-com.blogspot.fwfaill.lunchbuddy.LunchListFragment -> com.blogspot.fwfaill.lunchbuddy.m:
+com.blogspot.fwfaill.lunchbuddy.LunchListFragment -> com.blogspot.fwfaill.lunchbuddy.n:
     java.lang.String[] PROJECTION -> a
     android.view.LayoutInflater mInflater -> b
     int mNavigationPosition -> c
+    long mClickedId -> d
+    com.blogspot.fwfaill.lunchbuddy.Course mClickedCourse -> e
+    com.actionbarsherlock.view.ActionMode$Callback mRateLunchActionModeCallback -> f
     void onCreate(android.os.Bundle) -> onCreate
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     void onActivityCreated(android.os.Bundle) -> onActivityCreated
     void setNavigationPosition(int) -> a
     int getNavigationPosition() -> a
     void query() -> b
-com.blogspot.fwfaill.lunchbuddy.RestaurantAdapter -> com.blogspot.fwfaill.lunchbuddy.n:
+    com.blogspot.fwfaill.lunchbuddy.Course access$0(com.blogspot.fwfaill.lunchbuddy.LunchListFragment) -> a
+    void access$1(com.blogspot.fwfaill.lunchbuddy.LunchListFragment,com.blogspot.fwfaill.lunchbuddy.Course) -> a
+    void access$2(com.blogspot.fwfaill.lunchbuddy.LunchListFragment,long) -> a
+    com.actionbarsherlock.view.ActionMode$Callback access$3(com.blogspot.fwfaill.lunchbuddy.LunchListFragment) -> b
+com.blogspot.fwfaill.lunchbuddy.LunchListFragment$1 -> com.blogspot.fwfaill.lunchbuddy.o:
+    com.blogspot.fwfaill.lunchbuddy.LunchListFragment this$0 -> a
+    boolean onPrepareActionMode(com.actionbarsherlock.view.ActionMode,com.actionbarsherlock.view.Menu) -> onPrepareActionMode
+    void onDestroyActionMode(com.actionbarsherlock.view.ActionMode) -> onDestroyActionMode
+    boolean onCreateActionMode(com.actionbarsherlock.view.ActionMode,com.actionbarsherlock.view.Menu) -> onCreateActionMode
+    boolean onActionItemClicked(com.actionbarsherlock.view.ActionMode,com.actionbarsherlock.view.MenuItem) -> onActionItemClicked
+com.blogspot.fwfaill.lunchbuddy.LunchListFragment$2 -> com.blogspot.fwfaill.lunchbuddy.p:
+    com.blogspot.fwfaill.lunchbuddy.LunchListFragment this$0 -> a
+    boolean onItemLongClick(android.widget.AdapterView,android.view.View,int,long) -> onItemLongClick
+com.blogspot.fwfaill.lunchbuddy.RateTask -> com.blogspot.fwfaill.lunchbuddy.q:
+    java.lang.Void doInBackground(java.lang.String[]) -> a
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+com.blogspot.fwfaill.lunchbuddy.RestaurantAdapter -> com.blogspot.fwfaill.lunchbuddy.r:
     void bindView(android.view.View,android.content.Context,android.database.Cursor) -> bindView
-com.blogspot.fwfaill.lunchbuddy.RestaurantAdapter$ViewHolder -> com.blogspot.fwfaill.lunchbuddy.o:
+com.blogspot.fwfaill.lunchbuddy.RestaurantAdapter$ViewHolder -> com.blogspot.fwfaill.lunchbuddy.s:
     android.widget.TextView title -> a
     android.widget.TextView address -> b
     android.widget.TextView location -> c
@@ -5477,7 +5512,7 @@ com.blogspot.fwfaill.lunchbuddy.SettingsActivity -> com.blogspot.fwfaill.lunchbu
     void onCreate(android.os.Bundle) -> onCreate
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
     void onBackPressed() -> onBackPressed
-com.blogspot.fwfaill.lunchbuddy.UriRequestTask -> com.blogspot.fwfaill.lunchbuddy.p:
+com.blogspot.fwfaill.lunchbuddy.UriRequestTask -> com.blogspot.fwfaill.lunchbuddy.t:
     org.apache.http.client.methods.HttpUriRequest mRequest -> b
     org.apache.http.client.ResponseHandler mHandler -> c
     android.content.Context mContext -> a
