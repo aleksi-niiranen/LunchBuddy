@@ -28,6 +28,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.widget.SearchView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -82,6 +83,15 @@ public class LunchBuddyActivity extends SherlockFragmentActivity {
         	mNavigationPosition = intent.getIntExtra("navigationPosition", 0);
 			actionBar.setSelectedNavigationItem(0);
         }
+        
+        if (savedInstanceState != null)
+        	actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+    	super.onSaveInstanceState(outState);
+    	outState.putInt("tab", getSupportActionBar().getSelectedNavigationIndex());
     }
 
 	@SuppressLint("NewApi") @Override
@@ -125,21 +135,34 @@ public class LunchBuddyActivity extends SherlockFragmentActivity {
     
     private static class TabListener<T extends Fragment> implements ActionBar.TabListener {
     	
-    	private Fragment mFragment;
-    	private final Activity mActivity;
+    	private final SherlockFragmentActivity mActivity;
     	private final String mTag;
     	private final Class<T> mClass;
+    	private final Bundle mArgs;
+    	private Fragment mFragment;
     	
     	public TabListener(Activity activity, String tag, Class<T> clz) {
-    		mActivity = activity;
+    		this(activity, tag, clz, null);
+    	}
+    	
+    	public TabListener(Activity activity, String tag, Class<T> clz, Bundle args) {
+    		mActivity = (SherlockFragmentActivity) activity;
     		mTag = tag;
     		mClass = clz;
+    		mArgs = args;
+    		
+    		mFragment = mActivity.getSupportFragmentManager().findFragmentByTag(mTag);
+    		if (mFragment != null && !mFragment.isDetached()) {
+    			FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
+    			ft.detach(mFragment);
+    			ft.commit();
+    		}
     	}
 
 		@Override
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
 			if (mFragment == null) {
-				mFragment = Fragment.instantiate(mActivity, mClass.getName());
+				mFragment = Fragment.instantiate(mActivity, mClass.getName(), mArgs);
 				ft.add(R.id.content, mFragment, mTag);
 			} else {
 				ft.attach(mFragment);
