@@ -60,19 +60,7 @@ public class LunchBuddy {
 		public static final String COLUMN_NAME_RATED_GOOD = "rated_good";
 		public static final String COLUMN_NAME_RATED_BAD = "rated_bad";
 		
-		public static final Uri BASE_URI_SALO = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/Aurinkolaiva/");
-		public static final Uri BASE_URI_ICT = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/ICT%20-%20talo/");
-		public static final Uri BASE_URI_LEMPPARI = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/Lemminkäisenkatu/");
-		public static final Uri BASE_URI_NUTRITIO = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/Nutritio/");
-		public static final Uri BASE_URI_ASSARI = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/Assarin%20ullakko/");
-		public static final Uri BASE_URI_BRYGGE = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/Brygge/");
-		public static final Uri BASE_URI_DELICA = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/Delica/");
-		public static final Uri BASE_URI_DELI_PHARMA = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/Deli%20Pharma/");
-		public static final Uri BASE_URI_DENTAL = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/Dental/");
-		public static final Uri BASE_URI_MACCIAVELLI = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/Macciavelli/");
-		public static final Uri BASE_URI_MIKRO = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/Mikro/");
-		public static final Uri BASE_URI_PARKKIS = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/Parkkis/");
-		public static final Uri BASE_URI_MYSSY = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/Myssy%20%26%20Silinteri/");
+		public static final Uri BASE_URI = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/");
 	}
 	
 	public static final class Restaurants implements BaseColumns {
@@ -115,7 +103,12 @@ public class LunchBuddy {
 			"Macciavelli",
 			"Mikro",
 			"Parkkis",
-			"Myssy \u0026 Silinteri"
+			"Myssy \u0026 Silinteri",
+			"Ruokakello",
+			"Tottisalmi",
+			"Arcanum",
+			"EuroCity",
+			"Old Mill"
 		};
 	}
 }

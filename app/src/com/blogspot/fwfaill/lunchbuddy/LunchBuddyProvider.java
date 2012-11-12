@@ -46,7 +46,7 @@ public class LunchBuddyProvider extends ContentProvider {
 	
 	private static final String DATABASE_NAME = "lunchbuddy";
 	
-	private static final int DATABASE_VERSION = 6;
+	private static final int DATABASE_VERSION = 7;
 	
 	private static HashMap<String, String> sCoursesProjectionMap;
 	private static HashMap<String, String> sRestaurantsProjectionMap;
@@ -275,54 +275,17 @@ public class LunchBuddyProvider extends ContentProvider {
 		}
 		return cursor;
 	}
+	
+	private String escapeSpecialCharacters(int position) {
+		return LunchBuddy.Restaurants.REF_TITLES[position].replace(" ", "%20").replace("&", "%26");
+	}
 
 	private void requestCourses(String queryTag, int position) {
 		Calendar calendar = GregorianCalendar.getInstance(TimeZone.getTimeZone("Europe/Helsinki"), new Locale("Finnish", "Finland"));
 		int year = calendar.get(Calendar.YEAR);
 		int month = calendar.get(Calendar.MONTH);
 		int day = calendar.get(Calendar.DATE);
-		String url = null;
-		switch (position) {
-		case 0:
-			url = LunchBuddy.Courses.BASE_URI_SALO.toString() + year + "/" + (month + 1) + "/" + day;
-			break;
-		case 1:
-			url = LunchBuddy.Courses.BASE_URI_ICT.toString() + year + "/" + (month + 1) + "/" + day;
-			break;
-		case 2:
-			url = LunchBuddy.Courses.BASE_URI_LEMPPARI.toString() + year + "/" + (month + 1) + "/" + day;
-			break;
-		case 3:
-			url = LunchBuddy.Courses.BASE_URI_NUTRITIO.toString() + year + "/" + (month + 1) + "/" + day;
-			break;
-		case 4:
-			url = LunchBuddy.Courses.BASE_URI_ASSARI.toString() + year + "/" + (month + 1) + "/" + day;
-			break;
-		case 5:
-			url = LunchBuddy.Courses.BASE_URI_BRYGGE.toString() + year + "/" + (month + 1) + "/" + day;
-			break;
-		case 6:
-			url = LunchBuddy.Courses.BASE_URI_DELICA.toString() + year + "/" + (month + 1) + "/" + day;
-			break;
-		case 7:
-			url = LunchBuddy.Courses.BASE_URI_DELI_PHARMA.toString() + year + "/" + (month + 1) + "/" + day;
-			break;
-		case 8:
-			url = LunchBuddy.Courses.BASE_URI_DENTAL.toString() + year + "/" + (month + 1) + "/" + day;
-			break;
-		case 9:
-			url = LunchBuddy.Courses.BASE_URI_MACCIAVELLI.toString() + year + "/" + (month + 1) + "/" + day;
-			break;
-		case 10:
-			url = LunchBuddy.Courses.BASE_URI_MIKRO.toString() + year + "/" + (month + 1) + "/" + day;
-			break;
-		case 11:
-			url = LunchBuddy.Courses.BASE_URI_PARKKIS.toString() + year + "/" + (month + 1) + "/" + day;
-			break;
-		case 12:
-			url = LunchBuddy.Courses.BASE_URI_MYSSY.toString() + year + "/" + (month + 1) + "/" + day;
-			break;
-		}
+		String url = LunchBuddy.Courses.BASE_URI.toString() + escapeSpecialCharacters(position) + "/" + year + "/" + (month + 1) + "/" + day;
 		Log.d(TAG, url);
 		if (url != null) asyncQueryRequest(queryTag, url);
 	}

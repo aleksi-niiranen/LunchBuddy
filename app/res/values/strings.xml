@@ -26,6 +26,11 @@
         insert into restaurants (title, address, location, position) values ('Unica Mikro', 'Kiinanmyllynkatu 13 20520 Turku', null, 10);
         insert into restaurants (title, address, location, position) values ('Unica Parkkis', 'Vesilinnanmäki 20500 Turku', null, 11);
         insert into restaurants (title, address, location, position) values ('Unica Myssy \u0026 Silinteri', 'Vesilinnanmäki 20500 Turku', null, 12);
+        insert into restaurants (title, address, location, position) values ('Ruokakello', 'Telekatu 1 20360 Turku', null, 13);
+        insert into restaurants (title, address, location, position) values ('Tottisalmi', 'Kirkkotie 13 20540 Turku', 'YTHS', 14);
+        insert into restaurants (title, address, location, position) values ('Cafe Arcanum', 'Vatselankatu 4 20500 Turku', 'Turun yliopisto', 15);
+        insert into restaurants (title, address, location, position) values ('Sodexo EuroCity', 'Joukahaisenkatu 1 20520 Turku', 'Eurocity', 16);
+        insert into restaurants (title, address, location, position) values ('Sodexo Old Mill', 'Ruukinkatu 2-4 20540 Turku', 'Old Mill', 17);
         "	</string>
 	<string name="comment">Comment</string>
 	<string name="thumbup_icon">Thumb up icon</string>
