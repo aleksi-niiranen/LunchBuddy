@@ -59,12 +59,12 @@ public class CourseCursorAdapter extends ResourceCursorAdapter {
 			
 			view.setTag(holder);
 		}
-		if (mLang.equals("fi") || c.getString(mColumnIndexTitleSe).equals("null") || c.getString(mColumnIndexTitleEn).equals("null"))
-			holder.title.setText(c.getString(mColumnIndexTitleFi));
-		else if (mLang.equals("se"))
+		if (mLang.equals("en") && !c.getString(mColumnIndexTitleEn).equals("null"))
+			holder.title.setText(c.getString(mColumnIndexTitleEn));
+		else if (mLang.equals("se") && !c.getString(mColumnIndexTitleSe).equals("null"))
 			holder.title.setText(c.getString(mColumnIndexTitleSe));
 		else
-			holder.title.setText(c.getString(mColumnIndexTitleEn));
+			holder.title.setText(c.getString(mColumnIndexTitleFi));
 		holder.price.setText(c.getString(mColumnIndexTitlePrice) + " €");
 		String properties = c.getString(mColumnIndexTitleProperties).equals("null") ? "" : c.getString(mColumnIndexTitleProperties);
 		holder.properties.setText(properties);
