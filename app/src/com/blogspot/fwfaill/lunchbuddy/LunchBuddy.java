@@ -89,6 +89,7 @@ public class LunchBuddy {
 		public static final String COLUMN_NAME_ADDRESS = "address";
 		public static final String COLUMN_NAME_LOCATION = "location";
 		public static final String COLUMN_NAME_POSITION = "position";
+		public static final String COLUMN_NAME_MAINTAINER = "maintainer";
 		
 		public static final String[] REF_TITLES = {
 			"Aurinkolaiva",

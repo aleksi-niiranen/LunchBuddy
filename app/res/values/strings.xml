@@ -13,24 +13,24 @@
     <string name="lang_preference">Language</string>
     <string name="lang_pref_summary">Language used in menus. If menu is not available in this language the application will fall back to other language.</string>
     <string name="insert_restaurants">"
-        insert into restaurants (title, address, location, position) values ('Sodexo Aurinkolaiva', 'Ylhäistentie 2 24130 Salo', 'Turun ammattikorkeakoulu Salo', 0);
-        insert into restaurants (title, address, location, position) values ('Sodexo ICT - talo', 'Joukahaisenkatu 3 20520 Turku', 'ICT-talo', 1);
-        insert into restaurants (title, address, location, position) values ('Sodexo Lemminkäisenkatu', 'Lemminkäisenkatu 30 20520 Turku', 'Turun ammattikorkeakoulu Lemminkäisenkatu', 2);
-        insert into restaurants (title, address, location, position) values ('Unica Nutritio', 'Ruiskatu 8 20720 Turku', 'Turun ammattikorkeakoulu Ruiskatu', 3);
-        insert into restaurants (title, address, location, position) values ('Unica Assarin ullakko', 'Rehtorinpellonkatu 4A 20500 Turku', null, 4);
-        insert into restaurants (title, address, location, position) values ('Unica Brygge', 'Rehtorinpellonkatu 4 20500 Turku', null, 5);
-        insert into restaurants (title, address, location, position) values ('Unica Delica', 'Itäinen pitkäkatu 4 20520 Turku', 'Pharma City', 6);
-        insert into restaurants (title, address, location, position) values ('Unica Deli Pharma', 'Itäinen pitkäkatu 4 20520 Turku', 'Pharma City', 7);
-        insert into restaurants (title, address, location, position) values ('Unica Dental', 'Lemminkäisenkatu 2 20520 Turku', null, 8);
-        insert into restaurants (title, address, location, position) values ('Unica Macciavelli', 'Assistentinkatu 5 20014 Turku', 'Turun yliopisto', 9);
-        insert into restaurants (title, address, location, position) values ('Unica Mikro', 'Kiinanmyllynkatu 13 20520 Turku', null, 10);
-        insert into restaurants (title, address, location, position) values ('Unica Parkkis', 'Vesilinnanmäki 20500 Turku', null, 11);
-        insert into restaurants (title, address, location, position) values ('Unica Myssy \u0026 Silinteri', 'Vesilinnanmäki 20500 Turku', null, 12);
-        insert into restaurants (title, address, location, position) values ('Ruokakello', 'Telekatu 1 20360 Turku', null, 13);
-        insert into restaurants (title, address, location, position) values ('Tottisalmi', 'Kirkkotie 13 20540 Turku', 'YTHS', 14);
-        insert into restaurants (title, address, location, position) values ('Cafe Arcanum', 'Vatselankatu 4 20500 Turku', 'Turun yliopisto', 15);
-        insert into restaurants (title, address, location, position) values ('Sodexo EuroCity', 'Joukahaisenkatu 1 20520 Turku', 'Eurocity', 16);
-        insert into restaurants (title, address, location, position) values ('Sodexo Old Mill', 'Ruukinkatu 2-4 20540 Turku', 'Old Mill', 17);
+        insert into restaurants (title, address, location, position, maintainer) values ('Aurinkolaiva', 'Ylhäistentie 2 24130 Salo', 'Turun ammattikorkeakoulu Salo', 0, 'Sodexo');
+        insert into restaurants (title, address, location, position, maintainer) values ('ICT - talo', 'Joukahaisenkatu 3 20520 Turku', 'ICT-talo', 1, 'Sodexo');
+        insert into restaurants (title, address, location, position, maintainer) values ('Lemminkäisenkatu', 'Lemminkäisenkatu 30 20520 Turku', 'Turun ammattikorkeakoulu Lemminkäisenkatu', 2, 'Sodexo');
+        insert into restaurants (title, address, location, position, maintainer) values ('Nutritio', 'Ruiskatu 8 20720 Turku', 'Turun ammattikorkeakoulu Ruiskatu', 3, 'Unica');
+        insert into restaurants (title, address, location, position, maintainer) values ('Assarin ullakko', 'Rehtorinpellonkatu 4A 20500 Turku', null, 4, 'Unica');
+        insert into restaurants (title, address, location, position, maintainer) values ('Brygge', 'Rehtorinpellonkatu 4 20500 Turku', null, 5, 'Unica');
+        insert into restaurants (title, address, location, position, maintainer) values ('Delica', 'Itäinen pitkäkatu 4 20520 Turku', 'Pharma City', 6, 'Unica');
+        insert into restaurants (title, address, location, position, maintainer) values ('Deli Pharma', 'Itäinen pitkäkatu 4 20520 Turku', 'Pharma City', 7, 'Unica');
+        insert into restaurants (title, address, location, position, maintainer) values ('Dental', 'Lemminkäisenkatu 2 20520 Turku', null, 8, 'Unica');
+        insert into restaurants (title, address, location, position, maintainer) values ('Macciavelli', 'Assistentinkatu 5 20014 Turku', 'Turun yliopisto', 9, 'Unica');
+        insert into restaurants (title, address, location, position, maintainer) values ('Mikro', 'Kiinanmyllynkatu 13 20520 Turku', null, 10, 'Unica');
+        insert into restaurants (title, address, location, position, maintainer) values ('Parkkis', 'Vesilinnanmäki 20500 Turku', null, 11, 'Unica');
+        insert into restaurants (title, address, location, position, maintainer) values ('Myssy \u0026 Silinteri', 'Vesilinnanmäki 20500 Turku', null, 12, 'Unica');
+        insert into restaurants (title, address, location, position, maintainer) values ('Ruokakello', 'Telekatu 1 20360 Turku', null, 13, 'Unica');
+        insert into restaurants (title, address, location, position, maintainer) values ('Tottisalmi', 'Kirkkotie 13 20540 Turku', 'YTHS', 14, 'Unica');
+        insert into restaurants (title, address, location, position, maintainer) values ('Cafe Arcanum', 'Vatselankatu 4 20500 Turku', 'Turun yliopisto', 15, 'Unica');
+        insert into restaurants (title, address, location, position, maintainer) values ('EuroCity', 'Joukahaisenkatu 1 20520 Turku', 'Eurocity', 16, 'Sodexo');
+        insert into restaurants (title, address, location, position, maintainer) values ('Old Mill', 'Ruukinkatu 2-4 20540 Turku', 'Old Mill', 17, 'Sodexo');
         "	</string>
 	<string name="comment">Comment</string>
 	<string name="thumbup_icon">Thumb up icon</string>

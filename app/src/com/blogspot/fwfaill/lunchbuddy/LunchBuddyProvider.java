@@ -46,7 +46,7 @@ public class LunchBuddyProvider extends ContentProvider {
 	
 	private static final String DATABASE_NAME = "lunchbuddy";
 	
-	private static final int DATABASE_VERSION = 7;
+	private static final int DATABASE_VERSION = 8;
 	
 	private static HashMap<String, String> sCoursesProjectionMap;
 	private static HashMap<String, String> sRestaurantsProjectionMap;
@@ -85,6 +85,7 @@ public class LunchBuddyProvider extends ContentProvider {
 		sRestaurantsProjectionMap.put(LunchBuddy.Restaurants.COLUMN_NAME_ADDRESS, LunchBuddy.Restaurants.COLUMN_NAME_ADDRESS);
 		sRestaurantsProjectionMap.put(LunchBuddy.Restaurants.COLUMN_NAME_LOCATION, LunchBuddy.Restaurants.COLUMN_NAME_LOCATION);
 		sRestaurantsProjectionMap.put(LunchBuddy.Restaurants.COLUMN_NAME_POSITION, LunchBuddy.Restaurants.COLUMN_NAME_POSITION);
+		sRestaurantsProjectionMap.put(LunchBuddy.Restaurants.COLUMN_NAME_MAINTAINER, LunchBuddy.Restaurants.COLUMN_NAME_MAINTAINER);
 		sRestaurantsProjectionMap.put(LunchBuddy.Restaurants._ID, "rowid as " + LunchBuddy.Restaurants._ID);
 	}
 	
@@ -384,7 +385,8 @@ public class LunchBuddyProvider extends ContentProvider {
 					+ Restaurants.COLUMN_NAME_TITLE + ", "
 					+ Restaurants.COLUMN_NAME_ADDRESS + ", "
 					+ Restaurants.COLUMN_NAME_LOCATION + ", "
-					+ Restaurants.COLUMN_NAME_POSITION + ");");
+					+ Restaurants.COLUMN_NAME_POSITION + ", "
+					+ Restaurants.COLUMN_NAME_MAINTAINER + ");");
 			
 			db.beginTransaction();
 			try {
