@@ -60,7 +60,7 @@ public class LunchBuddy {
 		public static final String COLUMN_NAME_RATED_GOOD = "rated_good";
 		public static final String COLUMN_NAME_RATED_BAD = "rated_bad";
 		
-		public static final Uri BASE_URI = Uri.parse("http://192.168.1.10:8080/LunchBuddyWebService/daily_json/");
+		public static final Uri BASE_URI = Uri.parse("http://lunchbuddy.cloudfoundry.com/daily_json/");
 	}
 	
 	public static final class Restaurants implements BaseColumns {
